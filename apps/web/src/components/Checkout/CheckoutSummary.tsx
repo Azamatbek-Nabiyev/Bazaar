@@ -1,11 +1,16 @@
-import React from 'react';
-import { checkoutItems, shippingCost, taxRate } from './mockData';
+import type { CartItemData } from "../../types/cartItem";
+import { checkoutItems, shippingCost, taxRate } from "./mockData";
 
-export const CheckoutSummary = ({ onPlaceOrder }) => {
+export const CheckoutSummary = ({
+  onPlaceOrder,
+}: {
+  onPlaceOrder: () => void;
+}) => {
   const subtotal = checkoutItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
+
   const tax = Math.round(subtotal * taxRate);
   const total = subtotal + shippingCost + tax;
 
@@ -51,7 +56,7 @@ export const CheckoutSummary = ({ onPlaceOrder }) => {
 
 // Checkout uchun read-only qator — CartItem'dagi kabi +/- va X tugmasi yo'q,
 // chunki checkout bosqichida miqdorni bu yerdan o'zgartirish shart emas
-const OrderSummaryItem = ({ item }) => (
+const OrderSummaryItem = ({ item }: { item: CartItemData }) => (
   <div className="flex items-center gap-3">
     <img
       src={item.image}
@@ -62,7 +67,7 @@ const OrderSummaryItem = ({ item }) => (
       <div className="text-sm font-medium">{item.title}</div>
       <div className="text-xs text-gray-400">
         {item.color}
-        {item.size ? ` · Size ${item.size}` : ''} · Qty {item.quantity}
+        {item.size ? ` · Size ${item.size}` : ""} · Qty {item.quantity}
       </div>
     </div>
     <div className="text-sm font-medium">

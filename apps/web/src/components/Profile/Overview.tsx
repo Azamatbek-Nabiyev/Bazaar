@@ -1,4 +1,3 @@
-import React from 'react';
 import { ShoppingBag, TrendingUp, Heart, Star } from 'lucide-react';
 import { StatCard } from './StatCard';
 import { StatusBadge } from './StatusBadge';

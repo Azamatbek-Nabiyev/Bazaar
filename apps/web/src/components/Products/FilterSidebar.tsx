@@ -1,4 +1,20 @@
-import React from 'react';
+type PriceRange = {
+  min: number;
+  max: number;
+};
+
+type FilterSidebarProps = {
+  categories: string[];
+  selectedCategories: string[];
+  onCategoryToggle: (category: string) => void;
+  priceRange: PriceRange;
+  onPriceChange: (priceRange: PriceRange) => void;
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  sortBy: string;
+  onSortChange: (value: string) => void;
+  onReset: () => void;
+};
 
 export default function FilterSidebar({
   categories,
@@ -11,7 +27,7 @@ export default function FilterSidebar({
   sortBy,
   onSortChange,
   onReset,
-}) {
+}: FilterSidebarProps) {
   return (
     <aside className="w-64 shrink-0 flex flex-col gap-8">
       {/* Qidiruv */}

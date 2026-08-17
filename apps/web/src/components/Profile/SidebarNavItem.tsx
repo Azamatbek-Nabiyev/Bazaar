@@ -1,6 +1,6 @@
-import React from 'react';
-
-export const SidebarNavItem = ({ icon, label, active, danger, onClick }) => {
+export const SidebarNavItem = ({ icon, label, active, danger, onClick }: {
+  icon: any, label: string, active?: boolean, danger?: boolean, onClick: () => void 
+}) => {
   const base = 'flex items-center gap-3 px-4 py-3 text-sm w-full text-left';
   const activeStyle = active
     ? 'bg-white border-l-2 border-black font-medium'

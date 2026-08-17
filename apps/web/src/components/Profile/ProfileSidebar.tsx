@@ -1,17 +1,31 @@
-import React from 'react';
-import { TrendingUp, Package, User, MapPin, CreditCard, Shield, Heart, LogOut } from 'lucide-react';
-import { SidebarNavItem } from './SidebarNavItem';
+import {
+  TrendingUp,
+  Package,
+  User,
+  MapPin,
+  CreditCard,
+  Shield,
+  Heart,
+  LogOut,
+} from "lucide-react";
+import { SidebarNavItem } from "./SidebarNavItem";
 
-const navItems = [
-  { key: 'overview', label: 'Overview', icon: <TrendingUp size={16} /> },
-  { key: 'orders', label: 'My Orders', icon: <Package size={16} /> },
-  { key: 'personal', label: 'Personal Info', icon: <User size={16} /> },
-  { key: 'addresses', label: 'Addresses', icon: <MapPin size={16} /> },
-  { key: 'payment', label: 'Payment Methods', icon: <CreditCard size={16} /> },
-  { key: 'security', label: 'Security', icon: <Shield size={16} /> },
+const navItems: {key: string, label: string, icon: any}[] = [
+  { key: "overview", label: "Overview", icon: <TrendingUp size={16} /> },
+  { key: "orders", label: "My Orders", icon: <Package size={16} /> },
+  { key: "personal", label: "Personal Info", icon: <User size={16} /> },
+  { key: "addresses", label: "Addresses", icon: <MapPin size={16} /> },
+  { key: "payment", label: "Payment Methods", icon: <CreditCard size={16} /> },
+  { key: "security", label: "Security", icon: <Shield size={16} /> },
 ];
 
-export const ProfileSidebar = ({ activeTab, onTabChange }) => {
+export const ProfileSidebar = ({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: string;
+  onTabChange: (value: string) => void;
+}) => {
   return (
     <div className="w-64 bg-gray-50 border-r">
       <div className="py-2">
@@ -30,14 +44,14 @@ export const ProfileSidebar = ({ activeTab, onTabChange }) => {
         <SidebarNavItem
           icon={<Heart size={16} />}
           label="Saved Items"
-          active={activeTab === 'saved'}
-          onClick={() => onTabChange('saved')}
+          active={activeTab === "saved"}
+          onClick={() => onTabChange("saved")}
         />
         <SidebarNavItem
           icon={<LogOut size={16} />}
           label="Sign Out"
           danger
-          onClick={() => alert('Sign out — hozircha test rejim')}
+          onClick={() => alert("Sign out — hozircha test rejim")}
         />
       </div>
     </div>

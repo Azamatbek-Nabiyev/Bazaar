@@ -1,9 +1,9 @@
-import React from 'react';
 import { ShippingAddressForm } from './ShippingAddressForm';
 import { PaymentForm } from './PaymentForm';
 import { CheckoutSummary } from './CheckoutSummary';
 
 export const CheckoutLayout = () => {
+  
   const handlePlaceOrder = () => {
     alert('Buyurtma joylandi (test)');
   };

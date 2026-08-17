@@ -5,7 +5,7 @@ import { mockPaymentMethods } from './mockData';
 export const PaymentMethods = () => {
   const [methods, setMethods] = useState(mockPaymentMethods);
 
-  const handleRemove = (id) => {
+  const handleRemove = (id:number) => {
     setMethods(methods.filter((m) => m.id !== id));
   };
 
