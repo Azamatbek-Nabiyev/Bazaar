@@ -4,7 +4,7 @@ import AuthLayout from './AuthLayout';
 import AuthField from './AuthField';
 
 export default function ForgotPasswordForm() {
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -14,10 +14,10 @@ export default function ForgotPasswordForm() {
 
   if (submitted) {
     return (
-      <AuthLayout title="Check Your Email">
+      <AuthLayout title="Check Your Phone number">
         <p className="text-sm text-neutral-500 text-center leading-relaxed">
           We've sent a password reset link to{' '}
-          <span className="font-medium text-neutral-900">{email}</span>.
+          <span className="font-medium text-neutral-900">{phone}</span>.
           Please check your inbox.
         </p>
         <Link
@@ -37,10 +37,10 @@ export default function ForgotPasswordForm() {
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <AuthField
-          label="Email"
-          type="email"
-          value={email}
-          onChange={setEmail}
+          label="Phone"
+          type="text"
+          value={phone}
+          onChange={setPhone}
         />
 
         <button

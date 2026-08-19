@@ -4,12 +4,14 @@ export default function AuthField({
   value,
   onChange,
   placeholder,
+  disabled = false,
 }: {
   label: string;
   type?: string;
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
+  disabled?: boolean;
 }) {
   return (
     <div>
@@ -21,7 +23,8 @@ export default function AuthField({
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full border border-neutral-300 px-3 py-2.5 text-sm focus:outline-none focus:border-neutral-900"
+        disabled={disabled}
+        className="w-full border border-neutral-300 px-3 py-2.5 text-sm focus:outline-none focus:border-neutral-900 disabled:bg-neutral-100 disabled:text-neutral-400 disabled:cursor-not-allowed"
       />
     </div>
   );
