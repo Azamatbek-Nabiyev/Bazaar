@@ -13,6 +13,8 @@ import Contact from "./Contact";
 import Register from "./Register";
 import Login from "./Login";
 import ForgotPassword from "./ForgotPassword";
+import BestSeller from './BestSeller';
+import FlashSale from './FlashSale'
 
 // Every route below renders inside Layout (Header + Footer),
 // except NotFound which is intentionally kept outside so a broken
@@ -31,6 +33,8 @@ export const router = createBrowserRouter([
       { path: "products", element: <Products /> },
       { path: "about", element: <AboutUs /> },
       { path: "contact", element: <Contact /> },
+      { path: "bestsellers", element: <BestSeller /> },
+      { path: "flashsale", element: <FlashSale /> },
     ],
   },
   { path: "register", element: <Register /> },

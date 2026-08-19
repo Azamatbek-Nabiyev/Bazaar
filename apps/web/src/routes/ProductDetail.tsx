@@ -35,6 +35,7 @@ export default function ProductDetail() {
           alt={product.title}
         />
         <ProductInfo
+        _id={product._id}
           brand={product.brand}
           title={product.title}
           price={product.price}
@@ -43,6 +44,8 @@ export default function ProductDetail() {
           description={product.description}
           colors={product.colors}
           sizes={product.sizes}
+          image={product.image}
+          category={product.category}
         />
       </div>
     </section>

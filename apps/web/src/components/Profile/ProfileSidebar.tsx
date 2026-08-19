@@ -42,12 +42,6 @@ export const ProfileSidebar = ({
 
       <div className="border-t mt-2 pt-2">
         <SidebarNavItem
-          icon={<Heart size={16} />}
-          label="Saved Items"
-          active={activeTab === "saved"}
-          onClick={() => onTabChange("saved")}
-        />
-        <SidebarNavItem
           icon={<LogOut size={16} />}
           label="Sign Out"
           danger

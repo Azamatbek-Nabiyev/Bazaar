@@ -24,7 +24,7 @@ export const ProfileLayout = () => {
   const ActiveComponent = tabComponents[activeTab];
 
   return (
-    <div className="max-w-7xl mx-auto bg-white">
+    <div className="max-w-7xl mx-auto bg-white py-10">
       <div className="flex items-center gap-4 px-8 py-6 border-b bg-white">
         <img
           src={mockUser.avatar}

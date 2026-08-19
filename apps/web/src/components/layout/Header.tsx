@@ -14,6 +14,14 @@ const NAV_LINKS = [
     link: '/products'
   },
   {
+    title: 'Best Sellers',
+    link: '/bestsellers'
+  },
+  {
+    title: 'Flash Sale',
+    link: '/flashsale'
+  },
+  {
     title: 'About us',
     link: '/about'
   },
