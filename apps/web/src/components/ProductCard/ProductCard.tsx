@@ -1,15 +1,62 @@
+import { useState } from "react";
+import { Heart } from "lucide-react";
 import type { Product } from "../../types/product";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { addItem } from "../../store/cartSlice";
+import {
+  addSavedItem,
+  removeSavedItem,
+  selectIsSaved,
+} from "../../store/savedItemsSlice";
 
-export default function ProductCard({
-  image,
-  brand,
-  title,
-  price,
-  rating,
-  reviewCount,
-  colors,
-  badge,
-}: Product) {
+export default function ProductCard(props: Product) {
+  const {
+    _id,
+    image,
+    brand,
+    title,
+    price,
+    rating,
+    reviewCount,
+    colors,
+    badge,
+  } = props;
+
+  const dispatch = useAppDispatch();
+  const [added, setAdded] = useState(false);
+  const isSaved = useAppSelector(selectIsSaved(_id));
+
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    dispatch(
+      addItem({
+        _id,
+        title,
+        brand,
+        image,
+        price,
+        color: colors?.[0] ?? "",
+        quantity: 1,
+      })
+    );
+
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  };
+
+  const handleToggleSave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isSaved) {
+      dispatch(removeSavedItem(_id));
+    } else {
+      dispatch(addSavedItem(props));
+    }
+  };
+
   return (
     <div className="w-full max-w-sm h-full flex flex-col overflow-hidden bg-white shadow-md">
       {/* Image */}
@@ -25,12 +72,26 @@ export default function ProductCard({
           </span>
         )}
 
+        {/* Wishlist button */}
+        <button
+          type="button"
+          onClick={handleToggleSave}
+          aria-label="Toggle wishlist"
+          className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:bg-white"
+        >
+          <Heart
+            size={15}
+            className={isSaved ? "fill-red-600 text-red-600" : "text-neutral-600"}
+          />
+        </button>
+
         {/* Quick add button */}
         <button
           type="button"
+          onClick={handleQuickAdd}
           className="absolute bottom-0 left-0 right-0 bg-neutral-900 text-white text-sm font-semibold py-3 translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
         >
-          Quick Add
+          {added ? "Added ✓" : "Quick Add"}
         </button>
       </div>
 

@@ -8,6 +8,11 @@ import SavedItems from "./SavedItems";
 import Profile from "./Profile";
 import Checkout from "./Checkout";
 import Products from "./Products";
+import AboutUs from "./About";
+import Contact from "./Contact";
+import Register from "./Register";
+import Login from "./Login";
+import ForgotPassword from "./ForgotPassword";
 
 // Every route below renders inside Layout (Header + Footer),
 // except NotFound which is intentionally kept outside so a broken
@@ -24,8 +29,13 @@ export const router = createBrowserRouter([
       { path: "profile", element: <Profile /> },
       { path: "checkout", element: <Checkout /> },
       { path: "products", element: <Products /> },
+      { path: "about", element: <AboutUs /> },
+      { path: "contact", element: <Contact /> },
     ],
   },
+  { path: "register", element: <Register /> },
+  { path: "login", element: <Login /> },
+  { path: "forgot-password", element: <ForgotPassword /> },
   {
     path: "*",
     element: <NotFound />,

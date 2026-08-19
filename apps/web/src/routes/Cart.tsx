@@ -1,48 +1,29 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
 import CartItem from "../components/Cart/CartItem";
-import type { CartItemData } from "../types/cartItem";
-
-// Example static data — later this comes from Redux cart state / api/cart.ts
-const INITIAL_ITEMS: CartItemData[] = [
-  {
-    id: "2",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&q=80",
-    brand: "Stride",
-    title: "Air Runner Pro",
-    price: 129,
-    color: "Red",
-    size: "42",
-    quantity: 1,
-  },
-  {
-    id: "5",
-    image: "https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=300&q=80",
-    brand: "Acoustic",
-    title: "Pro Wireless Headphones",
-    price: 249,
-    color: "Black",
-    quantity: 2,
-  },
-];
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import {
+  selectCartItems,
+  selectCartSubtotal,
+  updateQuantity,
+  removeItem,
+} from "../store/cartSlice";
 
 const SHIPPING = 12;
 
 export default function Cart() {
-  const [items, setItems] = useState<CartItemData[]>(INITIAL_ITEMS);
+  const dispatch = useAppDispatch();
+  const items = useAppSelector(selectCartItems);
+  const subtotal = useAppSelector(selectCartSubtotal);
 
   const handleQuantityChange = (id: string, quantity: number) => {
-    setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity } : item))
-    );
+    dispatch(updateQuantity({ _id: id, quantity }));
   };
 
   const handleRemove = (id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
+    dispatch(removeItem(id));
   };
 
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const total = items.length > 0 ? subtotal + SHIPPING : 0;
 
   if (items.length === 0) {
@@ -75,7 +56,7 @@ export default function Cart() {
         <div className="md:col-span-2">
           {items.map((item) => (
             <CartItem
-              key={item.id}
+              key={item._id}
               item={item}
               onQuantityChange={handleQuantityChange}
               onRemove={handleRemove}

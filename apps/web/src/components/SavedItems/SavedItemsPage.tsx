@@ -1,56 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import { Trash2 } from "lucide-react";
 import type { Product } from "../../types/product";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import {
+  selectSavedItems,
+  removeSavedItem,
+  clearSavedItems,
+} from "../../store/savedItemsSlice";
+import { addItem } from "../../store/cartSlice";
 
-// Boshlang'ich ma'lumot — keyinchalik bu API/store'dan keladi
-const initialSavedItems: Product[] = [
-  {
-    _id: 1,
-    image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: {
-      title: "test",
-      description: "demomde",
-    },
-    brand: "Maison De",
-    title: "Classic Leather Tote",
-    price: 240,
-    rating: 4,
-    reviewCount: 342,
-    colors: ["#8b8b8b", "#1a1a1a", "#6b4a3a"],
-    badge: "sale",
-    description:
-      "A classic leather tote with a timeless design, spacious interior, and durable construction.",
-    sizes: ["Small", "Medium", "Large"],
-  },
-  {
-    _id: 2,
-    image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: {
-      title: "test",
-      description: "demomde",
-    },
-    brand: "Audiom",
-    title: "Pro Wireless Headphones",
-    price: 249,
-    rating: 4,
-    reviewCount: 2341,
-    colors: ["#1a1a1a", "#e5e5e5"],
-    badge: "new",
-    description:
-      "Premium wireless headphones with immersive sound, comfortable ear cushions, and long-lasting battery life.",
-    sizes: ["One Size"],
-  },
-];
-
+// Tavsiyalar hozircha statik — bular "saqlangan" emas, shunchaki taklif
 const recommendations: Product[] = [
   {
     _id: 3,
     image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: {
-      title: "test",
-      description: "demomde",
-    },
+    category: { title: "test", description: "demomde" },
     brand: "Stride",
     title: "Air Runner Pro",
     price: 129,
@@ -65,10 +30,7 @@ const recommendations: Product[] = [
   {
     _id: 4,
     image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: {
-      title: "test",
-      description: "demomde",
-    },
+    category: { title: "test", description: "demomde" },
     brand: "Nord",
     title: "Minimalist Watch",
     price: 299,
@@ -83,10 +45,7 @@ const recommendations: Product[] = [
   {
     _id: 5,
     image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: {
-      title: "test",
-      description: "demomde",
-    },
+    category: { title: "test", description: "demomde" },
     brand: "Atelier",
     title: "Oversized Wool Coat",
     price: 620,
@@ -101,10 +60,7 @@ const recommendations: Product[] = [
   {
     _id: 6,
     image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: {
-      title: "test",
-      description: "demomde",
-    },
+    category: { title: "test", description: "demomde" },
     brand: "Kroft",
     title: "Linen Tailored Blazer",
     price: 195,
@@ -117,15 +73,33 @@ const recommendations: Product[] = [
     sizes: ["S", "M", "L", "XL"],
   },
 ];
-export const SavedItemsPage = () => {
-  const [savedItems, setSavedItems] = useState(initialSavedItems);
 
-  const handleRemove = (id: number | string) => {
-    setSavedItems(savedItems.filter((item) => item._id !== id));
+export const SavedItemsPage = () => {
+  const dispatch = useAppDispatch();
+  const savedItems = useAppSelector(selectSavedItems);
+
+  const handleRemove = (id: Product["_id"]) => {
+    dispatch(removeSavedItem(id));
   };
 
   const handleClearAll = () => {
-    setSavedItems([]);
+    dispatch(clearSavedItems());
+  };
+
+  const handleAddAllToCart = () => {
+    savedItems.forEach((item) => {
+      dispatch(
+        addItem({
+          _id: item._id,
+          title: item.title,
+          brand: item.brand,
+          image: item.image,
+          price: item.price,
+          color: item.colors?.[0] ?? "",
+          quantity: 1,
+        })
+      );
+    });
   };
 
   return (
@@ -154,7 +128,11 @@ export const SavedItemsPage = () => {
           {savedItems.length} items saved
         </span>
         <div className="flex gap-3 items-center">
-          <button className="border border-black text-sm px-4 py-2 rounded-full">
+          <button
+            onClick={handleAddAllToCart}
+            disabled={savedItems.length === 0}
+            className="border border-black text-sm px-4 py-2 rounded-full disabled:opacity-40 disabled:cursor-not-allowed"
+          >
             🛒 Add All to Cart
           </button>
           <button

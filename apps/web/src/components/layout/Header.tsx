@@ -1,5 +1,8 @@
 import { Search, Heart, ShoppingBag, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
+import { selectCartCount } from "../../store/cartSlice";
+import { selectSavedCount } from "../../store/savedItemsSlice";
 
 const NAV_LINKS = [
   {
@@ -9,10 +12,6 @@ const NAV_LINKS = [
   {
     title: 'Products',
     link: '/products'
-  },
-  {
-    title: 'Sales',
-    link: '/sales'
   },
   {
     title: 'About us',
@@ -26,6 +25,10 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
+
+  const cartCount = useAppSelector(selectCartCount);
+  const savedCount = useAppSelector(selectSavedCount)
+
   return (
     <header className="w-full bg-white border-b border-neutral-200">
       {/* Promo strip */}
@@ -61,12 +64,6 @@ export default function Header() {
         </div>
 
         <div className="flex items-center gap-1 text-neutral-700">
-          <button
-            aria-label="Search"
-            className="p-2 rounded-md hover:bg-neutral-900 hover:text-white transition-colors"
-          >
-            <Search size={20} />
-          </button>
           <Link to="/profile">
             <button
               aria-label="Account"
@@ -78,9 +75,14 @@ export default function Header() {
           <Link to="/saved-items">
             <button
               aria-label="Wishlist"
-              className="p-2 rounded-md hover:bg-neutral-900 hover:text-white transition-colors"
+              className="p-2 rounded-md hover:bg-neutral-900 hover:text-white transition-colors relative"
             >
               <Heart size={20} />
+              {savedCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 bg-red-600 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+                {savedCount}
+              </span>
+              )}
             </button>
           </Link>
           <Link to="/cart">
@@ -89,9 +91,11 @@ export default function Header() {
               className="p-2 rounded-md hover:bg-neutral-900 hover:text-white transition-colors relative"
             >
               <ShoppingBag size={20} />
-              <span className="absolute top-0.5 right-0.5 bg-red-600 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
-                2
+              {cartCount > 0 && (
+                <span className="absolute top-0.5 right-0.5 bg-red-600 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+                {cartCount}
               </span>
+              )}
             </button>
           </Link>
         </div>

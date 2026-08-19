@@ -30,7 +30,7 @@ export default function CartItem({ item, onQuantityChange, onRemove }: CartItemP
           </div>
 
           <button
-            onClick={() => onRemove(item.id)}
+            onClick={() => onRemove(item._id)}
             aria-label="Remove item"
             className="text-neutral-400 hover:text-neutral-900 transition-colors"
           >
@@ -41,14 +41,14 @@ export default function CartItem({ item, onQuantityChange, onRemove }: CartItemP
         <div className="flex items-center justify-between mt-3">
           <div className="flex items-center border border-neutral-300">
             <button
-              onClick={() => onQuantityChange(item.id, Math.max(1, item.quantity - 1))}
+              onClick={() => onQuantityChange(item._id, Math.max(1, item.quantity - 1))}
               className="w-8 h-8 flex items-center justify-center text-neutral-600 hover:bg-neutral-100"
             >
               <Minus size={14} />
             </button>
             <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
             <button
-              onClick={() => onQuantityChange(item.id, item.quantity + 1)}
+              onClick={() => onQuantityChange(item._id, item.quantity + 1)}
               className="w-8 h-8 flex items-center justify-center text-neutral-600 hover:bg-neutral-100"
             >
               <Plus size={14} />
