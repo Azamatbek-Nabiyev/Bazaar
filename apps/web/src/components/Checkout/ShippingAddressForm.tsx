@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 
 export const ShippingAddressForm = () => {
+  const [user] = useState(() => {
+      let user = localStorage.getItem("user");
+  
+      return user ? JSON.parse(user) : null;
+    });
+
   const [form, setForm] = useState({
-    fullName: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    country: "United States",
-    phone: "",
+    fullName: user.fullname,
+    address: user.addresses[0].address,
+    city: user.addresses[0].city,
+    phone: user.phone,
   });
 
   const handleChange = (field: string, value: string) => {
@@ -36,21 +39,6 @@ export const ShippingAddressForm = () => {
           label="City"
           value={form.city}
           onChange={(v) => handleChange("city", v)}
-        />
-        <Field
-          label="State"
-          value={form.state}
-          onChange={(v) => handleChange("state", v)}
-        />
-        <Field
-          label="ZIP Code"
-          value={form.zip}
-          onChange={(v) => handleChange("zip", v)}
-        />
-        <Field
-          label="Country"
-          value={form.country}
-          onChange={(v) => handleChange("country", v)}
         />
         <Field
           label="Phone"

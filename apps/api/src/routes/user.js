@@ -1,5 +1,6 @@
 const express = require('express');
 const {login, requestLoginCode, verifyLoginCode, signUpRequest, confirmSignUp, protect, restrictTo} = require('../controllers/authController');
+const { getAll, getOne, createAddress, updateAddress, deleteAddress, updateMe, getUserOrders } = require('../controllers/user');
 
 const userRouter = express.Router();
 
@@ -15,15 +16,23 @@ userRouter.post('/signup-request', signUpRequest);
 userRouter.post('/signup-confirm', confirmSignUp);
 
 // get all users - only admin
-// userRouter.get('/', protect, restrictTo('admin'), getAllUsers);
+userRouter.get('/', getAll);
 
-// create user - only admin
-// userRouter.post('/', protect, restrictTo('admin'), createUser);
-
-// get one user
-// userRouter.get('/:id', protect, getOneUser);
+// update me
+userRouter.patch('/me', protect, updateMe);
 
 // delete
 // userRouter.delete('/:id', protect, restrictTo('admin'), deleteUser);
 
+// create address
+userRouter.post('/me/address', protect, createAddress );
+
+// update address
+userRouter.patch('/me/address/:addressId', protect, updateAddress );
+
+// delete address
+userRouter.delete('/me/address/:addressId', protect, deleteAddress );
+
+// get user orders
+userRouter.get('/me/orders', protect, getUserOrders)
 module.exports = userRouter;

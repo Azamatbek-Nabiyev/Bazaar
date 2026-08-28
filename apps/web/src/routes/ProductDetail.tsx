@@ -10,6 +10,7 @@ export default function ProductDetail() {
   const product = data?.data;
 
   if (isLoading) {
+    
     return (
       <section className="max-w-6xl mx-auto px-6 py-12">
         <p className="text-center text-neutral-400 py-12">Yuklanmoqda...</p>

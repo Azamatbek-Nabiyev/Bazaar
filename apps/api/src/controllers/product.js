@@ -1,4 +1,5 @@
 const { Product } = require('../models');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 const getAll = catchAsync(async (req, res, next) => {

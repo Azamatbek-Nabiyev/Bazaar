@@ -1,16 +1,26 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Truck, RotateCcw, ShieldCheck, Headphones } from "lucide-react";
+import {
+  ArrowRight,
+  Truck,
+  RotateCcw,
+  ShieldCheck,
+  Headphones,
+} from "lucide-react";
 
 const SLIDES = [
-  "https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=900&q=80",
-  "https://images.unsplash.com/photo-1490578474895-699cd4e2cf59?w=900&q=80",
-  "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?w=900&q=80",
+  "https://images.unsplash.com/photo-1621784562807-cb450c2f5efc?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://plus.unsplash.com/premium_photo-1682095757120-c9abb908ed60?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1495385794356-15371f348c31?q=80&w=970&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
 
 const TRUST_BADGES = [
   { icon: Truck, title: "Free Shipping", subtitle: "On orders over $75" },
   { icon: RotateCcw, title: "Easy Returns", subtitle: "30-day free returns" },
-  { icon: ShieldCheck, title: "Secure Checkout", subtitle: "256-bit encryption" },
+  {
+    icon: ShieldCheck,
+    title: "Secure Checkout",
+    subtitle: "256-bit encryption",
+  },
   { icon: Headphones, title: "24/7 Support", subtitle: "We're always here" },
 ];
 
@@ -29,7 +39,10 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center">
         {/* Left: copy */}
         <div className="px-6 md:px-16 py-16 md:py-24">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: "#d9a24f" }}>
+          <p
+            className="text-xs font-semibold tracking-[0.2em] uppercase mb-4"
+            style={{ color: "#d9a24f" }}
+          >
             Men's New Season
           </p>
 
@@ -88,7 +101,7 @@ export default function Hero() {
               key={src}
               src={src}
               alt="Collection showcase"
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${
                 i === activeSlide ? "opacity-100" : "opacity-0"
               }`}
             />
@@ -102,7 +115,8 @@ export default function Hero() {
 
           {/* Slide counter */}
           <span className="absolute bottom-4 right-4 bg-black/50 text-white text-xs font-medium px-3 py-1.5">
-            {String(activeSlide + 1).padStart(2, "0")} / {String(SLIDES.length).padStart(2, "0")}
+            {String(activeSlide + 1).padStart(2, "0")} /{" "}
+            {String(SLIDES.length).padStart(2, "0")}
           </span>
         </div>
       </div>

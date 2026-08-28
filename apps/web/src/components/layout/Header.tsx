@@ -51,7 +51,7 @@ export default function Header() {
             href="/"
             className="text-xl font-bold tracking-tight text-neutral-900"
           >
-            MODERNO
+            BAZAAR
           </a>
 
           <nav className="hidden md:flex items-center gap-8">

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Pencil } from "lucide-react";
+import { useUpdateMeMutation } from "../../store/api";
 import { mockUser } from "./mockData";
 
 type PersonalInfoForm = {
-  firstName: string;
-  lastName: string;
-  email: string;
+  fullname: string;
   phone: string;
-  dob: string;
+  createdAt: string;
 };
 
 type EditFieldProps = {
@@ -25,12 +24,16 @@ type InfoFieldProps = {
 export const PersonalInfo = () => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const [form, setForm] = useState<PersonalInfoForm>({
-    firstName: mockUser.firstName,
-    lastName: mockUser.lastName,
-    email: mockUser.email,
-    phone: mockUser.phone,
-    dob: mockUser.dob,
+  const [updateMe, { isLoading }] = useUpdateMeMutation();
+
+  const [form, setForm] = useState<PersonalInfoForm>(() => {
+    const user = JSON.parse(localStorage.getItem("user")!);
+
+    return {
+      fullname: user.fullname,
+      phone: user.phone,
+      createdAt: user.createdAt,
+    };
   });
 
   const handleChange = (
@@ -43,7 +46,35 @@ export const PersonalInfo = () => {
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    try {
+      const response = await updateMe({
+        fullname: form.fullname,
+        phone: form.phone,
+      }).unwrap();
+
+      const updatedUser = response.data;
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(updatedUser)
+      );
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error("User update error:", error);
+    }
+  };
+
+  const handleCancel = () => {
+    const user = JSON.parse(localStorage.getItem("user")!);
+
+    setForm({
+      fullname: user.fullname,
+      phone: user.phone,
+      createdAt: user.createdAt,
+    });
+
     setIsEditing(false);
   };
 
@@ -51,7 +82,9 @@ export const PersonalInfo = () => {
     return (
       <div className="border rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="font-bold">Personal Information</h2>
+          <h2 className="font-bold">
+            Personal Information
+          </h2>
 
           <button
             onClick={() => setIsEditing(true)}
@@ -65,15 +98,20 @@ export const PersonalInfo = () => {
         <div className="flex items-center gap-4 pb-6 border-b mb-6">
           <img
             src={mockUser.avatar}
-            alt={mockUser.name}
+            alt={form.fullname}
             className="w-16 h-16 rounded-full object-cover bg-gray-100"
           />
 
           <div>
-            <div className="font-semibold">{mockUser.name}</div>
+            <div className="font-semibold">
+              {form.fullname}
+            </div>
 
             <div className="text-sm text-gray-400">
-              {mockUser.tier} · Member since {mockUser.memberSince}
+              Member since{" "}
+              {new Date(form.createdAt)
+                .toISOString()
+                .split("T")[0]}
             </div>
           </div>
         </div>
@@ -81,27 +119,12 @@ export const PersonalInfo = () => {
         <div className="grid grid-cols-2 gap-6">
           <InfoField
             label="First Name"
-            value={form.firstName}
-          />
-
-          <InfoField
-            label="Last Name"
-            value={form.lastName}
-          />
-
-          <InfoField
-            label="Email"
-            value={form.email}
+            value={form.fullname}
           />
 
           <InfoField
             label="Phone"
             value={form.phone}
-          />
-
-          <InfoField
-            label="Date of Birth"
-            value={form.dob}
           />
         </div>
       </div>
@@ -118,22 +141,28 @@ export const PersonalInfo = () => {
         <div className="relative">
           <img
             src={mockUser.avatar}
-            alt={mockUser.name}
+            alt={form.fullname}
             className="w-16 h-16 rounded-full object-cover bg-gray-100"
           />
 
           <div className="absolute -bottom-1 -right-1 bg-black rounded-full p-1.5">
-            <Pencil size={11} className="text-white" />
+            <Pencil
+              size={11}
+              className="text-white"
+            />
           </div>
         </div>
 
         <div>
           <div className="font-semibold">
-            {mockUser.name}
+            {form.fullname}
           </div>
 
           <div className="text-sm text-gray-400">
-            {mockUser.tier} · Member since {mockUser.memberSince}
+            Member since{" "}
+            {new Date(form.createdAt)
+              .toISOString()
+              .split("T")[0]}
           </div>
 
           <button className="text-sm text-orange-600 mt-1">
@@ -145,25 +174,9 @@ export const PersonalInfo = () => {
       <div className="grid grid-cols-2 gap-6 mb-6">
         <EditField
           label="First Name"
-          value={form.firstName}
+          value={form.fullname}
           onChange={(value) =>
-            handleChange("firstName", value)
-          }
-        />
-
-        <EditField
-          label="Last Name"
-          value={form.lastName}
-          onChange={(value) =>
-            handleChange("lastName", value)
-          }
-        />
-
-        <EditField
-          label="Email Address"
-          value={form.email}
-          onChange={(value) =>
-            handleChange("email", value)
+            handleChange("fullname", value)
           }
         />
 
@@ -174,27 +187,20 @@ export const PersonalInfo = () => {
             handleChange("phone", value)
           }
         />
-
-        <EditField
-          label="Date of Birth"
-          type="date"
-          value={form.dob}
-          onChange={(value) =>
-            handleChange("dob", value)
-          }
-        />
       </div>
 
       <div className="flex gap-3">
         <button
           onClick={handleSave}
-          className="bg-black text-white text-sm px-6 py-3 rounded-lg"
+          disabled={isLoading}
+          className="bg-black text-white text-sm px-6 py-3 rounded-lg disabled:opacity-50"
         >
-          Save Changes
+          {isLoading ? "Saving..." : "Save Changes"}
         </button>
 
         <button
-          onClick={() => setIsEditing(false)}
+          onClick={handleCancel}
+          disabled={isLoading}
           className="bg-gray-100 text-sm px-6 py-3 rounded-lg"
         >
           Cancel

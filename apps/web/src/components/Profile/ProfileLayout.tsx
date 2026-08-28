@@ -4,8 +4,6 @@ import { Overview } from "./Overview";
 import { OrderHistory } from "./OrderHistory";
 import { PersonalInfo } from "./PersonalInfo";
 import { Addresses } from "./Addresses";
-import { PaymentMethods } from "./PaymentMethods";
-import { Security } from "./Security";
 import { mockUser } from "./mockData";
 
 const tabComponents = {
@@ -13,8 +11,6 @@ const tabComponents = {
   orders: OrderHistory,
   personal: PersonalInfo,
   addresses: Addresses,
-  payment: PaymentMethods,
-  security: Security,
 };
 
 type Tab = keyof typeof tabComponents;
@@ -22,20 +18,18 @@ type Tab = keyof typeof tabComponents;
 export const ProfileLayout = () => {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const ActiveComponent = tabComponents[activeTab];
+  const { fullname } = JSON.parse(localStorage.getItem('user')!)
 
   return (
     <div className="max-w-7xl mx-auto bg-white py-10">
       <div className="flex items-center gap-4 px-8 py-6 border-b bg-white">
         <img
           src={mockUser.avatar}
-          alt={mockUser.name}
+          alt={fullname}
           className="w-14 h-14 rounded object-cover bg-gray-100"
         />
         <div>
-          <div className="text-xs font-semibold text-orange-600 uppercase tracking-wide">
-            {mockUser.tier.toUpperCase()}
-          </div>
-          <h1 className="text-2xl font-serif font-bold">{mockUser.name}</h1>
+          <h1 className="text-2xl font-serif font-bold">{fullname}</h1>
         </div>
       </div>
 

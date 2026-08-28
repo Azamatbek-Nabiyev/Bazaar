@@ -1,4 +1,3 @@
-import React from 'react';
 import { CheckoutLayout } from '../components/Checkout/CheckoutLayout';
 
 const Checkout = () => {

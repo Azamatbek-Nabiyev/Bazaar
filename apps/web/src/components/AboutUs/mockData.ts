@@ -1,47 +1,24 @@
 export const stats = [
   { value: '10,000+', label: 'Happy Customers' },
-  { value: '250+', label: 'Curated Brands' },
-  { value: '15', label: 'Countries Shipped' },
-  { value: '2019', label: 'Founded' },
+  { value: '250+', label: 'Featured Brands' },
+  { value: '15', label: 'Countries Delivered' },
+  { value: '2019', label: 'Established' },
 ];
 
 export const values = [
   {
-    title: 'Quality First',
+    title: 'Quality Matters',
     description:
-      'Every product is hand-selected and tested for durability, comfort and design.',
+      'We carefully select every product to ensure excellent quality, reliable performance, and timeless design.',
   },
   {
-    title: 'Sustainable Sourcing',
+    title: 'Thoughtful Choices',
     description:
-      'We partner with brands who share our commitment to ethical, low-impact production.',
+      'We work with brands that value responsible production, quality materials, and thoughtful craftsmanship.',
   },
   {
-    title: 'Customer Obsessed',
+    title: 'Customer First',
     description:
-      'From browsing to unboxing, we design every step around a seamless experience.',
-  },
-];
-
-export const team = [
-  {
-    name: 'Sarah Bennett',
-    role: 'Founder & CEO',
-    image: '/images/team/sarah.jpg',
-  },
-  {
-    name: 'James Carter',
-    role: 'Head of Design',
-    image: '/images/team/james.jpg',
-  },
-  {
-    name: 'Priya Khanna',
-    role: 'Head of Operations',
-    image: '/images/team/priya.jpg',
-  },
-  {
-    name: 'Daniel Osei',
-    role: 'Lead Merchandiser',
-    image: '/images/team/daniel.jpg',
+      'From discovering a product to receiving your order, we focus on making every part of your experience simple and enjoyable.',
   },
 ];

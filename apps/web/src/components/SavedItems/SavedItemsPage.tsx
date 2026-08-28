@@ -1,4 +1,3 @@
-import React from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import { Trash2 } from "lucide-react";
 import type { Product } from "../../types/product";
@@ -9,70 +8,6 @@ import {
   clearSavedItems,
 } from "../../store/savedItemsSlice";
 import { addItem } from "../../store/cartSlice";
-
-// Tavsiyalar hozircha statik — bular "saqlangan" emas, shunchaki taklif
-const recommendations: Product[] = [
-  {
-    _id: 3,
-    image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: { title: "test", description: "demomde" },
-    brand: "Stride",
-    title: "Air Runner Pro",
-    price: 129,
-    rating: 4,
-    reviewCount: 1204,
-    badge: "bestseller",
-    colors: ["#8b0000", "#1a1a1a", "#e5e5e5"],
-    description:
-      "Lightweight performance running shoes designed for comfort, stability, and everyday training.",
-    sizes: ["39", "40", "41", "42", "43", "44"],
-  },
-  {
-    _id: 4,
-    image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: { title: "test", description: "demomde" },
-    brand: "Nord",
-    title: "Minimalist Watch",
-    price: 299,
-    rating: 4,
-    reviewCount: 89,
-    badge: "new",
-    colors: ["#c9c9c9", "#1a1a1a"],
-    description:
-      "A minimalist watch featuring a clean dial, premium materials, and a timeless design.",
-    sizes: ["One Size"],
-  },
-  {
-    _id: 5,
-    image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: { title: "test", description: "demomde" },
-    brand: "Atelier",
-    title: "Oversized Wool Coat",
-    price: 620,
-    rating: 4,
-    reviewCount: 156,
-    badge: "sale",
-    colors: ["#c9c9c9", "#1a1a1a", "#6b4a3a"],
-    description:
-      "A sophisticated oversized wool coat with a relaxed silhouette and premium finish.",
-    sizes: ["S", "M", "L", "XL"],
-  },
-  {
-    _id: 6,
-    image: "https://makepedia.uz/wp-content/uploads/2018/06/samsa.jpg",
-    category: { title: "test", description: "demomde" },
-    brand: "Kroft",
-    title: "Linen Tailored Blazer",
-    price: 195,
-    rating: 4,
-    reviewCount: 67,
-    badge: "new",
-    colors: ["#e5e5e5", "#1a1a1a"],
-    description:
-      "A lightweight linen blazer with a tailored silhouette, perfect for smart casual looks.",
-    sizes: ["S", "M", "L", "XL"],
-  },
-];
 
 export const SavedItemsPage = () => {
   const dispatch = useAppDispatch();
@@ -165,27 +100,6 @@ export const SavedItemsPage = () => {
           Saqlangan mahsulotlar yo'q
         </p>
       )}
-
-      {/* Tavsiyalar */}
-      <div className="pt-10 border-t">
-        <div className="flex items-center justify-between pb-4">
-          <div>
-            <span className="text-xs font-semibold text-red-600 uppercase">
-              Recommendations
-            </span>
-            <h2 className="text-xl font-bold">You Might Also Like</h2>
-          </div>
-          <button className="text-sm text-gray-600 hover:text-black">
-            See all →
-          </button>
-        </div>
-
-        <div className="grid grid-cols-4 gap-6">
-          {recommendations.map((item) => (
-            <ProductCard key={item._id} {...item} />
-          ))}
-        </div>
-      </div>
     </div>
   );
 };

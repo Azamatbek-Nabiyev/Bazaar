@@ -1,11 +1,18 @@
+import { selectCartItems } from "../../store/cartSlice";
+import { useAppSelector } from "../../store/hooks";
 import type { CartItemData } from "../../types/cartItem";
-import { checkoutItems, shippingCost, taxRate } from "./mockData";
+import { shippingCost, taxRate } from "./mockData";
 
 export const CheckoutSummary = ({
   onPlaceOrder,
+  isSubmitting
 }: {
   onPlaceOrder: () => void;
+   isSubmitting?: boolean;
 }) => {
+
+   const checkoutItems = useAppSelector(selectCartItems);
+
   const subtotal = checkoutItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
@@ -20,7 +27,7 @@ export const CheckoutSummary = ({
 
       <div className="flex flex-col gap-3 pb-4 mb-4 border-b">
         {checkoutItems.map((item) => (
-          <OrderSummaryItem key={item.id} item={item} />
+          <OrderSummaryItem key={item._id} item={item} />
         ))}
       </div>
 
@@ -46,9 +53,10 @@ export const CheckoutSummary = ({
 
       <button
         onClick={onPlaceOrder}
-        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-lg"
+        disabled={isSubmitting}
+        className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Place Order
+        {isSubmitting ? 'Yuborilmoqda...' : 'Place Order'}
       </button>
     </div>
   );

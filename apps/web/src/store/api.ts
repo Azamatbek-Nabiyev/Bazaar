@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import type { OrdersResponse, RequestOrder } from "../types/order";
 
 export const api = createApi({
   reducerPath: "api",
@@ -55,6 +56,62 @@ export const api = createApi({
       }),
     }),
 
+    // user ga tegishli bo'lgan malumotlar
+    updateMe: builder.mutation({
+      query: (body: { fullname: string; phone: string }) => ({
+        url: "/users/me",
+        method: "PATCH",
+        body,
+      }),
+    }),
+    getMyOrders: builder.query <OrdersResponse, void>({
+      query: () => "/users/me/orders",
+    }),
+    createAddress: builder.mutation({
+      query: (body: { city: string; address: string }) => ({
+        url: "/users/me/address",
+        method: "POST",
+        body,
+      }),
+    }),
+    updateAddress: builder.mutation({
+      query: ({
+        addressId,
+        city,
+        address,
+      }: {
+        addressId: string;
+        city: string;
+        address: string;
+      }) => ({
+        url: `/users/me/address/${addressId}`,
+        method: "PATCH",
+        body: {
+          city,
+          address,
+        },
+      }),
+    }),
+
+    deleteAddress: builder.mutation({
+      query: (addressId: string) => ({
+        url: `/users/me/address/${addressId}`,
+        method: "DELETE",
+      }),
+    }),
+
+    // order yaratish
+    createOrder: builder.mutation({
+      query: ({ shippingAddress, paymentMethod, items }: RequestOrder) => ({
+        url: '/orders',
+        method: 'POST',
+        body: {
+          shippingAddress,
+          paymentMethod,
+          items
+        }
+      })
+    })
   }),
 });
 
@@ -65,5 +122,12 @@ export const {
   useLoginConfirmMutation,
   useLoginRequestMutation,
   useSignupRequestMutation,
-  useSignupConfirmMutation
+  useSignupConfirmMutation,
+  useCreateAddressMutation,
+  useDeleteAddressMutation,
+  useUpdateAddressMutation,
+  useUpdateMeMutation,
+  useGetMyOrdersQuery,
+  useCreateOrderMutation
+  // useGetUserMutation
 } = api;

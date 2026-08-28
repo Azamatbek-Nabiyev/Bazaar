@@ -45,7 +45,7 @@ export default function Footer() {
       {/* Link columns */}
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
         <div>
-          <p className="text-white text-lg font-bold mb-3">MODERNO</p>
+          <p className="text-white text-lg font-bold mb-3">BAZAAR</p>
           <p className="text-sm text-neutral-400">
             Clean silhouettes, premium fabrics, timeless design.
           </p>

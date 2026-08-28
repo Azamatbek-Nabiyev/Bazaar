@@ -1,11 +1,41 @@
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { clearCart, selectCartItems } from '../../store/cartSlice';
+import { useCreateOrderMutation } from '../../store/api'; // <-- api faylingiz nomiga moslang
 import { ShippingAddressForm } from './ShippingAddressForm';
 import { PaymentForm } from './PaymentForm';
 import { CheckoutSummary } from './CheckoutSummary';
+import { useNavigate } from 'react-router-dom';
 
 export const CheckoutLayout = () => {
-  
-  const handlePlaceOrder = () => {
-    alert('Buyurtma joylandi (test)');
+  const cartItems = useAppSelector(selectCartItems);
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
+   const dispatch = useAppDispatch();
+   const navigate = useNavigate();
+
+  const handlePlaceOrder = async () => {
+    try {
+      const items = cartItems.map((item) => ({
+        product: item._id,
+        quantity: item.quantity,
+      }));
+
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+
+      const shippingAddress = {
+        address: user?.addresses?.[0]?.address,
+        city: user?.addresses?.[0]?.city,
+      };
+
+      const paymentMethod = 'cash'; // hozircha statik
+
+      await createOrder({ shippingAddress, paymentMethod, items }).unwrap();
+      dispatch(clearCart());
+      alert('Buyurtma muvaffaqiyatli joylandi');
+      navigate('/')
+    } catch (err) {
+      console.error('Order yaratishda xatolik:', err);
+      alert("Xatolik yuz berdi, qayta urinib ko'ring");
+    }
   };
 
   return (
@@ -19,7 +49,10 @@ export const CheckoutLayout = () => {
         </div>
 
         <div className="col-span-1">
-          <CheckoutSummary onPlaceOrder={handlePlaceOrder} />
+          <CheckoutSummary
+            onPlaceOrder={handlePlaceOrder}
+            isSubmitting={isLoading}
+          />
         </div>
       </div>
     </div>

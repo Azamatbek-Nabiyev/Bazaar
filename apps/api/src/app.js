@@ -5,6 +5,7 @@ const globalErrorController = require('./controllers/errorController');
 const productRouter = require('./routes/product');
 const categoryRouter = require('./routes/category');
 const userRouter = require('./routes/user');
+const orderRouter = require('./routes/order');
 
 const app = express();
 app.use(cors({
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use('/products', productRouter);
 app.use('/categories', categoryRouter);
 app.use('/users', userRouter);
+app.use('/orders', orderRouter);
 
 // agar route yo'q bo'lsa
 app.all('*other', (req, res, next) => {

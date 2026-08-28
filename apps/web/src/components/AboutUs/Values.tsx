@@ -8,9 +8,9 @@ export default function Values() {
     <section className="max-w-7xl mx-auto px-6 py-20">
       <div className="mb-12 text-center max-w-xl mx-auto">
         <p className="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-3">
-          What We Stand For
+          Why Choose Us
         </p>
-        <h2 className="text-3xl font-bold text-neutral-900">Our Values</h2>
+        <h2 className="text-3xl font-bold text-neutral-900">What We Believe In</h2>
       </div>
 
       <div className="grid md:grid-cols-3 gap-10">
