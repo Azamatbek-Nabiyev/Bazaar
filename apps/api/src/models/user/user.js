@@ -15,12 +15,7 @@ const userSchema = mongoose.Schema(
           city: String,
           address: String
         }
-      ],
-      required: true,
-      validate: {
-        validator: value => value.length > 0,
-        message: "At least one address is required"
-      }
+      ]
     },
     phone: {
       type: String,

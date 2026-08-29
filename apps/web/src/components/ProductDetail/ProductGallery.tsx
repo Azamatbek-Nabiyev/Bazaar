@@ -17,7 +17,7 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
               i === activeImage ? "border-neutral-900" : "border-transparent"
             }`}
           >
-            <img src={src} alt={`${alt} thumbnail ${i + 1}`} className="w-full h-full object-cover" />
+            <img src={src} alt={`${alt} thumbnail ${i + 1}`} className="w-full h-full object-cover object-top" />
           </button>
         ))}
       </div>
@@ -27,7 +27,7 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
         <img
           src={images[activeImage]}
           alt={alt}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover object-top"
         />
       </div>
     </div>

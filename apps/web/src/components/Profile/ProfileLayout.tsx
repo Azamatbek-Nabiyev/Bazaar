@@ -18,7 +18,7 @@ type Tab = keyof typeof tabComponents;
 export const ProfileLayout = () => {
   const [activeTab, setActiveTab] = useState<Tab>("overview");
   const ActiveComponent = tabComponents[activeTab];
-  const { fullname } = JSON.parse(localStorage.getItem('user')!)
+  const { fullname } = JSON.parse(localStorage.getItem('user')!)  
 
   return (
     <div className="max-w-7xl mx-auto bg-white py-10">

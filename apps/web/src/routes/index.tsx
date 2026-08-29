@@ -15,10 +15,8 @@ import Login from "./Login";
 import ForgotPassword from "./ForgotPassword";
 import BestSeller from './BestSeller';
 import FlashSale from './FlashSale'
+import { ProtectedRoute } from "./ProtectedRoute";
 
-// Every route below renders inside Layout (Header + Footer),
-// except NotFound which is intentionally kept outside so a broken
-// URL doesn't look like a valid page with working nav.
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -27,14 +25,19 @@ export const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "product/:id", element: <ProductDetail /> },
       { path: "cart", element: <Cart /> },
-      { path: "saved-items", element: <SavedItems /> },
-      { path: "profile", element: <Profile /> },
-      { path: "checkout", element: <Checkout /> },
       { path: "products", element: <Products /> },
       { path: "about", element: <AboutUs /> },
       { path: "contact", element: <Contact /> },
       { path: "bestsellers", element: <BestSeller /> },
       { path: "flashsale", element: <FlashSale /> },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: "saved-items", element: <SavedItems /> },
+          { path: "profile", element: <Profile /> },
+          { path: "checkout", element: <Checkout /> },
+        ],
+      },
     ],
   },
   { path: "register", element: <Register /> },

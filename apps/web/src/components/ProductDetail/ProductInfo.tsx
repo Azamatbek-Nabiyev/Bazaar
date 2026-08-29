@@ -101,7 +101,7 @@ export default function ProductInfo({
 
       {/* Price */}
       <p className="text-2xl font-bold text-neutral-900 mt-4">
-        ${price}
+        {price} so'm
       </p>
 
       {/* Description */}
