@@ -5,10 +5,17 @@ import { RowActionButton } from "../components/ui/RowActionButton";
 import { ConfirmModal } from "../components/ui/ConfirmModal";
 import { Modal } from "../components/ui/Modal";
 import { CategoryForm, type CategoryFormData } from "../components/categories/CategoryForm";
-import { MOCK_CATEGORIES, type Category } from "../components/categories/mockData";
+import { useGetCategoriesQuery } from "../store/api";
+import type { Category } from "../types/product";
 
 export default function Categories() {
-  const [categories, setCategories] = useState<Category[]>(MOCK_CATEGORIES);
+  const {
+    data: categories = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetCategoriesQuery();
+
   const [editTarget, setEditTarget] = useState<Category | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Category | null>(null);
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -18,7 +25,7 @@ export default function Categories() {
     {
       header: "Category",
       accessor: (row: Category) => (
-        <span className="font-medium text-neutral-800">{row.name}</span>
+        <span className="font-medium text-neutral-800">{row.title}</span>
       ),
     },
     {
@@ -28,30 +35,31 @@ export default function Categories() {
       ),
     },
     {
-      header: "Products",
+      header: "Status",
       accessor: (row: Category) => (
-        <span className="text-neutral-600">{row.productCount}</span>
+        <span
+          className={
+            row.isActive
+              ? "text-green-600 font-medium"
+              : "text-neutral-400 font-medium"
+          }
+        >
+          {row.isActive ? "Active" : "Inactive"}
+        </span>
       ),
     },
   ];
 
   const handleAdd = (data: CategoryFormData) => {
     // TODO: useCreateCategoryMutation() bilan almashtiriladi
-    const newCategory: Category = {
-      _id: crypto.randomUUID(),
-      ...data,
-      productCount: 0,
-    };
-    setCategories((prev) => [...prev, newCategory]);
+    console.log("Add category:", data);
     setIsAddOpen(false);
   };
 
   const handleEdit = (data: CategoryFormData) => {
     if (!editTarget) return;
     // TODO: useUpdateCategoryMutation() bilan almashtiriladi
-    setCategories((prev) =>
-      prev.map((c) => (c._id === editTarget._id ? { ...c, ...data } : c))
-    );
+    console.log("Edit category:", editTarget._id, data);
     setEditTarget(null);
   };
 
@@ -59,10 +67,25 @@ export default function Categories() {
     if (!deleteTarget) return;
     setIsDeleting(true);
     // TODO: useDeleteCategoryMutation() bilan almashtiriladi
-    setCategories((prev) => prev.filter((c) => c._id !== deleteTarget._id));
     setIsDeleting(false);
     setDeleteTarget(null);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64 text-neutral-500">
+        Loading categories...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-64 text-red-600">
+        Failed to load categories. {(error as any)?.status ?? ""}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -110,7 +133,11 @@ export default function Categories() {
         {editTarget && (
           <CategoryForm
             onSubmit={handleEdit}
-            defaultValues={{ name: editTarget.name, description: editTarget.description }}
+            defaultValues={{
+              title: editTarget.title,
+              description: editTarget.description,
+              isActive: editTarget.isActive,
+            }}
             submitLabel="Save Changes"
           />
         )}
@@ -120,7 +147,7 @@ export default function Categories() {
       <ConfirmModal
         open={!!deleteTarget}
         title="Delete Category"
-        message={`Are you sure you want to delete "${deleteTarget?.name}"? Products in this category will not be deleted, but will become uncategorized.`}
+        message={`Are you sure you want to delete "${deleteTarget?.title}"? Products in this category will not be deleted, but will become uncategorized.`}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
         isLoading={isDeleting}

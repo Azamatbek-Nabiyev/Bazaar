@@ -1,4 +1,4 @@
-import type { OrderStatus } from "./mockData";
+import type { OrderStatus } from "../../types/order";
 
 const STATUS_STYLES: Record<OrderStatus, string> = {
   Delivered: "bg-green-100 text-green-700",

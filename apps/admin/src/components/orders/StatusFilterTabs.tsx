@@ -1,4 +1,4 @@
-import type { OrderStatus } from "./mockData";
+import type { OrderStatus } from "../../types/order";
 
 type FilterValue = OrderStatus | "All";
 

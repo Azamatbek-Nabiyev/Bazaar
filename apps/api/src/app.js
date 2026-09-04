@@ -9,7 +9,7 @@ const orderRouter = require('./routes/order');
 
 const app = express();
 app.use(cors({
-    origin: ["http://localhost:5173"], // frontend url
+    origin: ["http://localhost:5173", "http://localhost:5174"], // frontend url
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
     credentials: true
 }));

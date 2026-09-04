@@ -3,8 +3,8 @@ import {
   LayoutDashboard,
   Package,
   ShoppingCart,
-  Users,
   Tags,
+  Users,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -13,7 +13,7 @@ const NAV_ITEMS = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/products", label: "Products", icon: Package },
   { to: "/orders", label: "Orders", icon: ShoppingCart },
-  { to: "/customers", label: "Customers", icon: Users },
+  { to: "/users", label: "Users", icon: Users },
   { to: "/categories", label: "Categories", icon: Tags },
   { to: "/settings", label: "Settings", icon: Settings },
 ];

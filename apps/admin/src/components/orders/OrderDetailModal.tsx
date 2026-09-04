@@ -1,26 +1,37 @@
 import { Modal } from "../ui/Modal";
 import { StatusBadge } from "./StatusBadge";
 import { OrderStatusForm, type OrderStatusFormData } from "./OrderStatusForm";
-import type { OrderDetail } from "./mockData";
+import type { Order } from "../../types/order";
 
 export const OrderDetailModal = ({
   order,
   onClose,
   onStatusUpdate,
 }: {
-  order: OrderDetail | null;
+  order: Order | null;
   onClose: () => void;
   onStatusUpdate: (data: OrderStatusFormData) => void;
 }) => {
   if (!order) return null;
 
+  const itemsTotal = order.items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
   return (
-    <Modal open={!!order} title={`Order ${order.orderNumber}`} onClose={onClose}>
+    <Modal
+      open={!!order}
+      title={`Order #${order._id.slice(-8).toUpperCase()}`}
+      onClose={onClose}
+    >
       <div className="flex flex-col gap-6">
         {/* Header info */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm text-neutral-500">Placed on {order.date}</p>
+            <p className="text-sm text-neutral-500 capitalize">
+              Payment: {order.paymentMethod} · {order.paymentStatus}
+            </p>
           </div>
           <StatusBadge status={order.status} />
         </div>
@@ -29,16 +40,16 @@ export const OrderDetailModal = ({
         <div className="grid grid-cols-2 gap-4 text-sm bg-neutral-50 rounded-lg p-4">
           <div>
             <p className="text-xs text-neutral-400 mb-0.5">Customer</p>
-            <p className="font-medium text-neutral-800">{order.customerName}</p>
+            <p className="font-medium text-neutral-800">{order.user?.fullname ?? "-"}</p>
           </div>
           <div>
             <p className="text-xs text-neutral-400 mb-0.5">Phone</p>
-            <p className="font-medium text-neutral-800">{order.customerPhone}</p>
+            <p className="font-medium text-neutral-800">{order.user?.phone ?? "-"}</p>
           </div>
           <div className="col-span-2">
             <p className="text-xs text-neutral-400 mb-0.5">Shipping Address</p>
             <p className="font-medium text-neutral-800">
-              {order.shippingAddress}, {order.city}
+              {order.shippingAddress?.address}, {order.shippingAddress?.city}
             </p>
           </div>
         </div>
@@ -47,15 +58,15 @@ export const OrderDetailModal = ({
         <div>
           <p className="text-sm font-semibold text-neutral-800 mb-3">Items</p>
           <div className="flex flex-col gap-3">
-            {order.items.map((item) => (
-              <div key={item.productId} className="flex items-center gap-3">
+            {order.items.map((item, index) => (
+              <div key={`${item.product}-${index}`} className="flex items-center gap-3">
                 <img
                   src={item.image}
-                  alt={item.name}
+                  alt={item.title}
                   className="w-12 h-12 rounded-lg object-cover object-top bg-neutral-100"
                 />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-neutral-800">{item.name}</p>
+                  <p className="text-sm font-medium text-neutral-800">{item.title}</p>
                   <p className="text-xs text-neutral-400">Qty {item.quantity}</p>
                 </div>
                 <p className="text-sm font-semibold text-neutral-700">
@@ -70,15 +81,15 @@ export const OrderDetailModal = ({
         <div className="flex flex-col gap-2 text-sm border-t border-neutral-100 pt-4">
           <div className="flex justify-between">
             <span className="text-neutral-500">Subtotal</span>
-            <span>${order.subtotal.toFixed(2)}</span>
+            <span>${itemsTotal.toFixed(2)}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-neutral-500">Shipping</span>
-            <span>${order.shipping.toFixed(2)}</span>
+            <span>${order.shippingPrice.toFixed(2)}</span>
           </div>
           <div className="flex justify-between font-bold text-base pt-2 border-t border-neutral-100">
             <span>Total</span>
-            <span>${order.total.toFixed(2)}</span>
+            <span>${order.totalPrice.toFixed(2)}</span>
           </div>
         </div>
 

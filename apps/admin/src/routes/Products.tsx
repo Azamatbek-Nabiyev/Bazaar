@@ -5,44 +5,24 @@ import { RowActionButton } from "../components/ui/RowActionButton";
 import { ConfirmModal } from "../components/ui/ConfirmModal";
 import { Modal } from "../components/ui/Modal";
 import { ProductForm, type ProductFormData } from "../components/products/ProductForm";
-
-type Product = {
-  _id: string;
-  name: string;
-  category: string;
-  price: number;
-  stock: number;
-  image: string;
-  description: string;
-};
-
-const MOCK_PRODUCTS: Product[] = [
-  {
-    _id: "1",
-    name: "Classic Denim Jacket",
-    category: "mens-clothing",
-    price: 89.99,
-    stock: 42,
-    image: "/images/p1.jpg",
-    description: "A timeless denim jacket for everyday wear.",
-  },
-  {
-    _id: "2",
-    name: "Leather Crossbody Bag",
-    category: "bags-accessories",
-    price: 59.99,
-    stock: 18,
-    image: "/images/p2.jpg",
-    description: "Compact and stylish crossbody bag.",
-  },
-];
+import { useGetProductsQuery, useCreateProductMutation } from "../store/api";
+import type { Product } from "../types/product";
 
 export default function Products() {
-  const [products, setProducts] = useState<Product[]>(MOCK_PRODUCTS);
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetProductsQuery();
+
+  const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
+
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Product | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
 
   const columns = [
     {
@@ -51,14 +31,21 @@ export default function Products() {
         <div className="flex items-center gap-3">
           <img
             src={row.image}
-            alt={row.name}
+            alt={row.title}
             className="w-9 h-9 rounded-lg object-cover object-top bg-neutral-100"
           />
-          <span className="font-medium text-neutral-800">{row.name}</span>
+          <span className="font-medium text-neutral-800">{row.title}</span>
         </div>
       ),
     },
-    { header: "Category", accessor: "category" as const },
+    {
+      header: "Category",
+      accessor: (row: Product) => row.category?.title ?? "-",
+    },
+    {
+      header: "Brand",
+      accessor: (row: Product) => row.brand ?? "-",
+    },
     {
       header: "Price",
       accessor: (row: Product) => `$${row.price.toFixed(2)}`,
@@ -73,23 +60,57 @@ export default function Products() {
     },
   ];
 
-  const handleAdd = (data: ProductFormData, images: File[]) => {
-    // TODO: useCreateProductMutation() bilan almashtiriladi (rasmlarni FormData orqali yuborish kerak bo'ladi)
-    const newProduct: Product = {
-      _id: crypto.randomUUID(),
-      ...data,
-      image: images[0] ? URL.createObjectURL(images[0]) : "/images/placeholder.jpg",
-    };
-    setProducts((prev) => [...prev, newProduct]);
-    setIsAddOpen(false);
+  const buildFormData = (data: ProductFormData, newImages: File[]) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("category", data.category);
+    formData.append("brand", data.brand ?? "");
+    formData.append("price", String(data.price));
+    if (data.oldPrice !== undefined && data.oldPrice !== null) {
+      formData.append("oldPrice", String(data.oldPrice));
+    }
+    formData.append("stock", String(data.stock));
+    formData.append("description", data.description);
+    if (data.badge) {
+      formData.append("badge", data.badge);
+    }
+
+    const colors =
+      data.colors?.split(",").map((c) => c.trim()).filter(Boolean) ?? [];
+    const sizes =
+      data.sizes?.split(",").map((s) => s.trim()).filter(Boolean) ?? [];
+
+    colors.forEach((c) => formData.append("colors[]", c));
+    sizes.forEach((s) => formData.append("sizes[]", s));
+
+    newImages.forEach((file) => formData.append("images", file));
+
+    return formData;
   };
 
-  const handleEdit = (data: ProductFormData) => {
+  const handleAdd = async (
+    data: ProductFormData,
+    newImages: File[],
+    existingImages: string[]
+  ) => {
+    setAddError(null);
+    try {
+      const formData = buildFormData(data, newImages);
+      await createProduct(formData).unwrap();
+      setIsAddOpen(false);
+    } catch (err: any) {
+      setAddError(err?.data?.message ?? "Failed to create product");
+    }
+  };
+
+  const handleEdit = (
+    data: ProductFormData,
+    newImages: File[],
+    existingImages: string[]
+  ) => {
     if (!editTarget) return;
     // TODO: useUpdateProductMutation() bilan almashtiriladi
-    setProducts((prev) =>
-      prev.map((p) => (p._id === editTarget._id ? { ...p, ...data } : p))
-    );
+    console.log("Edit product:", editTarget._id, data, newImages, existingImages);
     setEditTarget(null);
   };
 
@@ -97,10 +118,25 @@ export default function Products() {
     if (!deleteTarget) return;
     setIsDeleting(true);
     // TODO: useDeleteProductMutation() bilan almashtiriladi
-    setProducts((prev) => prev.filter((p) => p._id !== deleteTarget._id));
     setIsDeleting(false);
     setDeleteTarget(null);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64 text-neutral-500">
+        Loading products...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-64 text-red-600">
+        Failed to load products. {(error as any)?.status ?? ""}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -140,7 +176,17 @@ export default function Products() {
 
       {/* Add modal */}
       <Modal open={isAddOpen} title="Add Product" onClose={() => setIsAddOpen(false)}>
-        <ProductForm onSubmit={handleAdd} submitLabel="Add Product" />
+        <>
+          {addError && (
+            <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+              {addError}
+            </div>
+          )}
+          <ProductForm
+            onSubmit={handleAdd}
+            submitLabel={isCreating ? "Adding..." : "Add Product"}
+          />
+        </>
       </Modal>
 
       {/* Edit modal */}
@@ -149,12 +195,18 @@ export default function Products() {
           <ProductForm
             onSubmit={handleEdit}
             defaultValues={{
-              name: editTarget.name,
-              category: editTarget.category,
+              title: editTarget.title,
+              category: editTarget.category?._id,
+              brand: editTarget.brand,
               price: editTarget.price,
+              oldPrice: editTarget.oldPrice,
               stock: editTarget.stock,
               description: editTarget.description,
+              colors: editTarget.colors?.join(", "),
+              sizes: editTarget.sizes?.join(", "),
+              badge: editTarget.badge,
             }}
+            defaultImages={editTarget.images}
             submitLabel="Save Changes"
           />
         )}
@@ -164,7 +216,7 @@ export default function Products() {
       <ConfirmModal
         open={!!deleteTarget}
         title="Delete Product"
-        message={`Are you sure you want to delete "${deleteTarget?.name}"? This action cannot be undone.`}
+        message={`Are you sure you want to delete "${deleteTarget?.title}"? This action cannot be undone.`}
         onConfirm={handleDelete}
         onCancel={() => setDeleteTarget(null)}
         isLoading={isDeleting}

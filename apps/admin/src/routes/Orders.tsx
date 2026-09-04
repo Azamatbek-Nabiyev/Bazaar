@@ -4,38 +4,74 @@ import { StatusBadge } from "../components/orders/StatusBadge";
 import { StatusFilterTabs, type FilterValue } from "../components/orders/StatusFilterTabs";
 import { OrderDetailModal } from "../components/orders/OrderDetailModal";
 import type { OrderStatusFormData } from "../components/orders/OrderStatusForm";
-import { MOCK_ORDERS, type OrderDetail } from "../components/orders/mockData";
+import { useGetOrdersQuery } from "../store/api";
+import type { Order } from "../types/order";
 
 export default function Orders() {
-  const [orders, setOrders] = useState<OrderDetail[]>(MOCK_ORDERS);
+  const {
+    data: orders = [],
+    isLoading,
+    isError,
+    error,
+  } = useGetOrdersQuery();
+
   const [filter, setFilter] = useState<FilterValue>("All");
-  const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const filteredOrders =
     filter === "All" ? orders : orders.filter((o) => o.status === filter);
 
   const columns = [
-    { header: "Order ID", accessor: "orderNumber" as const },
-    { header: "Customer", accessor: "customerName" as const },
-    { header: "Date", accessor: "date" as const },
+    {
+      header: "Order ID",
+      accessor: (row: Order) => (
+        <span className="font-mono text-xs text-neutral-600">
+          {row._id.slice(-8).toUpperCase()}
+        </span>
+      ),
+    },
+    {
+      header: "Customer",
+      accessor: (row: Order) => row.user?.fullname ?? "-",
+    },
     {
       header: "Total",
-      accessor: (row: OrderDetail) => `$${row.total.toFixed(2)}`,
+      accessor: (row: Order) => `$${row.totalPrice.toFixed(2)}`,
+    },
+    {
+      header: "Payment",
+      accessor: (row: Order) => (
+        <span className="capitalize text-neutral-600">{row.paymentStatus}</span>
+      ),
     },
     {
       header: "Status",
-      accessor: (row: OrderDetail) => <StatusBadge status={row.status} />,
+      accessor: (row: Order) => <StatusBadge status={row.status} />,
     },
   ];
 
   const handleStatusUpdate = (data: OrderStatusFormData) => {
     if (!selectedOrder) return;
     // TODO: useUpdateOrderStatusMutation() bilan almashtiriladi
-    setOrders((prev) =>
-      prev.map((o) => (o._id === selectedOrder._id ? { ...o, status: data.status } : o))
-    );
+    console.log("Update order status:", selectedOrder._id, data);
     setSelectedOrder(null);
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64 text-neutral-500">
+        Loading orders...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center h-64 text-red-600">
+        Failed to load orders. {(error as any)?.status ?? ""}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6">

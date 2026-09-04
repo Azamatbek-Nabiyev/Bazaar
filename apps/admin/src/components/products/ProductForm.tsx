@@ -6,36 +6,48 @@ import { FormField } from "../ui/FormField";
 import { SelectField } from "../ui/SelectField";
 import { TextareaField } from "../ui/TextareaField";
 import { ImageUploadField } from "../ui/ImageUploadFeild";
+import { useGetCategoriesQuery } from "../../store/api";
 
 const productSchema = z.object({
-  name: z.string().min(1, "Product name is required"),
+  title: z.string().min(1, "Product name is required"),
+  brand: z.string().optional(),
   price: z.coerce.number().positive("Price must be greater than 0"),
+  oldPrice: z.coerce.number().optional(),
   stock: z.coerce.number().int().min(0, "Stock cannot be negative"),
   category: z.string().min(1, "Category is required"),
   description: z.string().min(1, "Description is required"),
+  colors: z.string().optional(),
+  sizes: z.string().optional(),
+  badge: z.string().optional(),
 });
 
 export type ProductFormData = z.infer<typeof productSchema>;
 
-const CATEGORY_OPTIONS = [
-  { value: "mens-clothing", label: "Men's Clothing" },
-  { value: "womens-clothing", label: "Women's Clothing" },
-  { value: "kids-clothing", label: "Kids' Clothing" },
-  { value: "shoes", label: "Shoes & Footwear" },
-  { value: "bags-accessories", label: "Bags & Accessories" },
+const BADGE_OPTIONS = [
+  { value: "", label: "No badge" },
+  { value: "new", label: "New" },
+  { value: "bestseller", label: "Bestseller" },
+  { value: "sale", label: "Sale" },
 ];
+
+type ProductFormProps = {
+  onSubmit: (data: ProductFormData, newImages: File[], existingImages: string[]) => void;
+  defaultValues?: Partial<ProductFormData>;
+  defaultImages?: string[];
+  submitLabel?: string;
+};
 
 export const ProductForm = ({
   onSubmit,
   defaultValues,
+  defaultImages = [],
   submitLabel = "Save Product",
-}: {
-  onSubmit: (data: ProductFormData, images: File[]) => void;
-  defaultValues?: Partial<ProductFormData>;
-  submitLabel?: string;
-}) => {
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+}: ProductFormProps) => {
+  // Mavjud (backend'dan kelgan) rasm URL'lari
+  const [existingImages, setExistingImages] = useState<string[]>(defaultImages);
+  // Yangi tanlangan fayllar va ularning preview URL'lari
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [newPreviews, setNewPreviews] = useState<string[]>([]);
   const [imageError, setImageError] = useState<string>();
 
   const {
@@ -48,24 +60,41 @@ export const ProductForm = ({
     defaultValues,
   });
 
+  const { data: categories = [] } = useGetCategoriesQuery();
+
+  const CATEGORY_OPTIONS = categories.map((c) => ({
+    value: c._id,
+    label: c.title,
+  }));
+
+  // Ko'rsatish uchun: eski + yangi rasmlar birlashtiriladi
+  const allPreviews = [...existingImages, ...newPreviews];
+
   const handleAddImages = (files: FileList) => {
     const newFiles = Array.from(files);
     setImageFiles((prev) => [...prev, ...newFiles]);
-    setImagePreviews((prev) => [...prev, ...newFiles.map((f) => URL.createObjectURL(f))]);
+    setNewPreviews((prev) => [...prev, ...newFiles.map((f) => URL.createObjectURL(f))]);
     setImageError(undefined);
   };
 
   const handleRemoveImage = (index: number) => {
-    setImageFiles((prev) => prev.filter((_, i) => i !== index));
-    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    if (index < existingImages.length) {
+      // Eski (mavjud) rasmni o'chirish
+      setExistingImages((prev) => prev.filter((_, i) => i !== index));
+    } else {
+      // Yangi qo'shilgan rasmni o'chirish
+      const newIndex = index - existingImages.length;
+      setImageFiles((prev) => prev.filter((_, i) => i !== newIndex));
+      setNewPreviews((prev) => prev.filter((_, i) => i !== newIndex));
+    }
   };
 
   const submit = (data: ProductFormData) => {
-    if (imageFiles.length === 0 && imagePreviews.length === 0) {
+    if (imageFiles.length === 0 && existingImages.length === 0) {
       setImageError("At least one image is required");
       return;
     }
-    onSubmit(data, imageFiles);
+    onSubmit(data, imageFiles, existingImages);
   };
 
   return (
@@ -73,23 +102,80 @@ export const ProductForm = ({
       onSubmit={handleSubmit(submit)}
       className="bg-white border border-neutral-200 rounded-xl p-6 flex flex-col gap-4"
     >
-      <FormField label="Product Name" registration={register("name")} error={errors.name?.message} full />
+      <FormField
+        label="Product Title"
+        registration={register("title")}
+        error={errors.title?.message}
+        full
+      />
 
       <div className="grid grid-cols-2 gap-4">
-        <FormField label="Price" type="number" registration={register("price")} error={errors.price?.message} />
-        <FormField label="Stock" type="number" registration={register("stock")} error={errors.stock?.message} />
+        <FormField
+          label="Brand"
+          registration={register("brand")}
+          error={errors.brand?.message}
+        />
+        <Controller
+          name="category"
+          control={control}
+          render={({ field }) => (
+            <SelectField
+              label="Category"
+              options={CATEGORY_OPTIONS}
+              value={field.value ?? ""}
+              onChange={field.onChange}
+              error={errors.category?.message}
+            />
+          )}
+        />
+      </div>
+
+      <div className="grid grid-cols-3 gap-4">
+        <FormField
+          label="Price"
+          type="number"
+          registration={register("price")}
+          error={errors.price?.message}
+        />
+        <FormField
+          label="Old Price"
+          type="number"
+          registration={register("oldPrice")}
+          error={errors.oldPrice?.message}
+        />
+        <FormField
+          label="Stock"
+          type="number"
+          registration={register("stock")}
+          error={errors.stock?.message}
+        />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          label="Colors (comma separated)"
+          placeholder="blue, brown, haki"
+          registration={register("colors")}
+          error={errors.colors?.message}
+        />
+        <FormField
+          label="Sizes (comma separated)"
+          placeholder="M, L, XL, XXL"
+          registration={register("sizes")}
+          error={errors.sizes?.message}
+        />
       </div>
 
       <Controller
-        name="category"
+        name="badge"
         control={control}
         render={({ field }) => (
           <SelectField
-            label="Category"
-            options={CATEGORY_OPTIONS}
+            label="Badge"
+            options={BADGE_OPTIONS}
             value={field.value ?? ""}
             onChange={field.onChange}
-            error={errors.category?.message}
+            error={errors.badge?.message}
           />
         )}
       />
@@ -103,7 +189,7 @@ export const ProductForm = ({
 
       <ImageUploadField
         label="Product Images"
-        images={imagePreviews}
+        images={allPreviews}
         onAdd={handleAddImages}
         onRemove={handleRemoveImage}
         error={imageError}
