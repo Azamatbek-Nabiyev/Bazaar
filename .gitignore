@@ -52,3 +52,6 @@ test-results/
 # Uploaded files
 apps/api/uploads/*
 !apps/api/uploads/.gitkeep
+
+# Local notes
+.claude/problems.md
