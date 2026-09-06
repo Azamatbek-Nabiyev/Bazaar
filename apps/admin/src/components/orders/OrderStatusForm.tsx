@@ -4,16 +4,16 @@ import { z } from "zod";
 import { SelectField } from "../ui/SelectField";
 
 const orderStatusSchema = z.object({
-  status: z.enum(["Processing", "Shipped", "Delivered", "Cancelled"]),
+  status: z.enum(["pending", "preparing", "delivered", "cancelled"]),
 });
 
 export type OrderStatusFormData = z.infer<typeof orderStatusSchema>;
 
 const STATUS_OPTIONS = [
-  { value: "Processing", label: "Processing" },
-  { value: "Shipped", label: "Shipped" },
-  { value: "Delivered", label: "Delivered" },
-  { value: "Cancelled", label: "Cancelled" },
+  { value: "pending", label: "Pending" },
+  { value: "preparing", label: "Preparing" },
+  { value: "delivered", label: "Delivered" },
+  { value: "cancelled", label: "Cancelled" },
 ];
 
 export const OrderStatusForm = ({

@@ -7,9 +7,9 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import type { SalesPoint } from "./mockData";
+type RevenueChartPoint = { day: string; revenue: number };
 
-export const RevenueChart = ({ data }: { data: SalesPoint[] }) => (
+export const RevenueChart = ({ data }: { data: RevenueChartPoint[] }) => (
   <div className="lg:col-span-2 bg-white border border-neutral-200 rounded-xl p-6">
     <div className="flex items-center justify-between mb-6">
       <h2 className="font-bold text-neutral-900">Weekly Revenue</h2>
@@ -27,7 +27,7 @@ export const RevenueChart = ({ data }: { data: SalesPoint[] }) => (
           tickFormatter={(v) => `$${v / 1000}k`}
         />
         <Tooltip
-          formatter={(value: number) => [`$${value}`, "Revenue"]}
+          formatter={(value: any) => [`$${value}`, "Revenue"]}
           contentStyle={{ borderRadius: 8, border: "1px solid #e5e5e5" }}
         />
         <Line

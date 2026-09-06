@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   LayoutDashboard,
   Package,
@@ -8,6 +9,7 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import { logout } from "../../store/authSlice";
 
 const NAV_ITEMS = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -19,6 +21,14 @@ const NAV_ITEMS = [
 ];
 
 export const Sidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login", { replace: true });
+  };
+
   return (
     <aside className="h-screen w-64 bg-neutral-900 text-neutral-300 flex flex-col fixed left-0 top-0">
       {/* Logo */}
@@ -54,7 +64,10 @@ export const Sidebar = () => {
 
       {/* Logout */}
       <div className="px-3 py-4 border-t border-neutral-800">
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-neutral-400 hover:bg-neutral-800 hover:text-white transition-colors">
+        <button
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-neutral-400 hover:bg-neutral-800 hover:text-white transition-colors"
+        >
           <LogOut size={18} />
           Log Out
         </button>

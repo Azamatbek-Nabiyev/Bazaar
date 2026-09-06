@@ -60,7 +60,8 @@ export const ProductForm = ({
     defaultValues,
   });
 
-  const { data: categories = [] } = useGetCategoriesQuery();
+  const { data: categoriesData } = useGetCategoriesQuery({ limit: 100 });
+  const categories = categoriesData?.data ?? [];
 
   const CATEGORY_OPTIONS = categories.map((c) => ({
     value: c._id,

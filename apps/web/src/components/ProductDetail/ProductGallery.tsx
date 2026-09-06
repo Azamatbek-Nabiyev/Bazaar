@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ProductGalleryProps } from "../../types/product";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 
 export default function ProductGallery({ images, alt }: ProductGalleryProps) {
@@ -17,7 +18,7 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
               i === activeImage ? "border-neutral-900" : "border-transparent"
             }`}
           >
-            <img src={src} alt={`${alt} thumbnail ${i + 1}`} className="w-full h-full object-cover object-top" />
+            <img src={getImageUrl(src)} alt={`${alt} thumbnail ${i + 1}`} className="w-full h-full object-cover object-top" />
           </button>
         ))}
       </div>
@@ -25,7 +26,7 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
       {/* Main image */}
       <div className="flex-1 aspect-square bg-neutral-100 overflow-hidden">
         <img
-          src={images[activeImage]}
+          src={getImageUrl(images[activeImage])}
           alt={alt}
           className="w-full h-full object-cover object-top"
         />

@@ -38,7 +38,13 @@ const login = catchAsync(async(req, res, next) => {
 
     res.status(200).json({
         status: 'success',
-        token
+        token,
+        user: {
+            _id: user._id,
+            fullname: user.fullname,
+            phone: user.phone,
+            role: user.role
+        }
     });
 });
 

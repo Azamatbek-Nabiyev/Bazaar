@@ -1,9 +1,21 @@
 // store/authSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface AuthUser {
+  _id: string;
+  fullname: string;
+  phone: string;
+  role: string;
+}
+
+interface AuthState {
+  token: string | null;
+  user: AuthUser | null;
+}
+
+const initialState: AuthState = {
   token: localStorage.getItem("token") || null,
-  user: null,
+  user: JSON.parse(localStorage.getItem("user") || "null"),
 };
 
 const authSlice = createSlice({
@@ -12,11 +24,15 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action) => {
       state.token = action.payload.token;
+      state.user = action.payload.user;
       localStorage.setItem("token", action.payload.token);
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
     },
     logout: (state) => {
       state.token = null;
+      state.user = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
     },
   },
 });

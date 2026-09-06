@@ -4,6 +4,7 @@ import { StatusBadge } from './StatusBadge';
 import { useAppSelector } from '../../store/hooks';
 import { selectSavedItems } from '../../store/savedItemsSlice';
 import { useGetMyOrdersQuery } from '../../store/api';
+import { getImageUrl } from '../../utils/getImageUrl';
 
 export const Overview = () => {
    const {
@@ -41,7 +42,7 @@ export const Overview = () => {
         <div className="border rounded-lg divide-y">
           {orders.map((order) => (
             <div key={order._id} className="flex items-center gap-4 p-4">
-              <img src={order.items[0].image} alt={order._id} className="w-12 h-12 rounded object-cover bg-gray-100" />
+              <img src={getImageUrl(order.items[0].image)} alt={order._id} className="w-12 h-12 rounded object-cover bg-gray-100" />
               <div className="flex-1">
                 <div className="font-medium text-sm">{order._id}</div>
                 <div className="text-xs text-gray-400">{order.items.length} items</div>

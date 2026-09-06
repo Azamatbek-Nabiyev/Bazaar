@@ -14,9 +14,7 @@ export type OrdersResponse = {
 
 export type OrderStatus =
   | "pending"
-  | "confirmed"
   | "preparing"
-  | "shipped"
   | "delivered"
   | "cancelled";
 

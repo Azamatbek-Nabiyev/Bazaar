@@ -1,8 +1,11 @@
-import type { TopProduct } from "./mockData";
+type TopProductDisplay = { name: string; sold: number; revenue: string };
 
-export const TopProducts = ({ products }: { products: TopProduct[] }) => (
+export const TopProducts = ({ products }: { products: TopProductDisplay[] }) => (
   <div className="bg-white border border-neutral-200 rounded-xl p-6">
     <h2 className="font-bold text-neutral-900 mb-5">Top Products</h2>
+    {products.length === 0 ? (
+      <p className="text-sm text-neutral-400">No sales data yet.</p>
+    ) : (
     <div className="flex flex-col gap-4">
       {products.map((p, i) => (
         <div key={p.name} className="flex items-center gap-3">
@@ -17,5 +20,6 @@ export const TopProducts = ({ products }: { products: TopProduct[] }) => (
         </div>
       ))}
     </div>
+    )}
   </div>
 );

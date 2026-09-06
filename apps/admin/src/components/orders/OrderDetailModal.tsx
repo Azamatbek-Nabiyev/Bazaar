@@ -7,10 +7,12 @@ export const OrderDetailModal = ({
   order,
   onClose,
   onStatusUpdate,
+  error,
 }: {
   order: Order | null;
   onClose: () => void;
   onStatusUpdate: (data: OrderStatusFormData) => void;
+  error?: string;
 }) => {
   if (!order) return null;
 
@@ -96,6 +98,7 @@ export const OrderDetailModal = ({
         {/* Status update */}
         <div className="border-t border-neutral-100 pt-4">
           <p className="text-sm font-semibold text-neutral-800 mb-3">Update Status</p>
+          {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
           <OrderStatusForm onSubmit={onStatusUpdate} defaultValues={{ status: order.status }} />
         </div>
       </div>

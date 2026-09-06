@@ -1,6 +1,7 @@
 import { ChevronRight } from 'lucide-react';
 import { StatusBadge } from './StatusBadge';
 import { useGetMyOrdersQuery } from '../../store/api';
+import { getImageUrl } from '../../utils/getImageUrl';
 
 export const OrderHistory = () => {
   const {
@@ -44,7 +45,7 @@ export const OrderHistory = () => {
             <div className="flex items-start justify-between">
               <div className="flex gap-4">
                 <img
-                  src={order.items[0].image}
+                  src={getImageUrl(order.items[0].image)}
                   alt={order._id}
                   className="w-14 h-14 rounded object-cover bg-gray-100"
                 />

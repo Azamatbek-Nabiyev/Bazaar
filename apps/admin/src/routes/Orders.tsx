@@ -1,25 +1,41 @@
 import { useState } from "react";
 import { DataTable } from "../components/ui/DataTable";
+import { Pagination } from "../components/ui/Pagination";
 import { StatusBadge } from "../components/orders/StatusBadge";
 import { StatusFilterTabs, type FilterValue } from "../components/orders/StatusFilterTabs";
 import { OrderDetailModal } from "../components/orders/OrderDetailModal";
 import type { OrderStatusFormData } from "../components/orders/OrderStatusForm";
-import { useGetOrdersQuery } from "../store/api";
+import { useGetOrdersQuery, useUpdateOrderStatusMutation } from "../store/api";
 import type { Order } from "../types/order";
 
+const PAGE_SIZE = 10;
+
 export default function Orders() {
+  const [page, setPage] = useState(1);
+  const [filter, setFilter] = useState<FilterValue>("All");
+
   const {
-    data: orders = [],
+    data,
     isLoading,
     isError,
     error,
-  } = useGetOrdersQuery();
+  } = useGetOrdersQuery({
+    page,
+    limit: PAGE_SIZE,
+    status: filter === "All" ? undefined : filter,
+  });
 
-  const [filter, setFilter] = useState<FilterValue>("All");
+  const orders = data?.data ?? [];
+  const totalPages = data?.totalPages ?? 1;
+
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [updateOrderStatus] = useUpdateOrderStatusMutation();
+  const [statusError, setStatusError] = useState("");
 
-  const filteredOrders =
-    filter === "All" ? orders : orders.filter((o) => o.status === filter);
+  const handleFilterChange = (value: FilterValue) => {
+    setFilter(value);
+    setPage(1);
+  };
 
   const columns = [
     {
@@ -50,11 +66,15 @@ export default function Orders() {
     },
   ];
 
-  const handleStatusUpdate = (data: OrderStatusFormData) => {
+  const handleStatusUpdate = async (data: OrderStatusFormData) => {
     if (!selectedOrder) return;
-    // TODO: useUpdateOrderStatusMutation() bilan almashtiriladi
-    console.log("Update order status:", selectedOrder._id, data);
-    setSelectedOrder(null);
+    setStatusError("");
+    try {
+      await updateOrderStatus({ id: selectedOrder._id, status: data.status }).unwrap();
+      setSelectedOrder(null);
+    } catch (err: any) {
+      setStatusError(err?.data?.message || "Statusni yangilashda xatolik yuz berdi");
+    }
   };
 
   if (isLoading) {
@@ -82,16 +102,19 @@ export default function Orders() {
         </p>
       </div>
 
-      <StatusFilterTabs active={filter} onChange={setFilter} />
+      <StatusFilterTabs active={filter} onChange={handleFilterChange} />
 
       <DataTable
         columns={columns}
-        data={filteredOrders}
+        data={orders}
         getRowId={(row) => row._id}
         emptyMessage="No orders found."
         actions={(row) => (
           <button
-            onClick={() => setSelectedOrder(row)}
+            onClick={() => {
+              setStatusError("");
+              setSelectedOrder(row);
+            }}
             className="text-sm font-medium text-orange-600 hover:underline"
           >
             View
@@ -99,10 +122,13 @@ export default function Orders() {
         )}
       />
 
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+
       <OrderDetailModal
         order={selectedOrder}
         onClose={() => setSelectedOrder(null)}
         onStatusUpdate={handleStatusUpdate}
+        error={statusError}
       />
     </div>
   );

@@ -8,6 +8,7 @@ import {
   removeSavedItem,
   selectIsSaved,
 } from "../../store/savedItemsSlice";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 export default function ProductCard(props: Product) {
   const {
@@ -62,7 +63,7 @@ export default function ProductCard(props: Product) {
       {/* Image */}
       <div className="group relative aspect-square bg-neutral-100 overflow-hidden">
         <img
-          src={image}
+          src={getImageUrl(image)}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 object-top"
         />
@@ -104,7 +105,7 @@ export default function ProductCard(props: Product) {
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-lg font-semibold text-neutral-900">{title}</h3>
           <span className="text-lg font-bold text-neutral-900 whitespace-nowrap">
-            {price} so'm
+            ${price.toFixed(2)}
           </span>
         </div>
 

@@ -2,6 +2,7 @@ const { Order, Product } = require("../models");
 
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const { getPagination } = require("../utils/paginate");
 
 // create order
 const createOrder = catchAsync(async (req, res, next) => {
@@ -113,16 +114,28 @@ const createOrder = catchAsync(async (req, res, next) => {
 
 // get all orders
 const getAllOrders = catchAsync(async (req, res, next) => {
-  const orders = await Order.find({
-    status: { $ne: "cancelled" },
-  }).populate(
-    "user",
-    "fullname phone"
-  );
+  const { page, limit } = getPagination(req);
+
+  const filter = req.query.status
+    ? { status: req.query.status }
+    : { status: { $ne: "cancelled" } };
+
+  const total = await Order.countDocuments(filter);
+  let query = Order.find(filter).populate("user", "fullname phone");
+  let totalPages = 1;
+
+  if (page && limit) {
+    query = query.skip((page - 1) * limit).limit(limit);
+    totalPages = Math.ceil(total / limit) || 1;
+  }
+
+  const orders = await query;
 
   res.status(200).json({
     status: "success",
-    total: orders.length,
+    total,
+    page: page || 1,
+    totalPages,
     data: orders,
   });
 });
@@ -151,14 +164,7 @@ const updateOrderStatus = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const { status } = req.body;
 
-  const allowedStatuses = [
-    "pending",
-    "confirmed",
-    "preparing",
-    "shipped",
-    "delivered",
-    "cancelled",
-  ];
+  const allowedStatuses = ["pending", "preparing", "delivered", "cancelled"];
 
   if (!status || !allowedStatuses.includes(status)) {
     return next(

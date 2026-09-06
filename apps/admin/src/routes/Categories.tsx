@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { DataTable } from "../components/ui/DataTable";
+import { Pagination } from "../components/ui/Pagination";
 import { RowActionButton } from "../components/ui/RowActionButton";
 import { ConfirmModal } from "../components/ui/ConfirmModal";
 import { Modal } from "../components/ui/Modal";
@@ -8,13 +9,20 @@ import { CategoryForm, type CategoryFormData } from "../components/categories/Ca
 import { useGetCategoriesQuery } from "../store/api";
 import type { Category } from "../types/product";
 
+const PAGE_SIZE = 10;
+
 export default function Categories() {
+  const [page, setPage] = useState(1);
+
   const {
-    data: categories = [],
+    data,
     isLoading,
     isError,
     error,
-  } = useGetCategoriesQuery();
+  } = useGetCategoriesQuery({ page, limit: PAGE_SIZE });
+
+  const categories = data?.data ?? [];
+  const totalPages = data?.totalPages ?? 1;
 
   const [editTarget, setEditTarget] = useState<Category | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Category | null>(null);
@@ -122,6 +130,8 @@ export default function Categories() {
           </>
         )}
       />
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
 
       {/* Add modal */}
       <Modal open={isAddOpen} title="Add Category" onClose={() => setIsAddOpen(false)}>

@@ -5,7 +5,7 @@ const { getAll, getOne, createAddress, updateAddress, deleteAddress, updateMe, g
 const userRouter = express.Router();
 
 // admin, chef, courier login
-// userRouter.post('/login', login);
+userRouter.post('/login', login);
 
 // user login
 userRouter.post('/login-request', requestLoginCode);

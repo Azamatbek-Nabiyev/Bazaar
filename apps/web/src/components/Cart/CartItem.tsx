@@ -1,5 +1,6 @@
 import { Minus, Plus, X } from "lucide-react";
 import type { CartItemData } from "../../types/cartItem";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 type CartItemProps = {
   item: CartItemData;
@@ -11,7 +12,7 @@ export default function CartItem({ item, onQuantityChange, onRemove }: CartItemP
   return (
     <div className="flex gap-4 py-6 border-b border-neutral-200">
       <div className="w-24 h-24 shrink-0 bg-neutral-100 overflow-hidden">
-        <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+        <img src={getImageUrl(item.image)} alt={item.title} className="w-full h-full object-cover" />
       </div>
 
       <div className="flex-1 flex flex-col justify-between">

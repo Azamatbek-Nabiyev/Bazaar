@@ -1,10 +1,73 @@
+import { DollarSign, ShoppingCart, Package, Users } from "lucide-react";
 import { StatCard } from "../components/dashboard/StatCard";
 import { RevenueChart } from "../components/dashboard/RevenueChart";
 import { TopProducts } from "../components/dashboard/TopProducts";
+import { LowStockProducts } from "../components/dashboard/LowStockProducts";
 import { RecentOrdersTable } from "../components/dashboard/RecentOrdersTable";
-import { STATS, SALES_DATA, RECENT_ORDERS, TOP_PRODUCTS } from "../components/dashboard/mockData";
+import { useGetDashboardSummaryQuery } from "../store/api";
+
+const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export default function Dashboard() {
+  const { data, isLoading, isError, error } = useGetDashboardSummaryQuery();
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64 text-neutral-500">
+        Loading dashboard...
+      </div>
+    );
+  }
+
+  if (isError || !data) {
+    return (
+      <div className="flex items-center justify-center h-64 text-red-600">
+        Failed to load dashboard. {(error as any)?.status ?? ""}
+      </div>
+    );
+  }
+
+  const stats = [
+    {
+      label: "Total Revenue",
+      value: `$${data.totalRevenue.toFixed(2)}`,
+      icon: DollarSign,
+    },
+    {
+      label: "Total Orders",
+      value: String(data.totalOrders),
+      icon: ShoppingCart,
+    },
+    {
+      label: "Total Products",
+      value: String(data.totalProducts),
+      icon: Package,
+    },
+    {
+      label: "Total Customers",
+      value: String(data.totalUsers),
+      icon: Users,
+    },
+  ];
+
+  const revenueChartData = data.revenueOverTime.map((point) => ({
+    day: WEEKDAY_LABELS[new Date(point.date).getDay()],
+    revenue: point.revenue,
+  }));
+
+  const topProducts = data.topProducts.map((p) => ({
+    name: p.title,
+    sold: p.sold,
+    revenue: `$${p.revenue.toFixed(2)}`,
+  }));
+
+  const recentOrders = data.recentOrders.map((order) => ({
+    id: order._id.slice(-8).toUpperCase(),
+    customer: order.user?.fullname ?? "-",
+    total: `$${order.totalPrice.toFixed(2)}`,
+    status: order.status,
+  }));
+
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -15,17 +78,22 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {STATS.map((stat) => (
+        {stats.map((stat) => (
           <StatCard key={stat.label} {...stat} />
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <RevenueChart data={SALES_DATA} />
-        <TopProducts products={TOP_PRODUCTS} />
+        <RevenueChart data={revenueChartData} />
+        <TopProducts products={topProducts} />
       </div>
 
-      <RecentOrdersTable orders={RECENT_ORDERS} />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <RecentOrdersTable orders={recentOrders} />
+        </div>
+        <LowStockProducts products={data.lowStockProducts} />
+      </div>
     </div>
   );
 }

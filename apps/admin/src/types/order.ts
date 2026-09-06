@@ -1,4 +1,4 @@
-export type OrderStatus = "Processing" | "Shipped" | "Delivered" | "Cancelled";
+export type OrderStatus = "pending" | "preparing" | "delivered" | "cancelled";
 
 export type OrderItem = {
   product: string;

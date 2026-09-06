@@ -1,7 +1,16 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Category, Product } from "../types/product";
-import type { Order } from "../types/order";
+import type { Order, OrderStatus } from "../types/order";
 import type { User } from "../types/user";
+import type { DashboardSummary } from "../types/dashboard";
+
+export type PaginationParams = { page?: number; limit?: number };
+export type PaginatedResponse<T> = {
+  data: T[];
+  total: number;
+  page: number;
+  totalPages: number;
+};
 
 export const api = createApi({
   reducerPath: "api",
@@ -16,26 +25,37 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Product", "Category", "User"],
+  tagTypes: ["Product", "Category", "User", "Order", "Dashboard"],
   endpoints: (builder) => ({
-    getProducts: builder.query<Product[], void>({
-      query: () => "/products",
-      transformResponse: (response: { data: Product[] }) => response.data,
+    getProducts: builder.query<PaginatedResponse<Product>, PaginationParams | void>({
+      query: (params) => `/products?page=${params?.page ?? 1}&limit=${params?.limit ?? 10}`,
+      providesTags: ["Product"],
     }),
-    getCategories: builder.query<Category[], void>({
-      query: () => "/categories",
-      transformResponse: (response: { data: Category[] }) => response.data,
+    getCategories: builder.query<PaginatedResponse<Category>, PaginationParams | void>({
+      query: (params) => `/categories?page=${params?.page ?? 1}&limit=${params?.limit ?? 10}`,
+      providesTags: ["Category"],
     }),
-    getUsers: builder.query<User[], void>({
-      query: () => "/users",
-      transformResponse: (response: { data: User[] }) => response.data,
+    getUsers: builder.query<PaginatedResponse<User>, PaginationParams | void>({
+      query: (params) => `/users?page=${params?.page ?? 1}&limit=${params?.limit ?? 10}`,
+      providesTags: ["User"],
     }),
-    getOrders: builder.query<Order[], void>({
-      query: () => "/orders",
-      transformResponse: (response: { data: Order[] }) => response.data,
+    getOrders: builder.query<PaginatedResponse<Order>, (PaginationParams & { status?: OrderStatus }) | void>({
+      query: (params) => {
+        const search = new URLSearchParams();
+        search.set("page", String(params?.page ?? 1));
+        search.set("limit", String(params?.limit ?? 10));
+        if (params?.status) search.set("status", params.status);
+        return `/orders?${search.toString()}`;
+      },
+      providesTags: ["Order"],
     }),
     getProductById: builder.query({
       query: (id: string) => `/products/${id}`,
+    }),
+    getDashboardSummary: builder.query<DashboardSummary, void>({
+      query: () => "/dashboard/summary",
+      transformResponse: (response: { data: DashboardSummary }) => response.data,
+      providesTags: ["Dashboard"],
     }),
 
     // 👇 auth qismi
@@ -46,13 +66,32 @@ export const api = createApi({
         body,
       }),
     }),
+    login: builder.mutation<
+      { status: string; token: string; user: Pick<User, "_id" | "fullname" | "phone" | "role"> },
+      { phone: string; password: string }
+    >({
+      query: (body) => ({
+        url: "/users/login",
+        method: "POST",
+        body,
+      }),
+    }),
     createProduct: builder.mutation<Product, FormData>({
       query: (formData) => ({
         url: '/products/create',
         method: "POST",
         body: formData
-      })
-    })
+      }),
+      invalidatesTags: ["Product", "Dashboard"],
+    }),
+    updateOrderStatus: builder.mutation<Order, { id: string; status: OrderStatus }>({
+      query: ({ id, status }) => ({
+        url: `/orders/${id}/status`,
+        method: "PATCH",
+        body: { status },
+      }),
+      invalidatesTags: ["Order", "Dashboard"],
+    }),
   }),
 });
 
@@ -61,7 +100,10 @@ export const {
   useGetCategoriesQuery,
   useGetProductByIdQuery,
   useSignupRequestMutation,
+  useLoginMutation,
   useGetOrdersQuery,
   useCreateProductMutation,
-  useGetUsersQuery
+  useUpdateOrderStatusMutation,
+  useGetUsersQuery,
+  useGetDashboardSummaryQuery
 } = api;

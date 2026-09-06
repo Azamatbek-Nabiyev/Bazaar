@@ -2,7 +2,7 @@ import type { OrderStatus } from "../../types/order";
 
 type FilterValue = OrderStatus | "All";
 
-const FILTERS: FilterValue[] = ["All", "Processing", "Shipped", "Delivered", "Cancelled"];
+const FILTERS: FilterValue[] = ["All", "pending", "preparing", "delivered", "cancelled"];
 
 export const StatusFilterTabs = ({
   active,
@@ -16,7 +16,7 @@ export const StatusFilterTabs = ({
       <button
         key={filter}
         onClick={() => onChange(filter)}
-        className={`px-3.5 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+        className={`px-3.5 py-1.5 rounded-lg text-sm font-medium capitalize transition-colors ${
           active === filter
             ? "bg-neutral-900 text-white"
             : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"

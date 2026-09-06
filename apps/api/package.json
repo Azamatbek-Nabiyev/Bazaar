@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.2",
     "morgan": "^1.11.0",
+    "multer": "^2.3.0",
     "node-telegram-bot-api": "0.66.0"
   },
   "devDependencies": {

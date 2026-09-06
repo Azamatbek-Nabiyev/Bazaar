@@ -1,20 +1,29 @@
 import { useState } from "react";
 import { Pencil, Trash2, Plus } from "lucide-react";
 import { DataTable } from "../components/ui/DataTable";
+import { Pagination } from "../components/ui/Pagination";
 import { RowActionButton } from "../components/ui/RowActionButton";
 import { ConfirmModal } from "../components/ui/ConfirmModal";
 import { Modal } from "../components/ui/Modal";
 import { ProductForm, type ProductFormData } from "../components/products/ProductForm";
 import { useGetProductsQuery, useCreateProductMutation } from "../store/api";
 import type { Product } from "../types/product";
+import { getImageUrl } from "../utils/getImageUrl";
+
+const PAGE_SIZE = 10;
 
 export default function Products() {
+  const [page, setPage] = useState(1);
+
   const {
-    data: products = [],
+    data,
     isLoading,
     isError,
     error,
-  } = useGetProductsQuery();
+  } = useGetProductsQuery({ page, limit: PAGE_SIZE });
+
+  const products = data?.data ?? [];
+  const totalPages = data?.totalPages ?? 1;
 
   const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
 
@@ -30,7 +39,7 @@ export default function Products() {
       accessor: (row: Product) => (
         <div className="flex items-center gap-3">
           <img
-            src={row.image}
+            src={getImageUrl(row.image)}
             alt={row.title}
             className="w-9 h-9 rounded-lg object-cover object-top bg-neutral-100"
           />
@@ -80,8 +89,8 @@ export default function Products() {
     const sizes =
       data.sizes?.split(",").map((s) => s.trim()).filter(Boolean) ?? [];
 
-    colors.forEach((c) => formData.append("colors[]", c));
-    sizes.forEach((s) => formData.append("sizes[]", s));
+    colors.forEach((c) => formData.append("colors", c));
+    sizes.forEach((s) => formData.append("sizes", s));
 
     newImages.forEach((file) => formData.append("images", file));
 
@@ -173,6 +182,8 @@ export default function Products() {
           </>
         )}
       />
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
 
       {/* Add modal */}
       <Modal open={isAddOpen} title="Add Product" onClose={() => setIsAddOpen(false)}>

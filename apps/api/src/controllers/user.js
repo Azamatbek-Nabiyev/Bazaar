@@ -1,6 +1,7 @@
 const { User, Order } = require("../models");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const { getPagination } = require("../utils/paginate");
 
 const getUserOrders = catchAsync(async (req, res, next) => {
   const orders = await Order.find({ user:req.user.id })
@@ -54,11 +55,24 @@ const updateMe = catchAsync(async (req, res, next) => {
 });
 
 const getAll = catchAsync(async (req, res, next) => {
-    const users = await User.find();
+    const { page, limit } = getPagination(req);
+
+    const total = await User.countDocuments();
+    let query = User.find();
+    let totalPages = 1;
+
+    if (page && limit) {
+        query = query.skip((page - 1) * limit).limit(limit);
+        totalPages = Math.ceil(total / limit) || 1;
+    }
+
+    const users = await query;
 
     res.status(200).json({
-        total: users.length,
-        status:'success',
+        status: 'success',
+        total,
+        page: page || 1,
+        totalPages,
         data: users
     })
 });

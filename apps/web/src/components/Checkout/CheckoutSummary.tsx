@@ -2,6 +2,7 @@ import { selectCartItems } from "../../store/cartSlice";
 import { useAppSelector } from "../../store/hooks";
 import type { CartItemData } from "../../types/cartItem";
 import { shippingCost, taxRate } from "./mockData";
+import { getImageUrl } from "../../utils/getImageUrl";
 
 export const CheckoutSummary = ({
   onPlaceOrder,
@@ -67,7 +68,7 @@ export const CheckoutSummary = ({
 const OrderSummaryItem = ({ item }: { item: CartItemData }) => (
   <div className="flex items-center gap-3">
     <img
-      src={item.image}
+      src={getImageUrl(item.image)}
       alt={item.title}
       className="w-12 h-12 rounded object-cover bg-gray-100"
     />

@@ -1,14 +1,23 @@
+import { useState } from "react";
 import { DataTable } from "../components/ui/DataTable";
+import { Pagination } from "../components/ui/Pagination";
 import { useGetUsersQuery } from "../store/api";
 import type { User } from "../types/user";
 
+const PAGE_SIZE = 10;
+
 export default function Users() {
+  const [page, setPage] = useState(1);
+
   const {
-    data: users = [],
+    data,
     isLoading,
     isError,
     error,
-  } = useGetUsersQuery();
+  } = useGetUsersQuery({ page, limit: PAGE_SIZE });
+
+  const users = data?.data ?? [];
+  const totalPages = data?.totalPages ?? 1;
 
   const columns = [
     {
@@ -76,6 +85,8 @@ export default function Users() {
         getRowId={(row) => row._id}
         emptyMessage="No users yet."
       />
+
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
     </div>
   );
 }
