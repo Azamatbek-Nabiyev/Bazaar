@@ -1,8 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { selectCartItems } from "../../store/cartSlice";
 import { useAppSelector } from "../../store/hooks";
 import type { CartItemData } from "../../types/cartItem";
 import { shippingCost, taxRate } from "./mockData";
 import { getImageUrl } from "../../utils/getImageUrl";
+import { formatPrice } from "../../utils/formatPrice";
 
 export const CheckoutSummary = ({
   onPlaceOrder,
@@ -11,7 +13,7 @@ export const CheckoutSummary = ({
   onPlaceOrder: () => void;
    isSubmitting?: boolean;
 }) => {
-
+   const { t } = useTranslation("checkout");
    const checkoutItems = useAppSelector(selectCartItems);
 
   const subtotal = checkoutItems.reduce(
@@ -24,7 +26,7 @@ export const CheckoutSummary = ({
 
   return (
     <div className="bg-gray-50 rounded-lg p-6 h-fit">
-      <h2 className="font-bold mb-4">Order Summary</h2>
+      <h2 className="font-bold mb-4">{t("summary.title")}</h2>
 
       <div className="flex flex-col gap-3 pb-4 mb-4 border-b">
         {checkoutItems.map((item) => (
@@ -34,22 +36,22 @@ export const CheckoutSummary = ({
 
       <div className="flex flex-col gap-2 text-sm mb-4">
         <div className="flex justify-between">
-          <span className="text-gray-500">Subtotal</span>
-          <span>${subtotal.toFixed(2)}</span>
+          <span className="text-gray-500">{t("summary.subtotal")}</span>
+          <span>{formatPrice(subtotal)} so'm</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-500">Shipping</span>
-          <span>${shippingCost.toFixed(2)}</span>
+          <span className="text-gray-500">{t("summary.shipping")}</span>
+          <span>{formatPrice(shippingCost)} so'm</span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-500">Tax</span>
-          <span>${tax.toFixed(2)}</span>
+          <span className="text-gray-500">{t("summary.tax")}</span>
+          <span>{formatPrice(tax)} so'm</span>
         </div>
       </div>
 
       <div className="flex justify-between items-center pt-4 border-t mb-4">
-        <span className="font-bold">Total</span>
-        <span className="font-bold text-lg">${total.toFixed(2)}</span>
+        <span className="font-bold">{t("summary.total")}</span>
+        <span className="font-bold text-lg">{formatPrice(total)} so'm</span>
       </div>
 
       <button
@@ -57,7 +59,7 @@ export const CheckoutSummary = ({
         disabled={isSubmitting}
         className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isSubmitting ? 'Yuborilmoqda...' : 'Place Order'}
+        {isSubmitting ? t("summary.submitting") : t("summary.placeOrder")}
       </button>
     </div>
   );
@@ -65,22 +67,25 @@ export const CheckoutSummary = ({
 
 // Checkout uchun read-only qator — CartItem'dagi kabi +/- va X tugmasi yo'q,
 // chunki checkout bosqichida miqdorni bu yerdan o'zgartirish shart emas
-const OrderSummaryItem = ({ item }: { item: CartItemData }) => (
-  <div className="flex items-center gap-3">
-    <img
-      src={getImageUrl(item.image)}
-      alt={item.title}
-      className="w-12 h-12 rounded object-cover bg-gray-100"
-    />
-    <div className="flex-1">
-      <div className="text-sm font-medium">{item.title}</div>
-      <div className="text-xs text-gray-400">
-        {item.color}
-        {item.size ? ` · Size ${item.size}` : ""} · Qty {item.quantity}
+const OrderSummaryItem = ({ item }: { item: CartItemData }) => {
+  const { t } = useTranslation("checkout");
+  return (
+    <div className="flex items-center gap-3">
+      <img
+        src={getImageUrl(item.image)}
+        alt={item.title}
+        className="w-12 h-12 rounded object-cover bg-gray-100"
+      />
+      <div className="flex-1">
+        <div className="text-sm font-medium">{item.title}</div>
+        <div className="text-xs text-gray-400">
+          {item.color}
+          {item.size ? ` · ${t("summary.size")} ${item.size}` : ""} · {t("summary.qty")} {item.quantity}
+        </div>
+      </div>
+      <div className="text-sm font-medium">
+        {formatPrice(item.price * item.quantity)} so'm
       </div>
     </div>
-    <div className="text-sm font-medium">
-      ${(item.price * item.quantity).toFixed(2)}
-    </div>
-  </div>
-);
+  );
+};

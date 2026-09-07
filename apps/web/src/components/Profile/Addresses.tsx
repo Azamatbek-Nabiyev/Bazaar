@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Plus, Pencil, Trash2, X, MapPin } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import {
   useCreateAddressMutation,
@@ -18,6 +19,8 @@ type User = {
 };
 
 export const Addresses = () => {
+  const { t } = useTranslation("profile");
+
   const [createAddress, { isLoading: isCreating }] =
     useCreateAddressMutation();
 
@@ -118,12 +121,12 @@ export const Addresses = () => {
 
   const handleDelete = async (addressId: string) => {
     if (addresses.length === 1) {
-      alert("Oxirgi addressni o'chirib bo'lmaydi");
+      alert(t("addresses.confirmDeleteLast"));
       return;
     }
 
     const confirmed = window.confirm(
-      "Bu addressni o'chirmoqchimisiz?"
+      t("addresses.confirmDelete")
     );
 
     if (!confirmed) return;
@@ -143,7 +146,7 @@ export const Addresses = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="font-bold">
-          Saved Addresses
+          {t("addresses.title")}
         </h2>
 
         <button
@@ -151,7 +154,7 @@ export const Addresses = () => {
           className="flex items-center gap-2 bg-black text-white text-sm px-4 py-2.5 rounded-lg"
         >
           <Plus size={14} />
-          Add Address
+          {t("addresses.addAddress")}
         </button>
       </div>
 
@@ -159,7 +162,7 @@ export const Addresses = () => {
       <div className="flex flex-col gap-4">
         {addresses.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
-            No saved addresses
+            {t("addresses.noSavedAddresses")}
           </div>
         ) : (
           addresses.map((addr) => (
@@ -192,7 +195,7 @@ export const Addresses = () => {
                   className="flex items-center gap-1 text-gray-700"
                 >
                   <Pencil size={13} />
-                  Edit
+                  {t("addresses.edit")}
                 </button>
 
                 <button
@@ -203,7 +206,7 @@ export const Addresses = () => {
                   className="flex items-center gap-1 text-orange-600 bg-orange-50 px-3 py-1.5 rounded"
                 >
                   <Trash2 size={13} />
-                  Remove
+                  {t("addresses.remove")}
                 </button>
               </div>
             </div>
@@ -218,8 +221,8 @@ export const Addresses = () => {
             <div className="flex justify-between items-center mb-5">
               <h3 className="font-bold">
                 {editingAddress
-                  ? "Edit Address"
-                  : "Add Address"}
+                  ? t("addresses.editAddress")
+                  : t("addresses.addAddress")}
               </h3>
 
               <button
@@ -237,7 +240,7 @@ export const Addresses = () => {
                 name="city"
                 value={form.city}
                 onChange={handleChange}
-                placeholder="City"
+                placeholder={t("addresses.cityPlaceholder")}
                 className="border rounded-lg px-3 py-2"
                 required
               />
@@ -246,7 +249,7 @@ export const Addresses = () => {
                 name="address"
                 value={form.address}
                 onChange={handleChange}
-                placeholder="Address"
+                placeholder={t("addresses.addressPlaceholder")}
                 className="border rounded-lg px-3 py-2"
                 required
               />
@@ -257,10 +260,10 @@ export const Addresses = () => {
                 className="bg-black text-white rounded-lg py-2.5"
               >
                 {isCreating || isUpdating
-                  ? "Saving..."
+                  ? t("addresses.saving")
                   : editingAddress
-                  ? "Update"
-                  : "Add"}
+                  ? t("addresses.update")
+                  : t("addresses.add")}
               </button>
             </form>
           </div>

@@ -1,0 +1,86 @@
+{
+  "loading": "Loading...",
+  "bestsellers": {
+    "eyebrow": "Top Rated",
+    "title": "Best Sellers",
+    "seeAll": "See all",
+    "scrollLeft": "Scroll left",
+    "scrollRight": "Scroll right"
+  },
+  "featured": {
+    "eyebrow": "Curated Picks",
+    "title": "Featured Products",
+    "tabs": {
+      "all": "All",
+      "men": "Men",
+      "women": "Women",
+      "electronics": "Electronics"
+    },
+    "viewAll": "View All Products"
+  },
+  "flashSale": {
+    "limitedTime": "Limited Time",
+    "title": "Flash Sale",
+    "hours": "Hrs",
+    "minutes": "Min",
+    "seconds": "Sec",
+    "seeAllSale": "See All Sale Items"
+  },
+  "testimonials": {
+    "eyebrow": "Social Proof",
+    "title": "What Our Customers Say",
+    "verifiedReviews": "24,309 verified reviews",
+    "readAllReviews": "Read all reviews"
+  },
+  "hero": {
+    "slides": [
+      {
+        "eyebrow": "New Season",
+        "titleLine1": "Style That",
+        "titleLine2": "Speaks For You",
+        "subtitle": "Curated fashion for every mood — from everyday essentials to statement pieces.",
+        "cta": "Shop Fashion",
+        "alt": "Fashion collection showcase"
+      },
+      {
+        "eyebrow": "For Little Ones",
+        "titleLine1": "Play, Learn",
+        "titleLine2": "& Grow",
+        "subtitle": "Safe, fun, and imaginative toys for kids of every age.",
+        "cta": "Shop Toys",
+        "alt": "Toys collection showcase"
+      },
+      {
+        "eyebrow": "Tech Essentials",
+        "titleLine1": "Everything You",
+        "titleLine2": "Need, Digital",
+        "subtitle": "Laptops, audio, wearables and more — the tech that keeps you moving.",
+        "cta": "Shop Electronics",
+        "alt": "Electronics collection showcase"
+      }
+    ],
+    "returns30": "30-day returns",
+    "trust": {
+      "easyReturnsTitle": "Easy Returns",
+      "easyReturnsSubtitle": "30-day free returns",
+      "secureCheckoutTitle": "Secure Checkout",
+      "secureCheckoutSubtitle": "256-bit encryption",
+      "supportTitle": "24/7 Support",
+      "supportSubtitle": "We're always here"
+    }
+  },
+  "categoryShowcase": {
+    "eyebrow": "Browse",
+    "title": "Shop by Category",
+    "allCategories": "All Categories →",
+    "stylesSuffix": "styles",
+    "shopNow": "Shop Now →",
+    "categories": {
+      "women": "Women's Edit",
+      "men": "Men's Edit",
+      "footwear": "Footwear",
+      "bags": "Bags",
+      "accessories": "Accessories"
+    }
+  }
+}

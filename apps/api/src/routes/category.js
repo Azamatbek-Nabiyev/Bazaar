@@ -1,6 +1,6 @@
 const express = require('express');
-const { getAll, create } = require('../controllers/category');
-// const { protect, restrictTo} = require('../controllers/authController');
+const { getAll, create, deleteCategory } = require('../controllers/category');
+const { protect, restrictTo } = require('../controllers/authController');
 
 const categoryRouter = express.Router();
 
@@ -9,5 +9,7 @@ categoryRouter.get('/', getAll);
 
 // create food
 categoryRouter.post('/create', create);
+
+categoryRouter.delete('/:id', protect, restrictTo('admin'), deleteCategory);
 
 module.exports = categoryRouter

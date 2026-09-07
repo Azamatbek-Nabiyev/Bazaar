@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Pencil } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { useUpdateMeMutation } from "../../store/api";
 import { mockUser } from "./mockData";
 
@@ -22,6 +23,8 @@ type InfoFieldProps = {
 };
 
 export const PersonalInfo = () => {
+  const { t } = useTranslation("profile");
+
   const [isEditing, setIsEditing] = useState(false);
 
   const [updateMe, { isLoading }] = useUpdateMeMutation();
@@ -83,7 +86,7 @@ export const PersonalInfo = () => {
       <div className="border rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="font-bold">
-            Personal Information
+            {t("personalInfo.title")}
           </h2>
 
           <button
@@ -91,7 +94,7 @@ export const PersonalInfo = () => {
             className="flex items-center gap-2 text-sm border rounded-lg px-4 py-2"
           >
             <Pencil size={14} />
-            Edit
+            {t("personalInfo.edit")}
           </button>
         </div>
 
@@ -108,7 +111,7 @@ export const PersonalInfo = () => {
             </div>
 
             <div className="text-sm text-gray-400">
-              Member since{" "}
+              {t("personalInfo.memberSince")}{" "}
               {new Date(form.createdAt)
                 .toISOString()
                 .split("T")[0]}
@@ -118,12 +121,12 @@ export const PersonalInfo = () => {
 
         <div className="grid grid-cols-2 gap-6">
           <InfoField
-            label="First Name"
+            label={t("personalInfo.firstName")}
             value={form.fullname}
           />
 
           <InfoField
-            label="Phone"
+            label={t("personalInfo.phone")}
             value={form.phone}
           />
         </div>
@@ -134,7 +137,7 @@ export const PersonalInfo = () => {
   return (
     <div className="border rounded-lg p-6">
       <h2 className="font-bold mb-6">
-        Personal Information
+        {t("personalInfo.title")}
       </h2>
 
       <div className="flex items-center gap-4 pb-6 border-b mb-6">
@@ -159,21 +162,21 @@ export const PersonalInfo = () => {
           </div>
 
           <div className="text-sm text-gray-400">
-            Member since{" "}
+            {t("personalInfo.memberSince")}{" "}
             {new Date(form.createdAt)
               .toISOString()
               .split("T")[0]}
           </div>
 
           <button className="text-sm text-orange-600 mt-1">
-            Change photo
+            {t("personalInfo.changePhoto")}
           </button>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-6 mb-6">
         <EditField
-          label="First Name"
+          label={t("personalInfo.firstName")}
           value={form.fullname}
           onChange={(value) =>
             handleChange("fullname", value)
@@ -181,7 +184,7 @@ export const PersonalInfo = () => {
         />
 
         <EditField
-          label="Phone Number"
+          label={t("personalInfo.phoneNumber")}
           value={form.phone}
           onChange={(value) =>
             handleChange("phone", value)
@@ -195,7 +198,7 @@ export const PersonalInfo = () => {
           disabled={isLoading}
           className="bg-black text-white text-sm px-6 py-3 rounded-lg disabled:opacity-50"
         >
-          {isLoading ? "Saving..." : "Save Changes"}
+          {isLoading ? t("personalInfo.saving") : t("personalInfo.saveChanges")}
         </button>
 
         <button
@@ -203,7 +206,7 @@ export const PersonalInfo = () => {
           disabled={isLoading}
           className="bg-gray-100 text-sm px-6 py-3 rounded-lg"
         >
-          Cancel
+          {t("personalInfo.cancel")}
         </button>
       </div>
     </div>

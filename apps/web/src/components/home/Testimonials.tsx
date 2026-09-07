@@ -1,20 +1,22 @@
+import { useTranslation } from "react-i18next";
+
 const TESTIMONIALS = [
   {
-    name: "Sarah M.",
+    name: "Dilnoza A.",
     date: "Jul 7, 2026",
     rating: 5,
     quote:
       "Exceeded every expectation. The stories are impeccable, and the finishing on that beautiful weight to it, I've been using it daily for three weeks now.",
   },
   {
-    name: "James R.",
+    name: "Aziz Q.",
     date: "Jul 20, 2026",
     rating: 5,
     quote:
       "My new daily driver. Wore the Air Runner Pro on a two-day conference — walked miles across the convention floor. My feet were comfortable the whole time.",
   },
   {
-    name: "Priya K.",
+    name: "Malika S.",
     date: "Aug 3, 2026",
     rating: 5,
     quote:
@@ -39,15 +41,17 @@ function Stars({ count }: { count: number }) {
   );
 }
 
+// TODO: replace with real testimonial data
 export default function Testimonials() {
+  const { t } = useTranslation("home");
   return (
     <section className="bg-neutral-50 py-20">
       <div className="max-w-7xl mx-auto px-6">
         <p className="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-2">
-          Social Proof
+          {t("testimonials.eyebrow")}
         </p>
         <h2 className="text-3xl font-bold text-neutral-900 mb-10">
-          What Our Customers Say
+          {t("testimonials.title")}
         </h2>
 
         <div className="grid md:grid-cols-3 gap-10">
@@ -56,7 +60,7 @@ export default function Testimonials() {
             <p className="text-5xl font-bold text-neutral-900">4.8</p>
             <Stars count={5} />
             <p className="text-sm text-neutral-500 mt-1">
-              24,309 verified reviews
+              {t("testimonials.verifiedReviews")}
             </p>
 
             <div className="space-y-1.5 mt-6">
@@ -77,7 +81,7 @@ export default function Testimonials() {
             </div>
 
             <button className="text-sm font-semibold text-neutral-900 underline underline-offset-4 mt-6 hover:text-neutral-600 transition-colors">
-              Read all reviews
+              {t("testimonials.readAllReviews")}
             </button>
           </div>
 

@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import AuthLayout from './AuthLayout';
 import AuthField from './AuthField';
 
 export default function ForgotPasswordForm() {
+  const { t } = useTranslation('auth');
+
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
@@ -14,17 +17,17 @@ export default function ForgotPasswordForm() {
 
   if (submitted) {
     return (
-      <AuthLayout title="Check Your Phone number">
+      <AuthLayout title={t('forgotPassword.checkPhoneTitle')}>
         <p className="text-sm text-neutral-500 text-center leading-relaxed">
-          We've sent a password reset link to{' '}
+          {t('forgotPassword.resetLinkSentTo')}{' '}
           <span className="font-medium text-neutral-900">{phone}</span>.
-          Please check your inbox.
+          {' '}{t('forgotPassword.checkInbox')}
         </p>
         <Link
           to="/login"
           className="block text-center text-sm text-neutral-900 font-semibold mt-6"
         >
-          Back to Sign In
+          {t('forgotPassword.backToSignIn')}
         </Link>
       </AuthLayout>
     );
@@ -32,12 +35,12 @@ export default function ForgotPasswordForm() {
 
   return (
     <AuthLayout
-      title="Forgot Password?"
-      subtitle="Enter your email and we'll send you a reset link"
+      title={t('forgotPassword.title')}
+      subtitle={t('forgotPassword.subtitle')}
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <AuthField
-          label="Phone"
+          label={t('forgotPassword.phoneLabel')}
           type="text"
           value={phone}
           onChange={setPhone}
@@ -47,14 +50,14 @@ export default function ForgotPasswordForm() {
           type="submit"
           className="bg-neutral-900 text-white text-sm font-semibold py-3 hover:bg-neutral-800 transition-colors mt-2"
         >
-          Send Reset Link
+          {t('forgotPassword.sendResetLinkButton')}
         </button>
       </form>
 
       <p className="text-sm text-center text-neutral-500 mt-6">
-        Remembered your password?{' '}
+        {t('forgotPassword.rememberedPassword')}{' '}
         <Link to="/login" className="text-neutral-900 font-semibold">
-          Sign in
+          {t('forgotPassword.signInLink')}
         </Link>
       </p>
     </AuthLayout>

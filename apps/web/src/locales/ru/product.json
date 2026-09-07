@@ -1,0 +1,36 @@
+{
+  "loading": "Загрузка...",
+  "quickAdd": "Быстро добавить",
+  "added": "Добавлено ✓",
+  "addToCart": "Добавить в корзину",
+  "toggleWishlist": "Добавить/убрать из избранного",
+  "reviewsWord": "отзывов",
+  "colorLabel": "Цвет",
+  "selectColor": "Выбрать цвет {{color}}",
+  "sizeLabel": "Размер",
+  "currency": "сум",
+  "notFound": "Товар не найден или произошла ошибка при загрузке",
+  "gallery": {
+    "thumbnailAlt": "{{alt}} - фото {{index}}"
+  },
+  "filters": {
+    "searchTitle": "Поиск",
+    "searchPlaceholder": "Поиск товаров...",
+    "categoryTitle": "Категория",
+    "priceRangeTitle": "Диапазон цен",
+    "minPlaceholder": "Мин",
+    "maxPlaceholder": "Макс",
+    "sortTitle": "Сортировка",
+    "sortFeatured": "Рекомендуемые",
+    "sortPriceAsc": "Цена: по возрастанию",
+    "sortPriceDesc": "Цена: по убыванию",
+    "resetFilters": "Сбросить фильтры"
+  },
+  "list": {
+    "eyebrow": "Магазин",
+    "allProductsTitle": "Все товары",
+    "allBestSellersTitle": "Все хиты продаж",
+    "empty": "Ничего не найдено",
+    "productsCountSuffix": "товаров"
+  }
+}

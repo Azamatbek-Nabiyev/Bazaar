@@ -6,9 +6,10 @@ import { RowActionButton } from "../components/ui/RowActionButton";
 import { ConfirmModal } from "../components/ui/ConfirmModal";
 import { Modal } from "../components/ui/Modal";
 import { ProductForm, type ProductFormData } from "../components/products/ProductForm";
-import { useGetProductsQuery, useCreateProductMutation } from "../store/api";
+import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from "../store/api";
 import type { Product } from "../types/product";
 import { getImageUrl } from "../utils/getImageUrl";
+import { formatPrice } from "../utils/formatPrice";
 
 const PAGE_SIZE = 10;
 
@@ -26,12 +27,13 @@ export default function Products() {
   const totalPages = data?.totalPages ?? 1;
 
   const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
+  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Product | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
-  const [isDeleting, setIsDeleting] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const columns = [
     {
@@ -57,7 +59,7 @@ export default function Products() {
     },
     {
       header: "Price",
-      accessor: (row: Product) => `$${row.price.toFixed(2)}`,
+      accessor: (row: Product) => `${formatPrice(row.price)} so'm`,
     },
     {
       header: "Stock",
@@ -125,10 +127,13 @@ export default function Products() {
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
-    setIsDeleting(true);
-    // TODO: useDeleteProductMutation() bilan almashtiriladi
-    setIsDeleting(false);
-    setDeleteTarget(null);
+    setDeleteError(null);
+    try {
+      await deleteProduct(deleteTarget._id).unwrap();
+      setDeleteTarget(null);
+    } catch (err: any) {
+      setDeleteError(err?.data?.message ?? "Failed to delete product");
+    }
   };
 
   if (isLoading) {
@@ -229,8 +234,12 @@ export default function Products() {
         title="Delete Product"
         message={`Are you sure you want to delete "${deleteTarget?.title}"? This action cannot be undone.`}
         onConfirm={handleDelete}
-        onCancel={() => setDeleteTarget(null)}
+        onCancel={() => {
+          setDeleteTarget(null);
+          setDeleteError(null);
+        }}
         isLoading={isDeleting}
+        error={deleteError}
       />
     </div>
   );

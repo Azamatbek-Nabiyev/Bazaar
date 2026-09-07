@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { ProductGalleryProps } from "../../types/product";
 import { getImageUrl } from "../../utils/getImageUrl";
 
 
 export default function ProductGallery({ images, alt }: ProductGalleryProps) {
+  const { t } = useTranslation("product");
   const [activeImage, setActiveImage] = useState(0);
 
   return (
@@ -18,7 +20,7 @@ export default function ProductGallery({ images, alt }: ProductGalleryProps) {
               i === activeImage ? "border-neutral-900" : "border-transparent"
             }`}
           >
-            <img src={getImageUrl(src)} alt={`${alt} thumbnail ${i + 1}`} className="w-full h-full object-cover object-top" />
+            <img src={getImageUrl(src)} alt={t("gallery.thumbnailAlt", { alt, index: i + 1 })} className="w-full h-full object-cover object-top" />
           </button>
         ))}
       </div>

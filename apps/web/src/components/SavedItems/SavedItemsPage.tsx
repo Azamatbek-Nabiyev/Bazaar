@@ -1,5 +1,6 @@
 import ProductCard from "../ProductCard/ProductCard";
 import { Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { Product } from "../../types/product";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import {
@@ -10,6 +11,7 @@ import {
 import { addItem } from "../../store/cartSlice";
 
 export const SavedItemsPage = () => {
+  const { t } = useTranslation("profile");
   const dispatch = useAppDispatch();
   const savedItems = useAppSelector(selectSavedItems);
 
@@ -43,24 +45,24 @@ export const SavedItemsPage = () => {
       <div className="flex items-center justify-between pb-6 border-b">
         <div>
           <span className="text-xs font-semibold text-red-600 uppercase">
-            Your Collection
+            {t("savedItems.collectionLabel")}
           </span>
           <h1 className="text-3xl font-serif font-bold">
-            Saved Items{" "}
+            {t("savedItems.title")}{" "}
             <span className="text-gray-400 font-normal">
               ({savedItems.length})
             </span>
           </h1>
         </div>
         <button className="border border-black text-black text-sm px-5 py-2 rounded-full hover:bg-black hover:text-white transition">
-          Continue Shopping →
+          {t("savedItems.continueShopping")} →
         </button>
       </div>
 
       {/* Amallar */}
       <div className="flex items-center justify-between py-4 border-b">
         <span className="text-sm text-gray-500">
-          {savedItems.length} items saved
+          {t("savedItems.itemsSavedCount", { count: savedItems.length })}
         </span>
         <div className="flex gap-3 items-center">
           <button
@@ -68,13 +70,13 @@ export const SavedItemsPage = () => {
             disabled={savedItems.length === 0}
             className="border border-black text-sm px-4 py-2 rounded-full disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            🛒 Add All to Cart
+            🛒 {t("savedItems.addAllToCart")}
           </button>
           <button
             onClick={handleClearAll}
             className="text-sm text-gray-500 hover:text-red-600"
           >
-            🗑 Clear All
+            🗑 {t("savedItems.clearAll")}
           </button>
         </div>
       </div>
@@ -90,14 +92,14 @@ export const SavedItemsPage = () => {
                 className="flex items-center gap-1 text-xs text-gray-400 hover:text-red-600 pt-2"
               >
                 <Trash2 size={14} />
-                Remove
+                {t("savedItems.remove")}
               </button>
             </div>
           ))}
         </div>
       ) : (
         <p className="py-8 text-center text-gray-400">
-          Saqlangan mahsulotlar yo'q
+          {t("savedItems.empty")}
         </p>
       )}
     </div>

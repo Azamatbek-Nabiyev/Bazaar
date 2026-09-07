@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { Product } from "../../types/product";
+import { formatPrice } from "../../utils/formatPrice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addItem } from "../../store/cartSlice";
 import {
@@ -22,6 +24,7 @@ export default function ProductInfo({
   sizes,
   category
 }: Product) {
+  const { t } = useTranslation("product");
   const dispatch = useAppDispatch();
 
   const [selectedColor, setSelectedColor] = useState(0);
@@ -95,13 +98,13 @@ export default function ProductInfo({
         </span>
 
         <span className="text-sm text-neutral-500">
-          ({reviewCount} reviews)
+          ({reviewCount} {t("reviewsWord")})
         </span>
       </div>
 
       {/* Price */}
       <p className="text-2xl font-bold text-neutral-900 mt-4">
-        ${price.toFixed(2)}
+        {formatPrice(price)} {t("currency")}
       </p>
 
       {/* Description */}
@@ -112,7 +115,7 @@ export default function ProductInfo({
       {/* Color selector */}
       <div className="mt-6">
         <p className="text-sm font-semibold text-neutral-900 mb-2">
-          Color: {colors[selectedColor]}
+          {t("colorLabel")}: {colors[selectedColor]}
         </p>
 
         <div className="flex items-center gap-2">
@@ -121,7 +124,7 @@ export default function ProductInfo({
               key={color}
               type="button"
               onClick={() => setSelectedColor(index)}
-              aria-label={`Select ${color}`}
+              aria-label={t("selectColor", { color })}
               className={`w-8 h-8 rounded-full ring-2 ring-offset-2 transition-all ${
                 selectedColor === index
                   ? "ring-neutral-900"
@@ -136,7 +139,7 @@ export default function ProductInfo({
       {/* Size selector */}
       <div className="mt-6">
         <p className="text-sm font-semibold text-neutral-900 mb-2">
-          Size
+          {t("sizeLabel")}
         </p>
 
         <div className="flex flex-wrap gap-2">
@@ -189,14 +192,14 @@ export default function ProductInfo({
           className="flex-1 text-white text-sm font-semibold py-3.5 transition-colors hover:brightness-110"
           style={{ backgroundColor: "#d94f2b" }}
         >
-          {added ? "Added ✓" : "Add to Cart"}
+          {added ? t("added") : t("addToCart")}
         </button>
 
         {/* Wishlist */}
         <button
           type="button"
           onClick={handleToggleSave}
-          aria-label="Toggle wishlist"
+          aria-label={t("toggleWishlist")}
           className="w-11 h-11 flex items-center justify-center border border-neutral-300 hover:border-neutral-900 transition-colors"
         >
           <Heart

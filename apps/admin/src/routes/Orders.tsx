@@ -7,6 +7,7 @@ import { OrderDetailModal } from "../components/orders/OrderDetailModal";
 import type { OrderStatusFormData } from "../components/orders/OrderStatusForm";
 import { useGetOrdersQuery, useUpdateOrderStatusMutation } from "../store/api";
 import type { Order } from "../types/order";
+import { formatPrice } from "../utils/formatPrice";
 
 const PAGE_SIZE = 10;
 
@@ -52,7 +53,7 @@ export default function Orders() {
     },
     {
       header: "Total",
-      accessor: (row: Order) => `$${row.totalPrice.toFixed(2)}`,
+      accessor: (row: Order) => `${formatPrice(row.totalPrice)} so'm`,
     },
     {
       header: "Payment",

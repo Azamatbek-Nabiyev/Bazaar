@@ -1,8 +1,7 @@
 const express = require('express');
-const { getAll, create } = require('../controllers/product');
-const { getOne } = require('../controllers/product');
+const { getAll, create, getOne, deleteProduct } = require('../controllers/product');
 const upload = require('../middlewares/upload');
-// const { protect, restrictTo} = require('../controllers/authController');
+const { protect, restrictTo } = require('../controllers/authController');
 
 const productRouter = express.Router();
 
@@ -13,5 +12,7 @@ productRouter.get('/', getAll);
 productRouter.post('/create', upload.array('images', 10), create);
 
 productRouter.get('/:id', getOne)
+
+productRouter.delete('/:id', protect, restrictTo('admin'), deleteProduct);
 
 module.exports = productRouter

@@ -5,6 +5,7 @@ import { TopProducts } from "../components/dashboard/TopProducts";
 import { LowStockProducts } from "../components/dashboard/LowStockProducts";
 import { RecentOrdersTable } from "../components/dashboard/RecentOrdersTable";
 import { useGetDashboardSummaryQuery } from "../store/api";
+import { formatPrice } from "../utils/formatPrice";
 
 const WEEKDAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -30,7 +31,7 @@ export default function Dashboard() {
   const stats = [
     {
       label: "Total Revenue",
-      value: `$${data.totalRevenue.toFixed(2)}`,
+      value: `${formatPrice(data.totalRevenue)} so'm`,
       icon: DollarSign,
     },
     {
@@ -58,13 +59,13 @@ export default function Dashboard() {
   const topProducts = data.topProducts.map((p) => ({
     name: p.title,
     sold: p.sold,
-    revenue: `$${p.revenue.toFixed(2)}`,
+    revenue: `${formatPrice(p.revenue)} so'm`,
   }));
 
   const recentOrders = data.recentOrders.map((order) => ({
     id: order._id.slice(-8).toUpperCase(),
     customer: order.user?.fullname ?? "-",
-    total: `$${order.totalPrice.toFixed(2)}`,
+    total: `${formatPrice(order.totalPrice)} so'm`,
     status: order.status,
   }));
 

@@ -1,24 +1,22 @@
+// TODO: replace placeholder company info with real content
 export const stats = [
-  { value: '10,000+', label: 'Happy Customers' },
-  { value: '250+', label: 'Featured Brands' },
-  { value: '15', label: 'Countries Delivered' },
-  { value: '2019', label: 'Established' },
+  { value: '10,000+', labelKey: 'stats.happyCustomers' },
+  { value: '250+', labelKey: 'stats.featuredBrands' },
+  { value: '15', labelKey: 'stats.countriesDelivered' },
+  { value: '2019', labelKey: 'stats.established' },
 ];
 
 export const values = [
   {
-    title: 'Quality Matters',
-    description:
-      'We carefully select every product to ensure excellent quality, reliable performance, and timeless design.',
+    titleKey: 'values.items.quality.title',
+    descriptionKey: 'values.items.quality.description',
   },
   {
-    title: 'Thoughtful Choices',
-    description:
-      'We work with brands that value responsible production, quality materials, and thoughtful craftsmanship.',
+    titleKey: 'values.items.thoughtful.title',
+    descriptionKey: 'values.items.thoughtful.description',
   },
   {
-    title: 'Customer First',
-    description:
-      'From discovering a product to receiving your order, we focus on making every part of your experience simple and enjoyable.',
+    titleKey: 'values.items.customerFirst.title',
+    descriptionKey: 'values.items.customerFirst.description',
   },
 ];

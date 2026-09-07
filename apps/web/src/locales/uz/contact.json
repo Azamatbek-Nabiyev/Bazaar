@@ -1,0 +1,32 @@
+{
+  "hero": {
+    "eyebrow": "Biz bilan bog'laning",
+    "title": "Sizdan xabar olishni xohlaymiz",
+    "description": "Buyurtma yoki mahsulot haqida savollaringiz bormi, yoki shunchaki salom aytmoqchimisiz? Jamoamiz odatda 24 soat ichida javob beradi."
+  },
+  "form": {
+    "fields": {
+      "fullName": "To'liq ism",
+      "email": "Email",
+      "subject": "Mavzu",
+      "message": "Xabar"
+    },
+    "submit": "Xabar yuborish",
+    "success": {
+      "title": "Xabar yuborildi!",
+      "description": "Biz bilan bog'langaningiz uchun rahmat — 24 soat ichida javob beramiz."
+    }
+  },
+  "info": {
+    "labels": {
+      "email": "Email",
+      "phone": "Telefon",
+      "address": "Manzil",
+      "hours": "Ish vaqti"
+    },
+    "values": {
+      "address": "580 Market Street, Floor 12, San Francisco, CA 94104",
+      "hours": "Dush–Juma, 9:00 – 18:00"
+    }
+  }
+}

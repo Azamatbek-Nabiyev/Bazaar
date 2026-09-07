@@ -1,0 +1,36 @@
+{
+  "loading": "Yuklanmoqda...",
+  "quickAdd": "Tez qo'shish",
+  "added": "Qo'shildi ✓",
+  "addToCart": "Savatga qo'shish",
+  "toggleWishlist": "Sevimlilarni yoqish/o'chirish",
+  "reviewsWord": "sharh",
+  "colorLabel": "Rang",
+  "selectColor": "{{color}} rangini tanlash",
+  "sizeLabel": "O'lcham",
+  "currency": "so'm",
+  "notFound": "Mahsulot topilmadi yoki yuklashda xatolik yuz berdi",
+  "gallery": {
+    "thumbnailAlt": "{{alt}} - {{index}}-rasm"
+  },
+  "filters": {
+    "searchTitle": "Qidiruv",
+    "searchPlaceholder": "Mahsulotlarni qidirish...",
+    "categoryTitle": "Kategoriya",
+    "priceRangeTitle": "Narx oralig'i",
+    "minPlaceholder": "Min",
+    "maxPlaceholder": "Max",
+    "sortTitle": "Saralash",
+    "sortFeatured": "Tavsiya etilgan",
+    "sortPriceAsc": "Narx: pastdan yuqoriga",
+    "sortPriceDesc": "Narx: yuqoridan pastga",
+    "resetFilters": "Filtrlarni tozalash"
+  },
+  "list": {
+    "eyebrow": "Do'kon",
+    "allProductsTitle": "Barcha mahsulotlar",
+    "allBestSellersTitle": "Barcha ko'p sotilgan mahsulotlar",
+    "empty": "Hech narsa topilmadi",
+    "productsCountSuffix": "ta mahsulot"
+  }
+}

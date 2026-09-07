@@ -5,14 +5,15 @@ import {
   MapPin,
   LogOut,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SidebarNavItem } from "./SidebarNavItem";
 import { useNavigate } from "react-router-dom";
 
-const navItems: {key: string, label: string, icon: any}[] = [
-  { key: "overview", label: "Overview", icon: <TrendingUp size={16} /> },
-  { key: "orders", label: "My Orders", icon: <Package size={16} /> },
-  { key: "personal", label: "Personal Info", icon: <User size={16} /> },
-  { key: "addresses", label: "Addresses", icon: <MapPin size={16} /> },
+const navItems: {key: string, labelKey: string, icon: any}[] = [
+  { key: "overview", labelKey: "sidebar.overview", icon: <TrendingUp size={16} /> },
+  { key: "orders", labelKey: "sidebar.orders", icon: <Package size={16} /> },
+  { key: "personal", labelKey: "sidebar.personal", icon: <User size={16} /> },
+  { key: "addresses", labelKey: "sidebar.addresses", icon: <MapPin size={16} /> },
 ];
 
 export const ProfileSidebar = ({
@@ -22,9 +23,10 @@ export const ProfileSidebar = ({
   activeTab: string;
   onTabChange: (value: string) => void;
 }) => {
+  const { t } = useTranslation("profile");
 
     const navigate = useNavigate();
-  
+
 
   return (
     <div className="w-64 bg-gray-50 border-r">
@@ -33,7 +35,7 @@ export const ProfileSidebar = ({
           <SidebarNavItem
             key={item.key}
             icon={item.icon}
-            label={item.label}
+            label={t(item.labelKey)}
             active={activeTab === item.key}
             onClick={() => onTabChange(item.key)}
           />
@@ -43,7 +45,7 @@ export const ProfileSidebar = ({
       <div className="border-t mt-2 pt-2">
         <SidebarNavItem
           icon={<LogOut size={16} />}
-          label="Sign Out"
+          label={t("sidebar.signOut")}
           danger
           onClick={() => {
             localStorage.removeItem('token')

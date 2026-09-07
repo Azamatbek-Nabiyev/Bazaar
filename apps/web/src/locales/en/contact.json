@@ -1,0 +1,32 @@
+{
+  "hero": {
+    "eyebrow": "Get in Touch",
+    "title": "We'd Love to Hear From You",
+    "description": "Questions about an order, a product, or just want to say hi? Our team typically responds within 24 hours."
+  },
+  "form": {
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message"
+    },
+    "submit": "Send Message",
+    "success": {
+      "title": "Message sent!",
+      "description": "Thanks for reaching out — we'll get back to you within 24 hours."
+    }
+  },
+  "info": {
+    "labels": {
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "hours": "Working Hours"
+    },
+    "values": {
+      "address": "580 Market Street, Floor 12, San Francisco, CA 94104",
+      "hours": "Mon–Fri, 9:00 AM – 6:00 PM"
+    }
+  }
+}

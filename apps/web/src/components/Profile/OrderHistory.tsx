@@ -1,9 +1,13 @@
 import { ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { StatusBadge } from './StatusBadge';
 import { useGetMyOrdersQuery } from '../../store/api';
 import { getImageUrl } from '../../utils/getImageUrl';
+import { formatPrice } from '../../utils/formatPrice';
 
 export const OrderHistory = () => {
+  const { t } = useTranslation('profile');
+
   const {
     data,
     isLoading,
@@ -13,20 +17,20 @@ export const OrderHistory = () => {
   const orders = data?.data || [];
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t('orders.loading')}</div>;
   }
 
   if (isError) {
-    return <div>Failed to load orders</div>;
+    return <div>{t('orders.error')}</div>;
   }
 
   if (!orders.length) {
     return (
       <div>
-        <h2 className="font-bold mb-4">Order History</h2>
+        <h2 className="font-bold mb-4">{t('orders.title')}</h2>
 
         <div className="border rounded-lg p-8 text-center text-gray-500">
-          You don't have any orders yet.
+          {t('orders.empty')}
         </div>
       </div>
     );
@@ -34,7 +38,7 @@ export const OrderHistory = () => {
 
   return (
     <div>
-      <h2 className="font-bold mb-4">Order History</h2>
+      <h2 className="font-bold mb-4">{t('orders.title')}</h2>
 
       <div className="border rounded-lg divide-y">
         {orders.map((order) => (
@@ -56,8 +60,7 @@ export const OrderHistory = () => {
                   </div>
 
                   <div className="text-xs text-gray-400">
-                    {order.items?.length || 0}{' '}
-                    {order.items?.length === 1 ? 'item' : 'items'}
+                    {t('orders.itemsCount', { count: order.items?.length || 0 })}
                   </div>
                 </div>
               </div>
@@ -67,16 +70,16 @@ export const OrderHistory = () => {
 
             <div className="flex items-center justify-between">
               <span className="font-semibold">
-                ${order.totalPrice}
+                {formatPrice(order.totalPrice)} so'm
               </span>
 
               <div className="flex items-center gap-3">
                 <button className="text-xs border rounded-full px-4 py-2">
-                  Track Order
+                  {t('orders.trackOrder')}
                 </button>
 
                 <button className="text-xs flex items-center gap-1 text-gray-600">
-                  Details
+                  {t('orders.details')}
                   <ChevronRight size={14} />
                 </button>
               </div>

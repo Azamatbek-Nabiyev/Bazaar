@@ -92,6 +92,20 @@ export const api = createApi({
       }),
       invalidatesTags: ["Order", "Dashboard"],
     }),
+    deleteProduct: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Product", "Dashboard"],
+    }),
+    deleteCategory: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/categories/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Category"],
+    }),
   }),
 });
 
@@ -105,5 +119,7 @@ export const {
   useCreateProductMutation,
   useUpdateOrderStatusMutation,
   useGetUsersQuery,
-  useGetDashboardSummaryQuery
+  useGetDashboardSummaryQuery,
+  useDeleteProductMutation,
+  useDeleteCategoryMutation
 } = api;

@@ -1,0 +1,76 @@
+{
+  "header": {
+    "memberSince": "Member since"
+  },
+  "sidebar": {
+    "overview": "Overview",
+    "orders": "My Orders",
+    "personal": "Personal Info",
+    "addresses": "Addresses",
+    "signOut": "Sign Out"
+  },
+  "overview": {
+    "totalOrders": "Total Orders",
+    "savedItems": "Saved Items",
+    "recentOrders": "Recent Orders",
+    "viewAll": "View all",
+    "loading": "Loading...",
+    "error": "Failed to load orders",
+    "itemsCount_one": "{{count}} item",
+    "itemsCount_other": "{{count}} items"
+  },
+  "orders": {
+    "title": "Order History",
+    "empty": "You don't have any orders yet.",
+    "loading": "Loading...",
+    "error": "Failed to load orders",
+    "itemsCount_one": "{{count}} item",
+    "itemsCount_other": "{{count}} items",
+    "trackOrder": "Track Order",
+    "details": "Details"
+  },
+  "personalInfo": {
+    "title": "Personal Information",
+    "edit": "Edit",
+    "memberSince": "Member since",
+    "firstName": "First Name",
+    "phone": "Phone",
+    "phoneNumber": "Phone Number",
+    "changePhoto": "Change photo",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel"
+  },
+  "addresses": {
+    "title": "Saved Addresses",
+    "addAddress": "Add Address",
+    "editAddress": "Edit Address",
+    "noSavedAddresses": "No saved addresses",
+    "edit": "Edit",
+    "remove": "Remove",
+    "cityPlaceholder": "City",
+    "addressPlaceholder": "Address",
+    "saving": "Saving...",
+    "update": "Update",
+    "add": "Add",
+    "confirmDeleteLast": "You can't delete the last address",
+    "confirmDelete": "Do you want to delete this address?"
+  },
+  "status": {
+    "pending": "PENDING",
+    "preparing": "PREPARING",
+    "delivered": "DELIVERED",
+    "cancelled": "CANCELLED"
+  },
+  "savedItems": {
+    "collectionLabel": "Your Collection",
+    "title": "Saved Items",
+    "continueShopping": "Continue Shopping",
+    "itemsSavedCount_one": "{{count}} item saved",
+    "itemsSavedCount_other": "{{count}} items saved",
+    "addAllToCart": "Add All to Cart",
+    "clearAll": "Clear All",
+    "remove": "Remove",
+    "empty": "No saved items yet"
+  }
+}

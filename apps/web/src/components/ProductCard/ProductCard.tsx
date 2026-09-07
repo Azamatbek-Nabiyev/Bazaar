@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Heart } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { Product } from "../../types/product";
+import { formatPrice } from "../../utils/formatPrice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { addItem } from "../../store/cartSlice";
 import {
@@ -11,6 +13,7 @@ import {
 import { getImageUrl } from "../../utils/getImageUrl";
 
 export default function ProductCard(props: Product) {
+  const { t } = useTranslation("product");
   const {
     _id,
     image,
@@ -77,7 +80,7 @@ export default function ProductCard(props: Product) {
         <button
           type="button"
           onClick={handleToggleSave}
-          aria-label="Toggle wishlist"
+          aria-label={t("toggleWishlist")}
           className="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition hover:bg-white"
         >
           <Heart
@@ -92,7 +95,7 @@ export default function ProductCard(props: Product) {
           onClick={handleQuickAdd}
           className="absolute bottom-0 left-0 right-0 bg-neutral-900 text-white text-sm font-semibold py-3 translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
         >
-          {added ? "Added ✓" : "Quick Add"}
+          {added ? t("added") : t("quickAdd")}
         </button>
       </div>
 
@@ -105,7 +108,7 @@ export default function ProductCard(props: Product) {
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-lg font-semibold text-neutral-900">{title}</h3>
           <span className="text-lg font-bold text-neutral-900 whitespace-nowrap">
-            ${price.toFixed(2)}
+            {formatPrice(price)}
           </span>
         </div>
 
@@ -118,17 +121,6 @@ export default function ProductCard(props: Product) {
             </span>
           </span>
           <span className="text-sm text-neutral-500">({reviewCount})</span>
-        </div>
-
-        {/* Colors */}
-        <div className="flex items-center gap-2 pt-1">
-          {colors.map((color) => (
-            <span
-              key={color}
-              className="w-4 h-4 rounded-full border border-neutral-200"
-              style={{ backgroundColor: color }}
-            />
-          ))}
         </div>
       </div>
     </div>

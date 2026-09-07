@@ -14,7 +14,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Product", "Category", "User"],
+  tagTypes: ["Product", "Category", "User", "Order"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/products",
@@ -66,6 +66,7 @@ export const api = createApi({
     }),
     getMyOrders: builder.query <OrdersResponse, void>({
       query: () => "/users/me/orders",
+      providesTags: ["Order"],
     }),
     createAddress: builder.mutation({
       query: (body: { city: string; address: string }) => ({
@@ -110,7 +111,8 @@ export const api = createApi({
           paymentMethod,
           items
         }
-      })
+      }),
+      invalidatesTags: ["Order"],
     })
   }),
 });

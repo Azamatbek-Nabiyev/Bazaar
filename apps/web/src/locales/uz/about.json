@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "eyebrow": "Bizning tariximiz",
+    "titleLine1": "O'ylab yaratilgan,",
+    "titleLine2": "har kuni uchun mo'ljallangan.",
+    "description": "Bazaar'da biz kundalik mahsulotlar sodda, funksional va chiroyli dizaynga ega bo'lishi kerak deb hisoblaymiz. Har bir mahsulot sifati, mangu uslubi va uzoq muddatli qiymati uchun ehtiyotkorlik bilan tanlanadi.",
+    "imageAlt": "Bazaar ichkarisida"
+  },
+  "story": {
+    "imageAlt": "Bizning yo'limiz",
+    "eyebrow": "Bizning yo'limiz",
+    "title": "Sifatga asoslangan, maqsad bilan yo'naltirilgan",
+    "paragraph1": "Bazaar oddiy g'oyadan boshlandi: sifatli mahsulotlarni topish oson va yoqimli bo'lishi kerak. Biz har bir mahsulot dizayni, sifati va qiymati bo'yicha ehtiyotkorlik bilan tanlangan kurator bozorini yaratdik.",
+    "paragraph2": "Bugungi kunda Bazaar o'ylangan dizayn, ishonchli sifat va kundalik hayotning bir qismiga aylanadigan mahsulotlarni qadrlaydigan odamlar uchun ehtiyotkorlik bilan tanlangan mahsulotlar to'plamini taqdim etadi."
+  },
+  "stats": {
+    "happyCustomers": "Mamnun mijozlar",
+    "featuredBrands": "Tanlangan brendlar",
+    "countriesDelivered": "Yetkazib beriladigan davlatlar",
+    "established": "Tashkil etilgan yil"
+  },
+  "values": {
+    "eyebrow": "Nega bizni tanlashadi",
+    "title": "Biz nimaga ishonamiz",
+    "items": {
+      "quality": {
+        "title": "Sifat muhim",
+        "description": "Biz ajoyib sifat, ishonchli ishlash va mangu dizaynni ta'minlash uchun har bir mahsulotni ehtiyotkorlik bilan tanlaymiz."
+      },
+      "thoughtful": {
+        "title": "O'ylangan tanlovlar",
+        "description": "Biz mas'uliyatli ishlab chiqarish, sifatli materiallar va o'ylangan hunarmandchilikni qadrlaydigan brendlar bilan ishlaymiz."
+      },
+      "customerFirst": {
+        "title": "Mijoz birinchi o'rinda",
+        "description": "Mahsulotni topishdan tortib buyurtmangizni olishgacha, biz tajribangizning har bir qismini sodda va yoqimli qilishga e'tibor qaratamiz."
+      }
+    }
+  }
+}

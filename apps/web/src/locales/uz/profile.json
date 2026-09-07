@@ -1,0 +1,76 @@
+{
+  "header": {
+    "memberSince": "A'zo bo'lgan sana"
+  },
+  "sidebar": {
+    "overview": "Umumiy ko'rinish",
+    "orders": "Buyurtmalarim",
+    "personal": "Shaxsiy ma'lumot",
+    "addresses": "Manzillar",
+    "signOut": "Chiqish"
+  },
+  "overview": {
+    "totalOrders": "Jami buyurtmalar",
+    "savedItems": "Saqlangan mahsulotlar",
+    "recentOrders": "So'nggi buyurtmalar",
+    "viewAll": "Barchasini ko'rish",
+    "loading": "Yuklanmoqda...",
+    "error": "Buyurtmalarni yuklab bo'lmadi",
+    "itemsCount_one": "{{count}} mahsulot",
+    "itemsCount_other": "{{count}} mahsulot"
+  },
+  "orders": {
+    "title": "Buyurtmalar tarixi",
+    "empty": "Sizda hali buyurtmalar yo'q.",
+    "loading": "Yuklanmoqda...",
+    "error": "Buyurtmalarni yuklab bo'lmadi",
+    "itemsCount_one": "{{count}} mahsulot",
+    "itemsCount_other": "{{count}} mahsulot",
+    "trackOrder": "Buyurtmani kuzatish",
+    "details": "Tafsilotlar"
+  },
+  "personalInfo": {
+    "title": "Shaxsiy ma'lumot",
+    "edit": "Tahrirlash",
+    "memberSince": "A'zo bo'lgan sana",
+    "firstName": "Ism",
+    "phone": "Telefon",
+    "phoneNumber": "Telefon raqami",
+    "changePhoto": "Rasmni o'zgartirish",
+    "saving": "Saqlanmoqda...",
+    "saveChanges": "O'zgarishlarni saqlash",
+    "cancel": "Bekor qilish"
+  },
+  "addresses": {
+    "title": "Saqlangan manzillar",
+    "addAddress": "Manzil qo'shish",
+    "editAddress": "Manzilni tahrirlash",
+    "noSavedAddresses": "Saqlangan manzillar yo'q",
+    "edit": "Tahrirlash",
+    "remove": "O'chirish",
+    "cityPlaceholder": "Shahar",
+    "addressPlaceholder": "Manzil",
+    "saving": "Saqlanmoqda...",
+    "update": "Yangilash",
+    "add": "Qo'shish",
+    "confirmDeleteLast": "Oxirgi manzilni o'chirib bo'lmaydi",
+    "confirmDelete": "Bu manzilni o'chirmoqchimisiz?"
+  },
+  "status": {
+    "pending": "KUTILMOQDA",
+    "preparing": "TAYYORLANMOQDA",
+    "delivered": "YETKAZILDI",
+    "cancelled": "BEKOR QILINDI"
+  },
+  "savedItems": {
+    "collectionLabel": "Sizning to'plamingiz",
+    "title": "Saqlangan mahsulotlar",
+    "continueShopping": "Xaridni davom ettirish",
+    "itemsSavedCount_one": "{{count}} ta mahsulot saqlangan",
+    "itemsSavedCount_other": "{{count}} ta mahsulot saqlangan",
+    "addAllToCart": "Barchasini savatga qo'shish",
+    "clearAll": "Barchasini tozalash",
+    "remove": "O'chirish",
+    "empty": "Saqlangan mahsulotlar yo'q"
+  }
+}

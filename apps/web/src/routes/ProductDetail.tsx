@@ -1,19 +1,21 @@
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import ProductGallery from "../components/ProductDetail/ProductGallery";
 import ProductInfo from "../components/ProductDetail/ProductInfo";
 import { useGetProductByIdQuery } from "../store/api";
 
 export default function ProductDetail() {
+  const { t } = useTranslation("product");
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError } = useGetProductByIdQuery(id ?? "");
 
   const product = data?.data;
 
   if (isLoading) {
-    
+
     return (
       <section className="max-w-6xl mx-auto px-6 py-12">
-        <p className="text-center text-neutral-400 py-12">Yuklanmoqda...</p>
+        <p className="text-center text-neutral-400 py-12">{t("loading")}</p>
       </section>
     );
   }
@@ -22,7 +24,7 @@ export default function ProductDetail() {
     return (
       <section className="max-w-6xl mx-auto px-6 py-12">
         <p className="text-center text-red-500 py-12">
-          Mahsulot topilmadi yoki yuklashda xatolik yuz berdi
+          {t("notFound")}
         </p>
       </section>
     );

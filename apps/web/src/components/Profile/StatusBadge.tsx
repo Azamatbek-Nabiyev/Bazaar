@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { OrderStatus } from "../../types/order";
 
 const styles = {
@@ -7,23 +8,18 @@ const styles = {
   cancelled: "bg-red-100 text-red-700",
 };
 
-const labels = {
-  pending: "PENDING",
-  preparing: "PREPARING",
-  delivered: "DELIVERED",
-  cancelled: "CANCELLED",
-};
-
 export const StatusBadge = ({
   status,
 }: {
   status: OrderStatus;
 }) => {
+  const { t } = useTranslation("profile");
+
   return (
     <span
       className={`text-[11px] font-semibold px-3 py-1 rounded ${styles[status]}`}
     >
-      {labels[status]}
+      {t(`status.${status}`)}
     </span>
   );
 };

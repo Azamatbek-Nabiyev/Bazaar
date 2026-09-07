@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from "react-i18next";
 
 export default function ContactForm() {
+  const { t } = useTranslation("contact");
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -22,10 +24,10 @@ export default function ContactForm() {
     return (
       <div className="border border-neutral-200 p-8 text-center">
         <h3 className="font-semibold text-neutral-900 mb-2">
-          Message sent!
+          {t("form.success.title")}
         </h3>
         <p className="text-sm text-neutral-500">
-          Thanks for reaching out — we'll get back to you within 24 hours.
+          {t("form.success.description")}
         </p>
       </div>
     );
@@ -35,12 +37,12 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5">
       <div className="grid grid-cols-2 gap-5">
         <Field
-          label="Full Name"
+          label={t("form.fields.fullName")}
           value={form.name}
           onChange={(v) => handleChange('name', v)}
         />
         <Field
-          label="Email"
+          label={t("form.fields.email")}
           type="email"
           value={form.email}
           onChange={(v) => handleChange('email', v)}
@@ -48,14 +50,14 @@ export default function ContactForm() {
       </div>
 
       <Field
-        label="Subject"
+        label={t("form.fields.subject")}
         value={form.subject}
         onChange={(v) => handleChange('subject', v)}
       />
 
       <div>
         <div className="text-[11px] uppercase text-neutral-400 mb-1">
-          Message
+          {t("form.fields.message")}
         </div>
         <textarea
           rows={5}
@@ -69,7 +71,7 @@ export default function ContactForm() {
         type="submit"
         className="bg-neutral-900 text-white text-sm font-semibold px-8 py-3 hover:bg-neutral-800 transition-colors w-fit"
       >
-        Send Message
+        {t("form.submit")}
       </button>
     </form>
   );

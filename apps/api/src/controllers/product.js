@@ -64,4 +64,19 @@ const getOne = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { getAll, create, getOne }
+const deleteProduct = catchAsync(async (req, res, next) => {
+
+    const deleted = await Product.findByIdAndDelete(req.params.id);
+
+    if (!deleted) {
+        return next(new AppError("Bunday mahsulot yo'q", 404));
+    }
+
+    res.status(204).json({
+        status: 'success',
+        data: null
+    })
+
+});
+
+module.exports = { getAll, create, getOne, deleteProduct }

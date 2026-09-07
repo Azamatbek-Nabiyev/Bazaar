@@ -1,35 +1,45 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import {
   ArrowRight,
-  Truck,
   RotateCcw,
   ShieldCheck,
   Headphones,
 } from "lucide-react";
 
-const SLIDES = [
+type HeroSlideContent = {
+  eyebrow: string;
+  titleLine1: string;
+  titleLine2: string;
+  subtitle: string;
+  cta: string;
+  alt: string;
+};
+
+const SLIDE_IMAGES = [
   "https://images.unsplash.com/photo-1621784562807-cb450c2f5efc?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1682095757120-c9abb908ed60?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1495385794356-15371f348c31?q=80&w=970&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1558877385-81a1c7e67d72?q=80&w=987&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=987&auto=format&fit=crop",
 ];
 
 const TRUST_BADGES = [
-  { icon: Truck, title: "Free Shipping", subtitle: "On orders over $75" },
-  { icon: RotateCcw, title: "Easy Returns", subtitle: "30-day free returns" },
-  {
-    icon: ShieldCheck,
-    title: "Secure Checkout",
-    subtitle: "256-bit encryption",
-  },
-  { icon: Headphones, title: "24/7 Support", subtitle: "We're always here" },
+  { icon: RotateCcw, key: "easyReturns" },
+  { icon: ShieldCheck, key: "secureCheckout" },
+  { icon: Headphones, key: "support" },
 ];
 
+// TODO: replace with real hero slide/trust badge data once category landing pages exist
 export default function Hero() {
+  const { t } = useTranslation("home");
   const [activeSlide, setActiveSlide] = useState(0);
+
+  const slides = t("hero.slides", { returnObjects: true }) as HeroSlideContent[];
+  const current = slides[activeSlide];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % SLIDES.length);
+      setActiveSlide((prev) => (prev + 1) % SLIDE_IMAGES.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -43,49 +53,45 @@ export default function Hero() {
             className="text-xs font-semibold tracking-[0.2em] uppercase mb-4"
             style={{ color: "#d9a24f" }}
           >
-            Men's New Season
+            {current.eyebrow}
           </p>
 
-          <h1 className="font-serif text-5xl md:text-6xl font-bold leading-[1.05]">
-            Dress With
+          <h1 className="font-serif text-3xl md:text-5xl font-bold leading-[1.05]">
+            {current.titleLine1}
             <br />
-            Intention
+            {current.titleLine2}
           </h1>
 
           <p className="text-neutral-400 text-base mt-5 max-w-sm">
-            Clean silhouettes, premium fabrics, and timeless design for the
-            discerning man.
+            {current.subtitle}
           </p>
 
           <div className="flex items-center gap-6 mt-8">
-            <button
+            <Link
+              to="/products"
               className="flex items-center gap-2 text-white text-sm font-semibold px-6 py-3.5 transition-colors hover:brightness-110"
               style={{ backgroundColor: "#d94f2b" }}
             >
-              Shop Men's
+              {current.cta}
               <ArrowRight size={16} />
-            </button>
-            <button className="text-white text-sm font-semibold underline underline-offset-4 hover:text-neutral-300 transition-colors">
-              View Lookbook
-            </button>
+            </Link>
           </div>
 
           <div className="flex items-center gap-5 mt-10 text-xs text-neutral-400">
             <span className="flex items-center gap-2">
-              <Truck size={14} style={{ color: "#d9a24f" }} />
-              Free shipping $75+
-            </span>
-            <span className="flex items-center gap-2">
               <RotateCcw size={14} style={{ color: "#d9a24f" }} />
-              30-day returns
+              {t("hero.returns30")}
             </span>
           </div>
 
           {/* Slide indicators */}
           <div className="flex gap-2 mt-10">
-            {SLIDES.map((_, i) => (
-              <span
+            {SLIDE_IMAGES.map((_, i) => (
+              <button
                 key={i}
+                type="button"
+                aria-label={`Slide ${i + 1}`}
+                onClick={() => setActiveSlide(i)}
                 className={`h-1 rounded-full transition-all duration-300 ${
                   i === activeSlide ? "w-8 bg-white" : "w-4 bg-neutral-600"
                 }`}
@@ -96,11 +102,11 @@ export default function Hero() {
 
         {/* Right: rotating background image */}
         <div className="relative h-72 md:h-[560px] overflow-hidden">
-          {SLIDES.map((src, i) => (
+          {SLIDE_IMAGES.map((src, i) => (
             <img
               key={src}
               src={src}
-              alt="Collection showcase"
+              alt={slides[i]?.alt ?? ""}
               className={`absolute inset-0 w-full h-full object-cover object-top transition-opacity duration-1000 ${
                 i === activeSlide ? "opacity-100" : "opacity-0"
               }`}
@@ -116,25 +122,29 @@ export default function Hero() {
           {/* Slide counter */}
           <span className="absolute bottom-4 right-4 bg-black/50 text-white text-xs font-medium px-3 py-1.5">
             {String(activeSlide + 1).padStart(2, "0")} /{" "}
-            {String(SLIDES.length).padStart(2, "0")}
+            {String(SLIDE_IMAGES.length).padStart(2, "0")}
           </span>
         </div>
       </div>
 
       {/* Trust badges bar */}
       <div className="border-t border-neutral-800">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4">
-          {TRUST_BADGES.map(({ icon: Icon, title, subtitle }, i) => (
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3">
+          {TRUST_BADGES.map(({ icon: Icon, key }, i) => (
             <div
-              key={title}
+              key={key}
               className={`flex items-center gap-3 px-6 py-6 ${
                 i > 0 ? "md:border-l border-neutral-800" : ""
               }`}
             >
               <Icon size={20} style={{ color: "#d9a24f" }} />
               <div>
-                <p className="text-sm font-semibold text-white">{title}</p>
-                <p className="text-xs text-neutral-500">{subtitle}</p>
+                <p className="text-sm font-semibold text-white">
+                  {t(`hero.trust.${key}Title`)}
+                </p>
+                <p className="text-xs text-neutral-500">
+                  {t(`hero.trust.${key}Subtitle`)}
+                </p>
               </div>
             </div>
           ))}

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 type PriceRange = {
   min: number;
   max: number;
@@ -28,16 +30,17 @@ export default function FilterSidebar({
   onSortChange,
   onReset,
 }: FilterSidebarProps) {
+  const { t } = useTranslation("product");
   return (
     <aside className="w-64 shrink-0 flex flex-col gap-8">
       {/* Qidiruv */}
       <div>
-        <h3 className="text-sm font-semibold text-neutral-900 mb-3">Search</h3>
+        <h3 className="text-sm font-semibold text-neutral-900 mb-3">{t("filters.searchTitle")}</h3>
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search products..."
+          placeholder={t("filters.searchPlaceholder")}
           className="w-full border border-neutral-300 px-3 py-2 text-sm"
         />
       </div>
@@ -45,7 +48,7 @@ export default function FilterSidebar({
       {/* Kategoriya */}
       <div>
         <h3 className="text-sm font-semibold text-neutral-900 mb-3">
-          Category
+          {t("filters.categoryTitle")}
         </h3>
         <div className="flex flex-col gap-2">
           {categories.map((cat) => (
@@ -68,7 +71,7 @@ export default function FilterSidebar({
       {/* Narx oralig'i */}
       <div>
         <h3 className="text-sm font-semibold text-neutral-900 mb-3">
-          Price Range
+          {t("filters.priceRangeTitle")}
         </h3>
         <div className="flex items-center gap-2">
           <input
@@ -77,7 +80,7 @@ export default function FilterSidebar({
             onChange={(e) =>
               onPriceChange({ ...priceRange, min: Number(e.target.value) })
             }
-            placeholder="Min"
+            placeholder={t("filters.minPlaceholder")}
             className="w-full border border-neutral-300 px-2 py-2 text-sm"
           />
           <span className="text-neutral-400">–</span>
@@ -87,7 +90,7 @@ export default function FilterSidebar({
             onChange={(e) =>
               onPriceChange({ ...priceRange, max: Number(e.target.value) })
             }
-            placeholder="Max"
+            placeholder={t("filters.maxPlaceholder")}
             className="w-full border border-neutral-300 px-2 py-2 text-sm"
           />
         </div>
@@ -96,16 +99,16 @@ export default function FilterSidebar({
       {/* Saralash */}
       <div>
         <h3 className="text-sm font-semibold text-neutral-900 mb-3">
-          Sort By
+          {t("filters.sortTitle")}
         </h3>
         <select
           value={sortBy}
           onChange={(e) => onSortChange(e.target.value)}
           className="w-full border border-neutral-300 px-3 py-2 text-sm bg-white"
         >
-          <option value="default">Featured</option>
-          <option value="price-asc">Price: Low to High</option>
-          <option value="price-desc">Price: High to Low</option>
+          <option value="default">{t("filters.sortFeatured")}</option>
+          <option value="price-asc">{t("filters.sortPriceAsc")}</option>
+          <option value="price-desc">{t("filters.sortPriceDesc")}</option>
         </select>
       </div>
 
@@ -113,7 +116,7 @@ export default function FilterSidebar({
         onClick={onReset}
         className="text-sm text-neutral-500 underline underline-offset-2 text-left w-fit"
       >
-        Reset filters
+        {t("filters.resetFilters")}
       </button>
     </aside>
   );

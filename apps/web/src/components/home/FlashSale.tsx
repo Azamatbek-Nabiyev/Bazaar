@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Zap } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import ProductCard from "../ProductCard/ProductCard";
 import { useGetProductsQuery } from "../../store/api";
 import type { Product } from "../../types/product";
@@ -38,6 +39,7 @@ function TimeBox({ value, label }: { value: number; label: string }) {
 }
 
 export default function FlashSale() {
+  const { t } = useTranslation(["home", "common"]);
   const { hoursLeft, minutesLeft, secondsLeft } = useCountdown(5.55);
   const { data, isLoading, isError } = useGetProductsQuery(undefined);
 
@@ -52,27 +54,27 @@ export default function FlashSale() {
           <div>
             <p className="flex items-center gap-1.5 text-xs font-semibold tracking-widest uppercase text-red-500 mb-2">
               <Zap size={14} className="fill-red-500" />
-              Limited Time
+              {t("flashSale.limitedTime")}
             </p>
-            <h2 className="text-3xl font-bold text-white">Flash Sale</h2>
+            <h2 className="text-3xl font-bold text-white">{t("flashSale.title")}</h2>
           </div>
 
           <div className="flex items-center gap-3">
-            <TimeBox value={hoursLeft} label="Hrs" />
+            <TimeBox value={hoursLeft} label={t("flashSale.hours")} />
             <span className="text-white/30 text-lg pb-4">:</span>
-            <TimeBox value={minutesLeft} label="Min" />
+            <TimeBox value={minutesLeft} label={t("flashSale.minutes")} />
             <span className="text-white/30 text-lg pb-4">:</span>
-            <TimeBox value={secondsLeft} label="Sec" />
+            <TimeBox value={secondsLeft} label={t("flashSale.seconds")} />
           </div>
         </div>
 
         {isLoading && (
-          <p className="text-center text-neutral-400 py-12">Yuklanmoqda...</p>
+          <p className="text-center text-neutral-400 py-12">{t("loading")}</p>
         )}
 
         {isError && (
           <p className="text-center text-red-500 py-12">
-            Mahsulotlarni yuklashda xatolik yuz berdi
+            {t("errors.productLoadFailed", { ns: "common" })}
           </p>
         )}
 
@@ -91,7 +93,7 @@ export default function FlashSale() {
             to="/products?sale=true"
             className="border border-white/30 text-white text-sm font-semibold px-8 py-3 hover:bg-white hover:text-neutral-900 hover:border-white transition-colors"
           >
-            See All Sale Items
+            {t("flashSale.seeAllSale")}
           </Link>
         </div>
       </div>

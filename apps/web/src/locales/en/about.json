@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "eyebrow": "Our Story",
+    "titleLine1": "Thoughtfully Designed,",
+    "titleLine2": "Made for Everyday.",
+    "description": "At Bazaar, we believe everyday products should be simple, functional, and beautifully designed. Each piece is carefully selected for its quality, timeless style, and lasting value.",
+    "imageAlt": "Inside Bazaar"
+  },
+  "story": {
+    "imageAlt": "Our journey",
+    "eyebrow": "Our Journey",
+    "title": "Built on Quality, Driven by Purpose",
+    "paragraph1": "Bazaar started with a simple idea: finding quality products should be easy and enjoyable. We created a curated marketplace where every item is carefully selected for its design, quality, and value.",
+    "paragraph2": "Today, Bazaar brings together a carefully selected collection of products for people who appreciate thoughtful design, reliable quality, and pieces made to become part of everyday life."
+  },
+  "stats": {
+    "happyCustomers": "Happy Customers",
+    "featuredBrands": "Featured Brands",
+    "countriesDelivered": "Countries Delivered",
+    "established": "Established"
+  },
+  "values": {
+    "eyebrow": "Why Choose Us",
+    "title": "What We Believe In",
+    "items": {
+      "quality": {
+        "title": "Quality Matters",
+        "description": "We carefully select every product to ensure excellent quality, reliable performance, and timeless design."
+      },
+      "thoughtful": {
+        "title": "Thoughtful Choices",
+        "description": "We work with brands that value responsible production, quality materials, and thoughtful craftsmanship."
+      },
+      "customerFirst": {
+        "title": "Customer First",
+        "description": "From discovering a product to receiving your order, we focus on making every part of your experience simple and enjoyable."
+      }
+    }
+  }
+}

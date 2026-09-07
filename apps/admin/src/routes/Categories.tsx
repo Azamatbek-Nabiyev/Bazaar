@@ -6,7 +6,7 @@ import { RowActionButton } from "../components/ui/RowActionButton";
 import { ConfirmModal } from "../components/ui/ConfirmModal";
 import { Modal } from "../components/ui/Modal";
 import { CategoryForm, type CategoryFormData } from "../components/categories/CategoryForm";
-import { useGetCategoriesQuery } from "../store/api";
+import { useGetCategoriesQuery, useDeleteCategoryMutation } from "../store/api";
 import type { Category } from "../types/product";
 
 const PAGE_SIZE = 10;
@@ -27,7 +27,8 @@ export default function Categories() {
   const [editTarget, setEditTarget] = useState<Category | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Category | null>(null);
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation();
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const columns = [
     {
@@ -73,10 +74,13 @@ export default function Categories() {
 
   const handleDelete = async () => {
     if (!deleteTarget) return;
-    setIsDeleting(true);
-    // TODO: useDeleteCategoryMutation() bilan almashtiriladi
-    setIsDeleting(false);
-    setDeleteTarget(null);
+    setDeleteError(null);
+    try {
+      await deleteCategory(deleteTarget._id).unwrap();
+      setDeleteTarget(null);
+    } catch (err: any) {
+      setDeleteError(err?.data?.message ?? "Failed to delete category");
+    }
   };
 
   if (isLoading) {
@@ -159,8 +163,12 @@ export default function Categories() {
         title="Delete Category"
         message={`Are you sure you want to delete "${deleteTarget?.title}"? Products in this category will not be deleted, but will become uncategorized.`}
         onConfirm={handleDelete}
-        onCancel={() => setDeleteTarget(null)}
+        onCancel={() => {
+          setDeleteTarget(null);
+          setDeleteError(null);
+        }}
         isLoading={isDeleting}
+        error={deleteError}
       />
     </div>
   );

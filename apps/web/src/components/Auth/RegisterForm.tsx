@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import AuthLayout from './AuthLayout';
 import AuthField from './AuthField';
 import { useSignupRequestMutation, useSignupConfirmMutation } from '../../store/api';
@@ -10,6 +11,8 @@ import type { AppDispatch } from '../../store/index';
 const BOT_USERNAME = 'ecommerce_verifybot'; 
 
 export default function RegisterForm() {
+  const { t } = useTranslation('auth');
+
   const [form, setForm] = useState({
     name: '',
     phone: '',
@@ -38,7 +41,7 @@ export default function RegisterForm() {
     setError('');
 
     if (!form.name.trim() || !form.phone.trim()) {
-      setError('Ismingiz va telefon raqamingizni kiriting');
+      setError(t('errors.nameAndPhoneRequired'));
       return;
     }
 
@@ -51,7 +54,7 @@ export default function RegisterForm() {
       setBotLink(result.botLink);
       setCode('');
     } catch (err: any) {
-      setError(err?.data?.message || "Server bilan bog'lanishda xatolik yuz berdi");
+      setError(err?.data?.message || t('errors.serverConnection'));
     }
   };
 
@@ -71,24 +74,24 @@ export default function RegisterForm() {
       dispatch(setCredentials({ token: result.token, user: result.user }));
       navigate('/');
     } catch (err: any) {
-      setError(err?.data?.message || "Kod noto'g'ri yoki muddati o'tgan");
+      setError(err?.data?.message || t('errors.invalidOrExpiredCode'));
     }
   };
 
   return (
     <AuthLayout
-      title="Create Your Account"
-      subtitle="Join us and start shopping today"
+      title={t('register.title')}
+      subtitle={t('register.subtitle')}
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <AuthField
-          label="Full Name"
+          label={t('register.fullNameLabel')}
           value={form.name}
           onChange={(v) => handleChange('name', v)}
           disabled={!!botLink}
         />
         <AuthField
-          label="Phone number"
+          label={t('register.phoneLabel')}
           value={form.phone}
           onChange={(v) => handleChange('phone', v)}
           disabled={!!botLink}
@@ -105,12 +108,12 @@ export default function RegisterForm() {
             disabled={isSending}
             className="bg-neutral-900 text-white text-sm font-semibold py-3 hover:bg-neutral-800 transition-colors mt-2 disabled:opacity-50"
           >
-            {isSending ? 'YUBORILMOQDA...' : 'SEND CODE'}
+            {isSending ? t('register.sendingCode') : t('register.sendCodeButton')}
           </button>
         ) : (
           <>
             <p className="text-center text-sm">
-              Telegram botdan tasdiqlash kodingizni oling:{' '}
+              {t('register.getCodeFromBot')}{' '}
               <a
                 href={botLink}
                 target="_blank"
@@ -122,7 +125,7 @@ export default function RegisterForm() {
             </p>
 
             <AuthField
-              label="Verification code"
+              label={t('register.verificationCodeLabel')}
               value={code}
               onChange={handleCodeChange}
             />
@@ -132,7 +135,7 @@ export default function RegisterForm() {
               disabled={isConfirming || code.length !== 4}
               className="bg-neutral-900 text-white text-sm font-semibold py-3 hover:bg-neutral-800 transition-colors mt-2 disabled:opacity-50"
             >
-              {isConfirming ? 'TEKSHIRILMOQDA...' : 'CONFIRM'}
+              {isConfirming ? t('register.checkingCode') : t('register.confirmButton')}
             </button>
 
             <button
@@ -141,16 +144,16 @@ export default function RegisterForm() {
               disabled={isSending}
               className="text-sm text-neutral-500 underline text-center disabled:opacity-50"
             >
-              {isSending ? 'Yuborilmoqda...' : "Kodni qayta yuborish"}
+              {isSending ? t('register.sendingCodeLower') : t('register.resendCode')}
             </button>
           </>
         )}
       </form>
 
       <p className="text-sm text-center text-neutral-500 mt-6">
-        Already have an account?{' '}
+        {t('register.haveAccount')}{' '}
         <Link to="/login" className="text-neutral-900 font-semibold">
-          Sign in
+          {t('register.signInLink')}
         </Link>
       </p>
     </AuthLayout>

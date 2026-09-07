@@ -1,0 +1,40 @@
+{
+  "title": "Checkout",
+  "shipping": {
+    "title": "Shipping Address",
+    "fullName": "Full Name",
+    "address": "Address",
+    "city": "City",
+    "phone": "Phone"
+  },
+  "payment": {
+    "title": "Payment",
+    "cardNumber": "Card Number",
+    "nameOnCard": "Name on Card",
+    "expiry": "Expiry Date",
+    "cvv": "CVV"
+  },
+  "summary": {
+    "title": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "tax": "Tax",
+    "total": "Total",
+    "qty": "Qty",
+    "size": "Size",
+    "placeOrder": "Place Order",
+    "submitting": "Submitting..."
+  },
+  "orderPlaced": {
+    "success": "Order placed successfully",
+    "error": "Something went wrong, please try again"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "emptyTitle": "Your cart is empty",
+    "emptyText": "Looks like you haven't added anything yet.",
+    "continueShopping": "Continue Shopping",
+    "proceedToCheckout": "Proceed to Checkout",
+    "removeItem": "Remove item"
+  }
+}

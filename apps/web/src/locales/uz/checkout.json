@@ -1,0 +1,40 @@
+{
+  "title": "Buyurtmani rasmiylashtirish",
+  "shipping": {
+    "title": "Yetkazib berish manzili",
+    "fullName": "To'liq ism",
+    "address": "Manzil",
+    "city": "Shahar",
+    "phone": "Telefon"
+  },
+  "payment": {
+    "title": "To'lov",
+    "cardNumber": "Karta raqami",
+    "nameOnCard": "Kartadagi ism",
+    "expiry": "Amal qilish muddati",
+    "cvv": "CVV"
+  },
+  "summary": {
+    "title": "Buyurtma xulosasi",
+    "subtotal": "Oraliq summa",
+    "shipping": "Yetkazib berish",
+    "tax": "Soliq",
+    "total": "Jami",
+    "qty": "Soni",
+    "size": "O'lcham",
+    "placeOrder": "Buyurtma berish",
+    "submitting": "Yuborilmoqda..."
+  },
+  "orderPlaced": {
+    "success": "Buyurtma muvaffaqiyatli joylandi",
+    "error": "Xatolik yuz berdi, qayta urinib ko'ring"
+  },
+  "cart": {
+    "title": "Sizning savatingiz",
+    "emptyTitle": "Savatingiz bo'sh",
+    "emptyText": "Hali hech narsa qo'shmagandek ko'rinasiz.",
+    "continueShopping": "Xarid qilishni davom ettirish",
+    "proceedToCheckout": "Buyurtmani rasmiylashtirish",
+    "removeItem": "Mahsulotni o'chirish"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "loading": "Loading...",
+  "quickAdd": "Quick Add",
+  "added": "Added ✓",
+  "addToCart": "Add to Cart",
+  "toggleWishlist": "Toggle wishlist",
+  "reviewsWord": "reviews",
+  "colorLabel": "Color",
+  "selectColor": "Select {{color}}",
+  "sizeLabel": "Size",
+  "currency": "so'm",
+  "notFound": "Product not found or an error occurred while loading",
+  "gallery": {
+    "thumbnailAlt": "{{alt}} thumbnail {{index}}"
+  },
+  "filters": {
+    "searchTitle": "Search",
+    "searchPlaceholder": "Search products...",
+    "categoryTitle": "Category",
+    "priceRangeTitle": "Price Range",
+    "minPlaceholder": "Min",
+    "maxPlaceholder": "Max",
+    "sortTitle": "Sort By",
+    "sortFeatured": "Featured",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low",
+    "resetFilters": "Reset filters"
+  },
+  "list": {
+    "eyebrow": "Shop",
+    "allProductsTitle": "All Products",
+    "allBestSellersTitle": "All Best Seller Products",
+    "empty": "Nothing found",
+    "productsCountSuffix": "products"
+  }
+}

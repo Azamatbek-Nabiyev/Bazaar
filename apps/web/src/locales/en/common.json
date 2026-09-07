@@ -1,0 +1,46 @@
+{
+  "brand": "BAZAAR",
+  "promo": "Use FIRST30 for 30% off your debut order",
+  "nav": {
+    "home": "Home",
+    "products": "Products",
+    "bestsellers": "Best Sellers",
+    "flashsale": "Flash Sale",
+    "about": "About us",
+    "contact": "Contact"
+  },
+  "aria": {
+    "account": "Account",
+    "wishlist": "Wishlist",
+    "cart": "Cart"
+  },
+  "language": {
+    "uz": "O'zbekcha",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "errors": {
+    "productLoadFailed": "Failed to load products",
+    "serverConnection": "Server connection error"
+  },
+  "footer": {
+    "tagline": "Fashion, toys, electronics, and everything in between.",
+    "columns": {
+      "shop": {
+        "title": "Shop",
+        "links": ["New Arrivals", "Women", "Men", "Accessories", "Sale"]
+      },
+      "support": {
+        "title": "Support",
+        "links": ["Contact Us", "Shipping & Returns", "Size Guide", "FAQ"]
+      },
+      "company": {
+        "title": "Company",
+        "links": ["About Us", "Careers", "Press", "Sustainability"]
+      }
+    },
+    "copyright": "© {{year}} Bazaar. All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service"
+  }
+}

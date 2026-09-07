@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import ProductCard from '../ProductCard/ProductCard';
 import FilterSidebar from './FilterSidebar';
 import { useGetProductsQuery } from '../../store/api';
@@ -9,6 +10,7 @@ export default function ProductsPage() {
   const { data, isLoading, isError } = useGetProductsQuery(undefined);
   const products: Product[] = data?.data ?? [];
 
+  const { t } = useTranslation(['product', 'common']);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
@@ -18,6 +20,24 @@ export default function ProductsPage() {
     const unique = new Set(products.map((p) => p.category.title));
     return Array.from(unique);
   }, [products]);
+
+  const [searchParams] = useSearchParams();
+  const appliedInitialCategory = useRef(false);
+
+  useEffect(() => {
+    if (appliedInitialCategory.current || categories.length === 0) return;
+
+    const categoryParam = searchParams.get('category');
+    if (categoryParam) {
+      const match = categories.find(
+        (c) => c.toLowerCase() === categoryParam.toLowerCase()
+      );
+      if (match) {
+        setSelectedCategories([match]);
+      }
+    }
+    appliedInitialCategory.current = true;
+  }, [categories, searchParams]);
 
   const handleCategoryToggle = (cat: string) => {
     setSelectedCategories((prev) =>
@@ -67,9 +87,9 @@ export default function ProductsPage() {
     <section className="max-w-7xl mx-auto px-6 py-16">
       <div className="mb-10">
         <p className="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-2">
-          Shop
+          {t("list.eyebrow")}
         </p>
-        <h1 className="text-3xl font-bold text-neutral-900">All Products</h1>
+        <h1 className="text-3xl font-bold text-neutral-900">{t("list.allProductsTitle")}</h1>
       </div>
 
       <div className="flex gap-10">
@@ -88,24 +108,24 @@ export default function ProductsPage() {
 
         <div className="flex-1">
           {isLoading && (
-            <p className="text-center text-neutral-400 py-12">Yuklanmoqda...</p>
+            <p className="text-center text-neutral-400 py-12">{t("loading")}</p>
           )}
 
           {isError && (
             <p className="text-center text-red-500 py-12">
-              Mahsulotlarni yuklashda xatolik yuz berdi
+              {t("errors.productLoadFailed", { ns: "common" })}
             </p>
           )}
 
           {!isLoading && !isError && (
             <>
               <p className="text-sm text-neutral-400 mb-6">
-                {filtered.length} products
+                {filtered.length} {t("list.productsCountSuffix")}
               </p>
 
               {filtered.length === 0 ? (
                 <p className="text-center text-neutral-400 py-12">
-                  Hech narsa topilmadi
+                  {t("list.empty")}
                 </p>
               ) : (
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">

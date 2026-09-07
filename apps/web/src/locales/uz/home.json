@@ -1,0 +1,86 @@
+{
+  "loading": "Yuklanmoqda...",
+  "bestsellers": {
+    "eyebrow": "Eng ko'p baholanganlar",
+    "title": "Ko'p sotilganlar",
+    "seeAll": "Barchasini ko'rish",
+    "scrollLeft": "Chapga surish",
+    "scrollRight": "O'ngga surish"
+  },
+  "featured": {
+    "eyebrow": "Tanlangan mahsulotlar",
+    "title": "Tavsiya etilgan mahsulotlar",
+    "tabs": {
+      "all": "Barchasi",
+      "men": "Erkaklar",
+      "women": "Ayollar",
+      "electronics": "Elektronika"
+    },
+    "viewAll": "Barcha mahsulotlarni ko'rish"
+  },
+  "flashSale": {
+    "limitedTime": "Cheklangan vaqt",
+    "title": "Chegirmali savdo",
+    "hours": "Soat",
+    "minutes": "Daqiqa",
+    "seconds": "Soniya",
+    "seeAllSale": "Barcha chegirmali mahsulotlarni ko'rish"
+  },
+  "testimonials": {
+    "eyebrow": "Ijtimoiy tasdiq",
+    "title": "Mijozlarimiz nima deydi",
+    "verifiedReviews": "24,309 ta tasdiqlangan sharh",
+    "readAllReviews": "Barcha sharhlarni o'qish"
+  },
+  "hero": {
+    "slides": [
+      {
+        "eyebrow": "Yangi mavsum",
+        "titleLine1": "Sizga mos",
+        "titleLine2": "Uslub",
+        "subtitle": "Har kuni uchun qulay liboslardan tortib, alohida uslubgacha — barcha did uchun kiyimlar.",
+        "cta": "Kiyimlarni ko'rish",
+        "alt": "Kiyim-kechak kolleksiyasi vitrinasi"
+      },
+      {
+        "eyebrow": "Kichkintoylar uchun",
+        "titleLine1": "O'ynang, o'rganing",
+        "titleLine2": "va rivojlaning",
+        "subtitle": "Har qanday yoshdagi bolalar uchun xavfsiz, qiziqarli va rivojlantiruvchi o'yinchoqlar.",
+        "cta": "O'yinchoqlarni ko'rish",
+        "alt": "O'yinchoqlar kolleksiyasi vitrinasi"
+      },
+      {
+        "eyebrow": "Texnika bo'limi",
+        "titleLine1": "Kerakli barcha",
+        "titleLine2": "texnika bir joyda",
+        "subtitle": "Noutbuklar, quloqchinlar, aksessuarlar va boshqa zamonaviy texnika mahsulotlari.",
+        "cta": "Texnikani ko'rish",
+        "alt": "Elektronika kolleksiyasi vitrinasi"
+      }
+    ],
+    "returns30": "30 kunlik qaytarish",
+    "trust": {
+      "easyReturnsTitle": "Oson qaytarish",
+      "easyReturnsSubtitle": "30 kunlik bepul qaytarish",
+      "secureCheckoutTitle": "Xavfsiz to'lov",
+      "secureCheckoutSubtitle": "256-bitli shifrlash",
+      "supportTitle": "24/7 qo'llab-quvvatlash",
+      "supportSubtitle": "Biz doim yordam beramiz"
+    }
+  },
+  "categoryShowcase": {
+    "eyebrow": "Ko'rib chiqish",
+    "title": "Kategoriya bo'yicha xarid qiling",
+    "allCategories": "Barcha kategoriyalar →",
+    "stylesSuffix": "ta uslub",
+    "shopNow": "Hozir xarid qiling →",
+    "categories": {
+      "women": "Ayollar bo'limi",
+      "men": "Erkaklar bo'limi",
+      "footwear": "Poyabzal",
+      "bags": "Sumkalar",
+      "accessories": "Aksessuarlar"
+    }
+  }
+}

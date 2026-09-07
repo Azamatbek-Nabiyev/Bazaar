@@ -38,4 +38,19 @@ const create = catchAsync(async (req,res,next) => {
     })
 });
 
-module.exports = { getAll, create }
+const deleteCategory = catchAsync(async (req, res, next) => {
+
+    const deleted = await Category.findByIdAndDelete(req.params.id);
+
+    if (!deleted) {
+        return next(new AppError("Bunday kategoriya yo'q", 404));
+    }
+
+    res.status(204).json({
+        status: 'success',
+        data: null
+    })
+
+});
+
+module.exports = { getAll, create, deleteCategory }

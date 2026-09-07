@@ -2,6 +2,7 @@ import { Modal } from "../ui/Modal";
 import { StatusBadge } from "./StatusBadge";
 import { OrderStatusForm, type OrderStatusFormData } from "./OrderStatusForm";
 import type { Order } from "../../types/order";
+import { formatPrice } from "../../utils/formatPrice";
 
 export const OrderDetailModal = ({
   order,
@@ -72,7 +73,7 @@ export const OrderDetailModal = ({
                   <p className="text-xs text-neutral-400">Qty {item.quantity}</p>
                 </div>
                 <p className="text-sm font-semibold text-neutral-700">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {formatPrice(item.price * item.quantity)} so'm
                 </p>
               </div>
             ))}
@@ -83,15 +84,15 @@ export const OrderDetailModal = ({
         <div className="flex flex-col gap-2 text-sm border-t border-neutral-100 pt-4">
           <div className="flex justify-between">
             <span className="text-neutral-500">Subtotal</span>
-            <span>${itemsTotal.toFixed(2)}</span>
+            <span>{formatPrice(itemsTotal)} so'm</span>
           </div>
           <div className="flex justify-between">
             <span className="text-neutral-500">Shipping</span>
-            <span>${order.shippingPrice.toFixed(2)}</span>
+            <span>{formatPrice(order.shippingPrice)} so'm</span>
           </div>
           <div className="flex justify-between font-bold text-base pt-2 border-t border-neutral-100">
             <span>Total</span>
-            <span>${order.totalPrice.toFixed(2)}</span>
+            <span>{formatPrice(order.totalPrice)} so'm</span>
           </div>
         </div>
 

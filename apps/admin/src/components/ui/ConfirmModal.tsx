@@ -5,6 +5,7 @@ type ConfirmModalProps = {
   onConfirm: () => void;
   onCancel: () => void;
   isLoading?: boolean;
+  error?: string | null;
 };
 
 export const ConfirmModal = ({
@@ -14,6 +15,7 @@ export const ConfirmModal = ({
   onConfirm,
   onCancel,
   isLoading,
+  error,
 }: ConfirmModalProps) => {
   if (!open) return null;
 
@@ -21,7 +23,12 @@ export const ConfirmModal = ({
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl p-6 w-full max-w-sm">
         <h3 className="font-bold text-neutral-900 mb-2">{title}</h3>
-        <p className="text-sm text-neutral-500 mb-6">{message}</p>
+        <p className="text-sm text-neutral-500 mb-4">{message}</p>
+        {error && (
+          <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            {error}
+          </div>
+        )}
         <div className="flex gap-3 justify-end">
           <button
             onClick={onCancel}

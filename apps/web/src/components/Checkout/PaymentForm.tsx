@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { CreditCard } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export const PaymentForm = () => {
+  const { t } = useTranslation("checkout");
   const [form, setForm] = useState({
     cardNumber: "",
     nameOnCard: "",
@@ -17,13 +19,13 @@ export const PaymentForm = () => {
     <div className="border rounded-lg p-6">
       <div className="flex items-center gap-2 mb-5">
         <CreditCard size={18} />
-        <h2 className="font-bold">Payment</h2>
+        <h2 className="font-bold">{t("payment.title")}</h2>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
           <div className="text-[11px] uppercase text-gray-400 mb-1">
-            Card Number
+            {t("payment.cardNumber")}
           </div>
           <input
             type="text"
@@ -36,7 +38,7 @@ export const PaymentForm = () => {
 
         <div className="col-span-2">
           <div className="text-[11px] uppercase text-gray-400 mb-1">
-            Name on Card
+            {t("payment.nameOnCard")}
           </div>
           <input
             type="text"
@@ -48,7 +50,7 @@ export const PaymentForm = () => {
 
         <div>
           <div className="text-[11px] uppercase text-gray-400 mb-1">
-            Expiry Date
+            {t("payment.expiry")}
           </div>
           <input
             type="text"
@@ -60,7 +62,7 @@ export const PaymentForm = () => {
         </div>
 
         <div>
-          <div className="text-[11px] uppercase text-gray-400 mb-1">CVV</div>
+          <div className="text-[11px] uppercase text-gray-400 mb-1">{t("payment.cvv")}</div>
           <input
             type="text"
             placeholder="123"

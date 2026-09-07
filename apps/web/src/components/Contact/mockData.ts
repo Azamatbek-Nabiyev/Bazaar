@@ -1,22 +1,23 @@
+// TODO: replace placeholder company info with real content
 export const contactInfo = [
   {
     icon: 'mail',
-    label: 'Email',
+    labelKey: 'info.labels.email',
     value: 'hello@moderno.com',
   },
   {
     icon: 'phone',
-    label: 'Phone',
+    labelKey: 'info.labels.phone',
     value: '+1 (415) 555-0192',
   },
   {
     icon: 'mapPin',
-    label: 'Address',
-    value: '580 Market Street, Floor 12, San Francisco, CA 94104',
+    labelKey: 'info.labels.address',
+    valueKey: 'info.values.address',
   },
   {
     icon: 'clock',
-    label: 'Working Hours',
-    value: 'Mon–Fri, 9:00 AM – 6:00 PM',
+    labelKey: 'info.labels.hours',
+    valueKey: 'info.values.hours',
   },
 ];

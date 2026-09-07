@@ -1,11 +1,13 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import ProductCard from "../ProductCard/ProductCard";
 import { useGetProductsQuery } from "../../store/api";
 import type { Product } from "../../types/product";
 
 export default function BestSellers() {
+  const { t } = useTranslation(["home", "common"]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { data, isLoading, isError } = useGetProductsQuery(undefined);
 
@@ -25,9 +27,9 @@ export default function BestSellers() {
       <div className="flex items-end justify-between mb-8">
         <div>
           <p className="text-xs font-semibold tracking-widest uppercase text-neutral-400 mb-2">
-            Top Rated
+            {t("bestsellers.eyebrow")}
           </p>
-          <h2 className="text-3xl font-bold text-neutral-900">Best Sellers</h2>
+          <h2 className="text-3xl font-bold text-neutral-900">{t("bestsellers.title")}</h2>
         </div>
 
         <div className="flex items-center gap-4">
@@ -35,19 +37,19 @@ export default function BestSellers() {
             to="/products"
             className="text-sm font-semibold text-neutral-900 hover:text-neutral-600 transition-colors"
           >
-            See all
+            {t("bestsellers.seeAll")}
           </Link>
           <div className="flex items-center gap-2">
             <button
               onClick={() => scroll("left")}
-              aria-label="Scroll left"
+              aria-label={t("bestsellers.scrollLeft")}
               className="w-9 h-9 flex items-center justify-center border border-neutral-300 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
             >
               <ChevronLeft size={16} />
             </button>
             <button
               onClick={() => scroll("right")}
-              aria-label="Scroll right"
+              aria-label={t("bestsellers.scrollRight")}
               className="w-9 h-9 flex items-center justify-center border border-neutral-300 hover:bg-neutral-900 hover:text-white hover:border-neutral-900 transition-colors"
             >
               <ChevronRight size={16} />
@@ -57,12 +59,12 @@ export default function BestSellers() {
       </div>
 
       {isLoading && (
-        <p className="text-center text-neutral-400 py-12">Yuklanmoqda...</p>
+        <p className="text-center text-neutral-400 py-12">{t("loading")}</p>
       )}
 
       {isError && (
         <p className="text-center text-red-500 py-12">
-          Mahsulotlarni yuklashda xatolik yuz berdi
+          {t("errors.productLoadFailed", { ns: "common" })}
         </p>
       )}
 

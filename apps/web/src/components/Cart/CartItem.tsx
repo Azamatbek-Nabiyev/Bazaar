@@ -1,6 +1,8 @@
 import { Minus, Plus, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import type { CartItemData } from "../../types/cartItem";
 import { getImageUrl } from "../../utils/getImageUrl";
+import { formatPrice } from "../../utils/formatPrice";
 
 type CartItemProps = {
   item: CartItemData;
@@ -9,6 +11,7 @@ type CartItemProps = {
 };
 
 export default function CartItem({ item, onQuantityChange, onRemove }: CartItemProps) {
+  const { t } = useTranslation("checkout");
   return (
     <div className="flex gap-4 py-6 border-b border-neutral-200">
       <div className="w-24 h-24 shrink-0 bg-neutral-100 overflow-hidden">
@@ -26,13 +29,13 @@ export default function CartItem({ item, onQuantityChange, onRemove }: CartItemP
             </p>
             <p className="text-xs text-neutral-500 mt-1">
               {item.color}
-              {item.size ? ` · Size ${item.size}` : ""}
+              {item.size ? ` · ${t("summary.size")} ${item.size}` : ""}
             </p>
           </div>
 
           <button
             onClick={() => onRemove(item._id)}
-            aria-label="Remove item"
+            aria-label={t("cart.removeItem")}
             className="text-neutral-400 hover:text-neutral-900 transition-colors"
           >
             <X size={18} />
@@ -57,7 +60,7 @@ export default function CartItem({ item, onQuantityChange, onRemove }: CartItemP
           </div>
 
           <p className="text-base font-bold text-neutral-900">
-            ${(item.price * item.quantity).toFixed(2)}
+            {formatPrice(item.price * item.quantity)} so'm
           </p>
         </div>
       </div>

@@ -1,0 +1,46 @@
+{
+  "brand": "BAZAAR",
+  "promo": "Birinchi buyurtmangizga 30% chegirma uchun FIRST30 dan foydalaning",
+  "nav": {
+    "home": "Bosh sahifa",
+    "products": "Mahsulotlar",
+    "bestsellers": "Ko'p sotilganlar",
+    "flashsale": "Chegirmalar",
+    "about": "Biz haqimizda",
+    "contact": "Aloqa"
+  },
+  "aria": {
+    "account": "Profil",
+    "wishlist": "Sevimlilar",
+    "cart": "Savat"
+  },
+  "language": {
+    "uz": "O'zbekcha",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "errors": {
+    "productLoadFailed": "Mahsulotlarni yuklashda xatolik yuz berdi",
+    "serverConnection": "Server bilan bog'lanishda xatolik yuz berdi"
+  },
+  "footer": {
+    "tagline": "Kiyim, o'yinchoqlar, texnika va boshqa ko'plab mahsulotlar.",
+    "columns": {
+      "shop": {
+        "title": "Do'kon",
+        "links": ["Yangi kelganlar", "Ayollar", "Erkaklar", "Aksessuarlar", "Chegirma"]
+      },
+      "support": {
+        "title": "Yordam",
+        "links": ["Biz bilan bog'laning", "Yetkazib berish va qaytarish", "O'lcham jadvali", "Savol-javob"]
+      },
+      "company": {
+        "title": "Kompaniya",
+        "links": ["Biz haqimizda", "Karyera", "Matbuot", "Barqarorlik"]
+      }
+    },
+    "copyright": "© {{year}} Bazaar. Barcha huquqlar himoyalangan.",
+    "privacyPolicy": "Maxfiylik siyosati",
+    "termsOfService": "Xizmat ko'rsatish shartlari"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "header": {
+    "memberSince": "Участник с"
+  },
+  "sidebar": {
+    "overview": "Обзор",
+    "orders": "Мои заказы",
+    "personal": "Личные данные",
+    "addresses": "Адреса",
+    "signOut": "Выйти"
+  },
+  "overview": {
+    "totalOrders": "Всего заказов",
+    "savedItems": "Сохранённые товары",
+    "recentOrders": "Недавние заказы",
+    "viewAll": "Смотреть все",
+    "loading": "Загрузка...",
+    "error": "Не удалось загрузить заказы",
+    "itemsCount_one": "{{count}} товар",
+    "itemsCount_other": "{{count}} товаров"
+  },
+  "orders": {
+    "title": "История заказов",
+    "empty": "У вас пока нет заказов.",
+    "loading": "Загрузка...",
+    "error": "Не удалось загрузить заказы",
+    "itemsCount_one": "{{count}} товар",
+    "itemsCount_other": "{{count}} товаров",
+    "trackOrder": "Отследить заказ",
+    "details": "Подробнее"
+  },
+  "personalInfo": {
+    "title": "Личная информация",
+    "edit": "Редактировать",
+    "memberSince": "Участник с",
+    "firstName": "Имя",
+    "phone": "Телефон",
+    "phoneNumber": "Номер телефона",
+    "changePhoto": "Изменить фото",
+    "saving": "Сохранение...",
+    "saveChanges": "Сохранить изменения",
+    "cancel": "Отмена"
+  },
+  "addresses": {
+    "title": "Сохранённые адреса",
+    "addAddress": "Добавить адрес",
+    "editAddress": "Редактировать адрес",
+    "noSavedAddresses": "Нет сохранённых адресов",
+    "edit": "Редактировать",
+    "remove": "Удалить",
+    "cityPlaceholder": "Город",
+    "addressPlaceholder": "Адрес",
+    "saving": "Сохранение...",
+    "update": "Обновить",
+    "add": "Добавить",
+    "confirmDeleteLast": "Нельзя удалить последний адрес",
+    "confirmDelete": "Вы хотите удалить этот адрес?"
+  },
+  "status": {
+    "pending": "В ОЖИДАНИИ",
+    "preparing": "ГОТОВИТСЯ",
+    "delivered": "ДОСТАВЛЕНО",
+    "cancelled": "ОТМЕНЕНО"
+  },
+  "savedItems": {
+    "collectionLabel": "Ваша коллекция",
+    "title": "Сохранённые товары",
+    "continueShopping": "Продолжить покупки",
+    "itemsSavedCount_one": "{{count}} товар сохранён",
+    "itemsSavedCount_other": "{{count}} товаров сохранено",
+    "addAllToCart": "Добавить все в корзину",
+    "clearAll": "Очистить всё",
+    "remove": "Удалить",
+    "empty": "Нет сохранённых товаров"
+  }
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import AuthLayout from './AuthLayout';
 import AuthField from './AuthField';
@@ -16,6 +17,8 @@ import type { AppDispatch } from '../../store/index';
 const BOT_USERNAME = 'ecommerce_verifybot';
 
 export default function LoginForm() {
+  const { t } = useTranslation('auth');
+
   const [form, setForm] = useState({
     phone: '',
   });
@@ -50,7 +53,7 @@ export default function LoginForm() {
     setError('');
 
     if (!form.phone.trim()) {
-      setError('Telefon raqamingizni kiriting');
+      setError(t('errors.phoneRequired'));
       return;
     }
 
@@ -66,7 +69,7 @@ export default function LoginForm() {
 
       setError(
         err?.data?.message ||
-          "Server bilan bog'lanishda xatolik yuz berdi"
+          t('errors.serverConnection')
       );
     }
   };
@@ -100,19 +103,19 @@ export default function LoginForm() {
 
       setError(
         err?.data?.message ||
-          "Kod noto'g'ri yoki muddati o'tgan"
+          t('errors.invalidOrExpiredCode')
       );
     }
   };
 
   return (
     <AuthLayout
-      title="Welcome Back"
-      subtitle="Sign in to continue to your account"
+      title={t('login.title')}
+      subtitle={t('login.subtitle')}
     >
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <AuthField
-          label="Phone"
+          label={t('login.phoneLabel')}
           type="text"
           value={form.phone}
           onChange={(v) => handleChange('phone', v)}
@@ -132,12 +135,12 @@ export default function LoginForm() {
             disabled={isSending}
             className="bg-neutral-900 text-white text-sm font-semibold py-3 hover:bg-neutral-800 transition-colors mt-2 disabled:opacity-50"
           >
-            {isSending ? 'YUBORILMOQDA...' : 'SEND CODE'}
+            {isSending ? t('login.sendingCode') : t('login.sendCodeButton')}
           </button>
         ) : (
           <>
             <p className="text-center text-sm">
-              Telegram botdan tasdiqlash kodingizni oling:{' '}
+              {t('login.getCodeFromBot')}{' '}
               <a
                 href={`https://t.me/${BOT_USERNAME}`}
                 target="_blank"
@@ -149,7 +152,7 @@ export default function LoginForm() {
             </p>
 
             <AuthField
-              label="Verification code"
+              label={t('login.verificationCodeLabel')}
               value={code}
               onChange={handleCodeChange}
             />
@@ -162,7 +165,7 @@ export default function LoginForm() {
                   onChange={(e) => setRememberMe(e.target.checked)}
                   className="accent-neutral-900"
                 />
-                Remember me
+                {t('login.rememberMe')}
               </label>
             </div>
 
@@ -171,7 +174,7 @@ export default function LoginForm() {
               disabled={isConfirming || code.length !== 4}
               className="bg-neutral-900 text-white text-sm font-semibold py-3 hover:bg-neutral-800 transition-colors mt-2 disabled:opacity-50"
             >
-              {isConfirming ? 'TEKSHIRILMOQDA...' : 'SIGN IN'}
+              {isConfirming ? t('login.checkingCode') : t('login.signInButton')}
             </button>
 
             <button
@@ -181,20 +184,20 @@ export default function LoginForm() {
               className="text-sm text-neutral-500 underline text-center disabled:opacity-50"
             >
               {isSending
-                ? 'Yuborilmoqda...'
-                : 'Kodni qayta yuborish'}
+                ? t('login.sendingCodeLower')
+                : t('login.resendCode')}
             </button>
           </>
         )}
       </form>
 
       <p className="text-sm text-center text-neutral-500 mt-6">
-        Don't have an account?{' '}
+        {t('login.noAccount')}{' '}
         <Link
           to="/register"
           className="text-neutral-900 font-semibold"
         >
-          Sign up
+          {t('login.signUpLink')}
         </Link>
       </p>
     </AuthLayout>

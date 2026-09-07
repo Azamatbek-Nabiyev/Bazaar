@@ -7,6 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { formatPrice } from "../../utils/formatPrice";
 type RevenueChartPoint = { day: string; revenue: number };
 
 export const RevenueChart = ({ data }: { data: RevenueChartPoint[] }) => (
@@ -24,10 +25,10 @@ export const RevenueChart = ({ data }: { data: RevenueChartPoint[] }) => (
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(v) => `$${v / 1000}k`}
+          tickFormatter={(v) => `${v / 1000}k`}
         />
         <Tooltip
-          formatter={(value: any) => [`$${value}`, "Revenue"]}
+          formatter={(value: any) => [`${formatPrice(value)} so'm`, "Revenue"]}
           contentStyle={{ borderRadius: 8, border: "1px solid #e5e5e5" }}
         />
         <Line
