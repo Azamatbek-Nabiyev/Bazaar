@@ -27,7 +27,11 @@
     "itemsCount_one": "{{count}} товар",
     "itemsCount_other": "{{count}} товаров",
     "trackOrder": "Отследить заказ",
-    "details": "Подробнее"
+    "details": "Подробнее",
+    "cancelOrder": "Отменить",
+    "cancelling": "Отмена...",
+    "confirmCancelOrder": "Вы уверены, что хотите отменить этот заказ?",
+    "cancelError": "Не удалось отменить заказ"
   },
   "personalInfo": {
     "title": "Личная информация",

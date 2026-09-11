@@ -27,7 +27,11 @@
     "itemsCount_one": "{{count}} item",
     "itemsCount_other": "{{count}} items",
     "trackOrder": "Track Order",
-    "details": "Details"
+    "details": "Details",
+    "cancelOrder": "Cancel",
+    "cancelling": "Cancelling...",
+    "confirmCancelOrder": "Are you sure you want to cancel this order?",
+    "cancelError": "Failed to cancel order"
   },
   "personalInfo": {
     "title": "Personal Information",

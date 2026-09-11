@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { StatusBadge } from './StatusBadge';
-import { useGetMyOrdersQuery } from '../../store/api';
+import { useGetMyOrdersQuery, useCancelOrderMutation } from '../../store/api';
 import { getImageUrl } from '../../utils/getImageUrl';
 import { formatPrice } from '../../utils/formatPrice';
 
@@ -14,7 +15,26 @@ export const OrderHistory = () => {
     isError,
   } = useGetMyOrdersQuery();
 
+  const [cancelOrder, { isLoading: isCancelling }] = useCancelOrderMutation();
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
+  const [cancelError, setCancelError] = useState<string | null>(null);
+
   const orders = data?.data || [];
+
+  const handleCancel = async (orderId: string) => {
+    if (!window.confirm(t('orders.confirmCancelOrder'))) return;
+
+    setCancelError(null);
+    setCancellingId(orderId);
+
+    try {
+      await cancelOrder(orderId).unwrap();
+    } catch (err: any) {
+      setCancelError(err?.data?.message ?? t('orders.cancelError'));
+    } finally {
+      setCancellingId(null);
+    }
+  };
 
   if (isLoading) {
     return <div>{t('orders.loading')}</div>;
@@ -39,6 +59,12 @@ export const OrderHistory = () => {
   return (
     <div>
       <h2 className="font-bold mb-4">{t('orders.title')}</h2>
+
+      {cancelError && (
+        <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          {cancelError}
+        </div>
+      )}
 
       <div className="border rounded-lg divide-y">
         {orders.map((order) => (
@@ -74,6 +100,18 @@ export const OrderHistory = () => {
               </span>
 
               <div className="flex items-center gap-3">
+                {order.status === 'pending' && (
+                  <button
+                    onClick={() => handleCancel(order._id)}
+                    disabled={isCancelling && cancellingId === order._id}
+                    className="text-xs border border-red-200 text-red-600 rounded-full px-4 py-2 hover:bg-red-50 disabled:opacity-50"
+                  >
+                    {isCancelling && cancellingId === order._id
+                      ? t('orders.cancelling')
+                      : t('orders.cancelOrder')}
+                  </button>
+                )}
+
                 <button className="text-xs border rounded-full px-4 py-2">
                   {t('orders.trackOrder')}
                 </button>

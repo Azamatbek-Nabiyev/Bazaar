@@ -1,9 +1,17 @@
+export type OrderItem = {
+  product: string;
+  title: string;
+  price: number;
+  quantity: number;
+  image: string;
+};
+
 export type Order = {
   _id: string;
   status: OrderStatus;
   totalPrice: number;
   createdAt: string;
-  items: any[];
+  items: OrderItem[];
 };
 
 export type OrdersResponse = {

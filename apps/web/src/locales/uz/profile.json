@@ -27,7 +27,11 @@
     "itemsCount_one": "{{count}} mahsulot",
     "itemsCount_other": "{{count}} mahsulot",
     "trackOrder": "Buyurtmani kuzatish",
-    "details": "Tafsilotlar"
+    "details": "Tafsilotlar",
+    "cancelOrder": "Bekor qilish",
+    "cancelling": "Bekor qilinmoqda...",
+    "confirmCancelOrder": "Bu buyurtmani bekor qilmoqchimisiz?",
+    "cancelError": "Buyurtmani bekor qilib bo'lmadi"
   },
   "personalInfo": {
     "title": "Shaxsiy ma'lumot",
