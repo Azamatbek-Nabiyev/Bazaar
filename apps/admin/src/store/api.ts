@@ -84,6 +84,14 @@ export const api = createApi({
       }),
       invalidatesTags: ["Product", "Dashboard"],
     }),
+    updateProduct: builder.mutation<Product, { id: string; formData: FormData }>({
+      query: ({ id, formData }) => ({
+        url: `/products/${id}`,
+        method: "PATCH",
+        body: formData
+      }),
+      invalidatesTags: ["Product", "Dashboard"],
+    }),
     updateOrderStatus: builder.mutation<Order, { id: string; status: OrderStatus }>({
       query: ({ id, status }) => ({
         url: `/orders/${id}/status`,
@@ -117,6 +125,7 @@ export const {
   useLoginMutation,
   useGetOrdersQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
   useUpdateOrderStatusMutation,
   useGetUsersQuery,
   useGetDashboardSummaryQuery,

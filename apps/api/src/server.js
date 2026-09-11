@@ -20,9 +20,7 @@ const server = http.createServer(app);
 
 async function startServer(){
     try {
-        await mongoose.connect(process.env.MONGO_API, {
-            tlsAllowInvalidCertificates: true
-        });
+        await mongoose.connect(process.env.MONGO_API);
 
         // Telegram botni ishga tushirish (DB ulangandan keyin)
         require('./utils/telegramBot');

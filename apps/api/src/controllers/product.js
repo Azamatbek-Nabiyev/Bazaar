@@ -49,6 +49,41 @@ const create = catchAsync(async (req,res,next) => {
     })
 });
 
+const update = catchAsync(async (req, res, next) => {
+
+    const { title, category, brand, price, oldPrice, colors, sizes, badge, description, stock, isActive } = req.body;
+
+    let existingImages = req.body.existingImages ?? [];
+    if (typeof existingImages === 'string') existingImages = [existingImages];
+
+    const newImageUrls = (req.files || []).map(file => `/uploads/${file.filename}`);
+    const images = [...existingImages, ...newImageUrls];
+
+    if (images.length === 0) {
+        return next(new AppError('Kamida bitta mahsulot rasmi yuklang', 400));
+    }
+
+    const updated = await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+            title, category, brand,
+            image: images[0],
+            images,
+            price, oldPrice, colors, sizes, badge, description, stock, isActive
+        },
+        { new: true, runValidators: true }
+    );
+
+    if (!updated) {
+        return next(new AppError("Bunday mahsulot yo'q", 404));
+    }
+
+    res.status(200).json({
+        status: 'success',
+        data: updated
+    });
+});
+
 const getOne = catchAsync(async (req, res, next) => {
 
     const one = await Product.findById(req.params.id)
@@ -79,4 +114,4 @@ const deleteProduct = catchAsync(async (req, res, next) => {
 
 });
 
-module.exports = { getAll, create, getOne, deleteProduct }
+module.exports = { getAll, create, update, getOne, deleteProduct }

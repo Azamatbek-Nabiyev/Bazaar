@@ -6,7 +6,12 @@ import { RowActionButton } from "../components/ui/RowActionButton";
 import { ConfirmModal } from "../components/ui/ConfirmModal";
 import { Modal } from "../components/ui/Modal";
 import { ProductForm, type ProductFormData } from "../components/products/ProductForm";
-import { useGetProductsQuery, useCreateProductMutation, useDeleteProductMutation } from "../store/api";
+import {
+  useGetProductsQuery,
+  useCreateProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
+} from "../store/api";
 import type { Product } from "../types/product";
 import { getImageUrl } from "../utils/getImageUrl";
 import { formatPrice } from "../utils/formatPrice";
@@ -27,12 +32,14 @@ export default function Products() {
   const totalPages = data?.totalPages ?? 1;
 
   const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [editTarget, setEditTarget] = useState<Product | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [addError, setAddError] = useState<string | null>(null);
+  const [editError, setEditError] = useState<string | null>(null);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const columns = [
@@ -71,7 +78,11 @@ export default function Products() {
     },
   ];
 
-  const buildFormData = (data: ProductFormData, newImages: File[]) => {
+  const buildFormData = (
+    data: ProductFormData,
+    newImages: File[],
+    existingImages: string[] = []
+  ) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("category", data.category);
@@ -94,6 +105,7 @@ export default function Products() {
     colors.forEach((c) => formData.append("colors", c));
     sizes.forEach((s) => formData.append("sizes", s));
 
+    existingImages.forEach((url) => formData.append("existingImages", url));
     newImages.forEach((file) => formData.append("images", file));
 
     return formData;
@@ -114,15 +126,20 @@ export default function Products() {
     }
   };
 
-  const handleEdit = (
+  const handleEdit = async (
     data: ProductFormData,
     newImages: File[],
     existingImages: string[]
   ) => {
     if (!editTarget) return;
-    // TODO: useUpdateProductMutation() bilan almashtiriladi
-    console.log("Edit product:", editTarget._id, data, newImages, existingImages);
-    setEditTarget(null);
+    setEditError(null);
+    try {
+      const formData = buildFormData(data, newImages, existingImages);
+      await updateProduct({ id: editTarget._id, formData }).unwrap();
+      setEditTarget(null);
+    } catch (err: any) {
+      setEditError(err?.data?.message ?? "Failed to update product");
+    }
   };
 
   const handleDelete = async () => {
@@ -206,9 +223,22 @@ export default function Products() {
       </Modal>
 
       {/* Edit modal */}
-      <Modal open={!!editTarget} title="Edit Product" onClose={() => setEditTarget(null)}>
+      <Modal
+        open={!!editTarget}
+        title="Edit Product"
+        onClose={() => {
+          setEditTarget(null);
+          setEditError(null);
+        }}
+      >
         {editTarget && (
-          <ProductForm
+          <>
+            {editError && (
+              <div className="mb-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+                {editError}
+              </div>
+            )}
+            <ProductForm
             onSubmit={handleEdit}
             defaultValues={{
               title: editTarget.title,
@@ -223,8 +253,9 @@ export default function Products() {
               badge: editTarget.badge,
             }}
             defaultImages={editTarget.images}
-            submitLabel="Save Changes"
-          />
+            submitLabel={isUpdating ? "Saving..." : "Save Changes"}
+            />
+          </>
         )}
       </Modal>
 

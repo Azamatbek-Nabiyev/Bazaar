@@ -8,7 +8,7 @@ const categoryRouter = express.Router();
 categoryRouter.get('/', getAll);
 
 // create food
-categoryRouter.post('/create', create);
+categoryRouter.post('/create', protect, restrictTo('admin'), create);
 
 categoryRouter.delete('/:id', protect, restrictTo('admin'), deleteCategory);
 

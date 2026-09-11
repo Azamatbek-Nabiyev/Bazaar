@@ -16,7 +16,7 @@ userRouter.post('/signup-request', signUpRequest);
 userRouter.post('/signup-confirm', confirmSignUp);
 
 // get all users - only admin
-userRouter.get('/', getAll);
+userRouter.get('/', protect, restrictTo('admin'), getAll);
 
 // update me
 userRouter.patch('/me', protect, updateMe);
