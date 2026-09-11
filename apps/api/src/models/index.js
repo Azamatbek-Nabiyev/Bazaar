@@ -4,6 +4,7 @@ const PendingSignUp = require('./user/pendingSignUp');
 const User = require('./user/user');
 const Order = require('./order/order');
 const orderItemSchema = require('./order/orderItem');
+const Review = require('./review/review');
 
 
-module.exports = { Product, Category, PendingSignUp, User, Order, orderItemSchema }
+module.exports = { Product, Category, PendingSignUp, User, Order, orderItemSchema, Review }

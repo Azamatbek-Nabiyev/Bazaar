@@ -10,6 +10,8 @@ const categoryRouter = require('./routes/category');
 const userRouter = require('./routes/user');
 const orderRouter = require('./routes/order');
 const dashboardRouter = require('./routes/dashboard');
+const reviewRouter = require('./routes/review');
+const reviewAdminRouter = require('./routes/reviewAdmin');
 
 const app = express();
 app.use(helmet({
@@ -32,10 +34,12 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use('/products', productRouter);
+app.use('/products/:productId/reviews', reviewRouter);
 app.use('/categories', categoryRouter);
 app.use('/users', userRouter);
 app.use('/orders', orderRouter);
 app.use('/dashboard', dashboardRouter);
+app.use('/reviews', reviewAdminRouter);
 
 // agar route yo'q bo'lsa
 app.all('*other', (req, res, next) => {
