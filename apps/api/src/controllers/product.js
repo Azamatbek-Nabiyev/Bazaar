@@ -89,7 +89,7 @@ const getOne = catchAsync(async (req, res, next) => {
     const one = await Product.findById(req.params.id)
 
     if(!one){
-       return next(new AppError("Bunday mahsulot yo'q"))
+       return next(new AppError("Bunday mahsulot yo'q", 404))
     }
 
     res.status(200).json({

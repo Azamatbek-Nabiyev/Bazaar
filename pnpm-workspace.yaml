@@ -2,6 +2,6 @@ packages:
   - "apps/*"
   - "packages/*"
 allowBuilds:
-  bcrypt: false
+  bcrypt: true
 minimumReleaseAgeExclude:
   - zod@4.5.4

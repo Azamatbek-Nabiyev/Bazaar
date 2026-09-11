@@ -55,7 +55,7 @@ const orderSchema = new Schema({
     enum: ["pending", "paid", "failed", "refunded"],
     default: "pending",
   },
-});
+}, { timestamps: true });
 
 const Order = model("Order", orderSchema);
 

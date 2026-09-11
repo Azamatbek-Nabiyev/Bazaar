@@ -5,9 +5,17 @@ interface AuthState {
   user: { _id: string; phone: string; fullname?: string } | null;
 }
 
+const getStoredUser = (): AuthState["user"] => {
+  try {
+    return JSON.parse(localStorage.getItem("user") || "null");
+  } catch {
+    return null;
+  }
+};
+
 const initialState: AuthState = {
   token: localStorage.getItem("token"),
-  user: JSON.parse(localStorage.getItem("user") || "null"),
+  user: getStoredUser(),
 };
 
 const authSlice = createSlice({

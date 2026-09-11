@@ -35,4 +35,8 @@ userRouter.delete('/me/address/:addressId', protect, deleteAddress );
 
 // get user orders
 userRouter.get('/me/orders', protect, getUserOrders)
+
+// get one user - only admin
+userRouter.get('/:id', protect, restrictTo('admin'), getOne);
+
 module.exports = userRouter;

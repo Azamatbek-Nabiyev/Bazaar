@@ -92,7 +92,7 @@ const confirmSignUp = catchAsync(async (req, res, next) => {
         return next(new AppError('Code is not send yet', 401));
     }
 
-    if(pending.code != code || pending.codeExpiresAt < Date.now()){
+    if(pending.code !== code || pending.codeExpiresAt < Date.now()){
         return next(new AppError('Code is wrong or expired!', 401))
     }
 

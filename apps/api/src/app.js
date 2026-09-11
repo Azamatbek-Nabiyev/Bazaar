@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
+const helmet = require('helmet');
 const path = require('path');
 const AppError = require('./utils/appError');
 const globalErrorController = require('./controllers/errorController');
@@ -10,12 +12,23 @@ const orderRouter = require('./routes/order');
 const dashboardRouter = require('./routes/dashboard');
 
 const app = express();
+app.use(helmet({
+    // /uploads dagi rasmlar boshqa origin'lardagi (admin/web) <img> teglari orqali yuklanadi
+    crossOriginResourcePolicy: { policy: 'cross-origin' }
+}));
 app.use(cors({
     origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"], // frontend url
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
     credentials: true
 }));
 app.use(express.json());
+
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+} else {
+    app.use(morgan('combined'));
+}
+
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 app.use('/products', productRouter);

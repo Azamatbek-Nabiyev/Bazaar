@@ -5,7 +5,7 @@ import { z } from "zod";
 import { FormField } from "../ui/FormField";
 import { SelectField } from "../ui/SelectField";
 import { TextareaField } from "../ui/TextareaField";
-import { ImageUploadField } from "../ui/ImageUploadFeild";
+import { ImageUploadField } from "../ui/ImageUploadField";
 import { useGetCategoriesQuery } from "../../store/api";
 
 const productSchema = z.object({
@@ -71,10 +71,25 @@ export const ProductForm = ({
   // Ko'rsatish uchun: eski + yangi rasmlar birlashtiriladi
   const allPreviews = [...existingImages, ...newPreviews];
 
+  const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB, backend'dagi multer limiti bilan bir xil
+
   const handleAddImages = (files: FileList) => {
-    const newFiles = Array.from(files);
-    setImageFiles((prev) => [...prev, ...newFiles]);
-    setNewPreviews((prev) => [...prev, ...newFiles.map((f) => URL.createObjectURL(f))]);
+    const candidates = Array.from(files);
+
+    const invalidType = candidates.find((f) => !f.type.startsWith("image/"));
+    if (invalidType) {
+      setImageError("Faqat rasm fayllari qabul qilinadi");
+      return;
+    }
+
+    const tooLarge = candidates.find((f) => f.size > MAX_IMAGE_SIZE);
+    if (tooLarge) {
+      setImageError("Rasm hajmi 5MB dan oshmasligi kerak");
+      return;
+    }
+
+    setImageFiles((prev) => [...prev, ...candidates]);
+    setNewPreviews((prev) => [...prev, ...candidates.map((f) => URL.createObjectURL(f))]);
     setImageError(undefined);
   };
 
