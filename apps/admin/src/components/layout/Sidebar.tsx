@@ -8,6 +8,7 @@ import {
   Users,
   Settings,
   LogOut,
+  Star,
 } from "lucide-react";
 import { logout } from "../../store/authSlice";
 
@@ -15,6 +16,7 @@ const NAV_ITEMS = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard },
   { to: "/products", label: "Products", icon: Package },
   { to: "/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/reviews", label: "Reviews", icon: Star },
   { to: "/users", label: "Users", icon: Users },
   { to: "/categories", label: "Categories", icon: Tags },
   { to: "/settings", label: "Settings", icon: Settings },

@@ -3,6 +3,7 @@ import type { Category, Product } from "../types/product";
 import type { Order, OrderStatus } from "../types/order";
 import type { User } from "../types/user";
 import type { DashboardSummary } from "../types/dashboard";
+import type { Review } from "../types/review";
 
 export type PaginationParams = { page?: number; limit?: number };
 export type PaginatedResponse<T> = {
@@ -25,7 +26,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Product", "Category", "User", "Order", "Dashboard"],
+  tagTypes: ["Product", "Category", "User", "Order", "Dashboard", "Review"],
   endpoints: (builder) => ({
     getProducts: builder.query<PaginatedResponse<Product>, PaginationParams | void>({
       query: (params) => `/products?page=${params?.page ?? 1}&limit=${params?.limit ?? 10}`,
@@ -56,6 +57,10 @@ export const api = createApi({
       query: () => "/dashboard/summary",
       transformResponse: (response: { data: DashboardSummary }) => response.data,
       providesTags: ["Dashboard"],
+    }),
+    getReviews: builder.query<PaginatedResponse<Review>, PaginationParams | void>({
+      query: (params) => `/reviews?page=${params?.page ?? 1}&limit=${params?.limit ?? 10}`,
+      providesTags: ["Review"],
     }),
 
     // 👇 auth qismi
@@ -114,6 +119,13 @@ export const api = createApi({
       }),
       invalidatesTags: ["Category"],
     }),
+    deleteReview: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/reviews/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Review", "Product"],
+    }),
   }),
 });
 
@@ -130,5 +142,7 @@ export const {
   useGetUsersQuery,
   useGetDashboardSummaryQuery,
   useDeleteProductMutation,
-  useDeleteCategoryMutation
+  useDeleteCategoryMutation,
+  useGetReviewsQuery,
+  useDeleteReviewMutation,
 } = api;

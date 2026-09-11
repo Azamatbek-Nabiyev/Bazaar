@@ -6,6 +6,7 @@ import Settings from "./Settings";
 import Products from "./Products";
 import Categories from "./Categories";
 import Orders from "./Orders";
+import Reviews from "./Reviews";
 import Users from "./User";
 import Login from "./Login";
 import { ProtectedRoute } from "./ProtectedRoute";
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
           { path: "products", element: <Products /> },
           { path: "categories", element: <Categories /> },
           { path: "orders", element: <Orders /> },
+          { path: "reviews", element: <Reviews /> },
           { path: "users", element: <Users /> },
         ],
       },
