@@ -35,6 +35,7 @@
     "emptyText": "Looks like you haven't added anything yet.",
     "continueShopping": "Continue Shopping",
     "proceedToCheckout": "Proceed to Checkout",
-    "removeItem": "Remove item"
+    "removeItem": "Remove item",
+    "maxStock": "Max stock reached"
   }
 }

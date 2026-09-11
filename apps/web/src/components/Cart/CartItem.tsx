@@ -53,7 +53,8 @@ export default function CartItem({ item, onQuantityChange, onRemove }: CartItemP
             <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
             <button
               onClick={() => onQuantityChange(item._id, item.quantity + 1)}
-              className="w-8 h-8 flex items-center justify-center text-neutral-600 hover:bg-neutral-100"
+              disabled={item.quantity >= item.stock}
+              className="w-8 h-8 flex items-center justify-center text-neutral-600 hover:bg-neutral-100 disabled:opacity-40 disabled:hover:bg-transparent"
             >
               <Plus size={14} />
             </button>
@@ -63,6 +64,10 @@ export default function CartItem({ item, onQuantityChange, onRemove }: CartItemP
             {formatPrice(item.price * item.quantity)} so'm
           </p>
         </div>
+
+        {item.quantity >= item.stock && (
+          <p className="text-xs text-amber-600 mt-1">{t("cart.maxStock")}</p>
+        )}
       </div>
     </div>
   );

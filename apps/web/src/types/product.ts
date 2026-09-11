@@ -12,7 +12,8 @@ export type Product = {
     colors: string[];
     badge?: string;
     description: string,
-    sizes: string[]
+    sizes: string[],
+    stock: number;
 };
 
 export type ProductGalleryProps = {

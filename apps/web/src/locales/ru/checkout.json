@@ -35,6 +35,7 @@
     "emptyText": "Похоже, вы еще ничего не добавили.",
     "continueShopping": "Продолжить покупки",
     "proceedToCheckout": "Оформить заказ",
-    "removeItem": "Удалить товар"
+    "removeItem": "Удалить товар",
+    "maxStock": "Осталось на складе"
   }
 }

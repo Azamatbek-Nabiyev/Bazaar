@@ -22,7 +22,8 @@ export default function ProductInfo({
   description,
   colors,
   sizes,
-  category
+  category,
+  stock,
 }: Product) {
   const { t } = useTranslation("product");
   const dispatch = useAppDispatch();
@@ -33,8 +34,11 @@ export default function ProductInfo({
   const [added, setAdded] = useState(false);
 
   const isSaved = useAppSelector(selectIsSaved(_id));
+  const outOfStock = stock <= 0;
 
   const handleAddToCart = () => {
+    if (outOfStock) return;
+
     dispatch(
       addItem({
         _id,
@@ -45,6 +49,7 @@ export default function ProductInfo({
         color: colors?.[selectedColor] ?? "",
         size: selectedSize ?? "",
         quantity,
+        stock,
       })
     );
 
@@ -70,7 +75,8 @@ export default function ProductInfo({
         description,
         colors,
         sizes,
-        category
+        category,
+        stock,
       }));
     }
   };
@@ -105,6 +111,11 @@ export default function ProductInfo({
       {/* Price */}
       <p className="text-2xl font-bold text-neutral-900 mt-4">
         {formatPrice(price)} {t("currency")}
+      </p>
+
+      {/* Stock */}
+      <p className={`text-sm font-medium mt-2 ${outOfStock ? "text-red-600" : "text-green-600"}`}>
+        {outOfStock ? t("outOfStock") : t("inStock")}
       </p>
 
       {/* Description */}
@@ -178,8 +189,9 @@ export default function ProductInfo({
 
           <button
             type="button"
-            onClick={() => setQuantity((q) => q + 1)}
-            className="w-10 h-11 text-lg text-neutral-600 hover:bg-neutral-100"
+            onClick={() => setQuantity((q) => Math.min(q + 1, Math.max(stock, 1)))}
+            disabled={quantity >= stock}
+            className="w-10 h-11 text-lg text-neutral-600 hover:bg-neutral-100 disabled:opacity-40 disabled:hover:bg-transparent"
           >
             +
           </button>
@@ -189,10 +201,11 @@ export default function ProductInfo({
         <button
           type="button"
           onClick={handleAddToCart}
-          className="flex-1 text-white text-sm font-semibold py-3.5 transition-colors hover:brightness-110"
-          style={{ backgroundColor: "#d94f2b" }}
+          disabled={outOfStock}
+          className="flex-1 text-white text-sm font-semibold py-3.5 transition-colors hover:brightness-110 disabled:bg-neutral-400 disabled:hover:brightness-100"
+          style={outOfStock ? undefined : { backgroundColor: "#d94f2b" }}
         >
-          {added ? t("added") : t("addToCart")}
+          {outOfStock ? t("outOfStock") : added ? t("added") : t("addToCart")}
         </button>
 
         {/* Wishlist */}

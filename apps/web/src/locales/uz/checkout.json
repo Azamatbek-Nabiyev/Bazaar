@@ -35,6 +35,7 @@
     "emptyText": "Hali hech narsa qo'shmagandek ko'rinasiz.",
     "continueShopping": "Xarid qilishni davom ettirish",
     "proceedToCheckout": "Buyurtmani rasmiylashtirish",
-    "removeItem": "Mahsulotni o'chirish"
+    "removeItem": "Mahsulotni o'chirish",
+    "maxStock": "Omborda shuncha qoldi"
   }
 }

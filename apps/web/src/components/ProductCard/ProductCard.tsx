@@ -24,15 +24,19 @@ export default function ProductCard(props: Product) {
     reviewCount,
     colors,
     badge,
+    stock,
   } = props;
 
   const dispatch = useAppDispatch();
   const [added, setAdded] = useState(false);
   const isSaved = useAppSelector(selectIsSaved(_id));
+  const outOfStock = stock <= 0;
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (outOfStock) return;
 
     dispatch(
       addItem({
@@ -43,6 +47,7 @@ export default function ProductCard(props: Product) {
         price,
         color: colors?.[0] ?? "",
         quantity: 1,
+        stock,
       })
     );
 
@@ -70,10 +75,16 @@ export default function ProductCard(props: Product) {
           alt={title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 object-top"
         />
-        {badge && (
-          <span className="absolute top-4 left-4 bg-amber-200 text-neutral-900 text-xs font-bold uppercase px-3 py-1 rounded-md">
-            {badge}
+        {outOfStock ? (
+          <span className="absolute top-4 left-4 bg-neutral-900/80 text-white text-xs font-bold uppercase px-3 py-1 rounded-md">
+            {t("outOfStock")}
           </span>
+        ) : (
+          badge && (
+            <span className="absolute top-4 left-4 bg-amber-200 text-neutral-900 text-xs font-bold uppercase px-3 py-1 rounded-md">
+              {badge}
+            </span>
+          )
         )}
 
         {/* Wishlist button */}
@@ -93,9 +104,10 @@ export default function ProductCard(props: Product) {
         <button
           type="button"
           onClick={handleQuickAdd}
-          className="absolute bottom-0 left-0 right-0 bg-neutral-900 text-white text-sm font-semibold py-3 translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+          disabled={outOfStock}
+          className="absolute bottom-0 left-0 right-0 bg-neutral-900 text-white text-sm font-semibold py-3 translate-y-full opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 disabled:bg-neutral-400 disabled:cursor-not-allowed"
         >
-          {added ? t("added") : t("quickAdd")}
+          {outOfStock ? t("outOfStock") : added ? t("added") : t("quickAdd")}
         </button>
       </div>
 

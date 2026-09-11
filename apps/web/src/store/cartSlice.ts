@@ -20,13 +20,20 @@ const cartSlice = createSlice({
       );
 
       if (existing) {
-        existing.quantity += action.payload.quantity;
+        existing.stock = action.payload.stock;
+        existing.quantity = Math.min(
+          existing.quantity + action.payload.quantity,
+          action.payload.stock
+        );
       } else {
-        state.items.push(action.payload);
+        state.items.push({
+          ...action.payload,
+          quantity: Math.min(action.payload.quantity, action.payload.stock),
+        });
       }
     },
 
-    removeItem: (state, action: PayloadAction<string>) => {      
+    removeItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item._id !== action.payload);
     },
 
@@ -36,7 +43,10 @@ const cartSlice = createSlice({
     ) => {
       const item = state.items.find((item) => item._id === action.payload._id);
       if (item) {
-        item.quantity = Math.max(1, action.payload.quantity);
+        item.quantity = Math.min(
+          Math.max(1, action.payload.quantity),
+          item.stock
+        );
       }
     },
 
