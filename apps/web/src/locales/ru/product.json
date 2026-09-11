@@ -10,8 +10,27 @@
   "sizeLabel": "Размер",
   "currency": "сум",
   "notFound": "Товар не найден или произошла ошибка при загрузке",
+  "inStock": "В наличии",
+  "outOfStock": "Нет в наличии",
   "gallery": {
     "thumbnailAlt": "{{alt}} - фото {{index}}"
+  },
+  "reviews": {
+    "title": "Отзывы",
+    "empty": "Пока нет отзывов",
+    "writeReview": "Оставить отзыв",
+    "yourRating": "Ваша оценка",
+    "commentPlaceholder": "Ваше мнение о товаре (необязательно)",
+    "submit": "Отправить",
+    "submitting": "Отправка...",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "notEligible": "Чтобы оставить отзыв, купите этот товар и дождитесь доставки",
+    "alreadyReviewed": "Вы уже оставили отзыв",
+    "loginToReview": "Войдите, чтобы оставить отзыв",
+    "thanks": "Спасибо за ваш отзыв!"
   },
   "filters": {
     "searchTitle": "Поиск",

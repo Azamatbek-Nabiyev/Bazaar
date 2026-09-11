@@ -10,8 +10,27 @@
   "sizeLabel": "O'lcham",
   "currency": "so'm",
   "notFound": "Mahsulot topilmadi yoki yuklashda xatolik yuz berdi",
+  "inStock": "Mavjud",
+  "outOfStock": "Tugagan",
   "gallery": {
     "thumbnailAlt": "{{alt}} - {{index}}-rasm"
+  },
+  "reviews": {
+    "title": "Sharhlar",
+    "empty": "Hozircha sharhlar yo'q",
+    "writeReview": "Sharh qoldirish",
+    "yourRating": "Sizning bahoingiz",
+    "commentPlaceholder": "Mahsulot haqida fikringiz (ixtiyoriy)",
+    "submit": "Yuborish",
+    "submitting": "Yuborilmoqda...",
+    "edit": "Tahrirlash",
+    "delete": "O'chirish",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "notEligible": "Sharh qoldirish uchun ushbu mahsulotni xarid qilib, yetkazib olishingiz kerak",
+    "alreadyReviewed": "Siz allaqachon sharh qoldirgansiz",
+    "loginToReview": "Sharh qoldirish uchun tizimga kiring",
+    "thanks": "Sharhingiz uchun rahmat!"
   },
   "filters": {
     "searchTitle": "Qidiruv",

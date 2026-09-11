@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ProductGallery from "../components/ProductDetail/ProductGallery";
 import ProductInfo from "../components/ProductDetail/ProductInfo";
+import { ReviewSection } from "../components/ProductDetail/ReviewSection";
 import { useGetProductByIdQuery } from "../store/api";
 
 export default function ProductDetail() {
@@ -49,8 +50,11 @@ export default function ProductDetail() {
           sizes={product.sizes}
           image={product.image}
           category={product.category}
+          stock={product.stock}
         />
       </div>
+
+      <ReviewSection productId={product._id} />
     </section>
   );
 }

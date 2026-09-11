@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { OrdersResponse, RequestOrder } from "../types/order";
+import type { Order, OrdersResponse, RequestOrder } from "../types/order";
+import type { Review, ReviewEligibility, ReviewsResponse } from "../types/review";
 
 export const api = createApi({
   reducerPath: "api",
@@ -14,7 +15,7 @@ export const api = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Product", "Category", "User", "Order"],
+  tagTypes: ["Product", "Category", "User", "Order", "Review"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => "/products",
@@ -24,6 +25,7 @@ export const api = createApi({
     }),
     getProductById: builder.query({
       query: (id: string) => `/products/${id}`,
+      providesTags: (_result, _error, id) => [{ type: "Product", id }],
     }),
 
     // 👇 auth qismi
@@ -113,7 +115,49 @@ export const api = createApi({
         }
       }),
       invalidatesTags: ["Order"],
-    })
+    }),
+
+    // buyurtmani bekor qilish (faqat "pending" holatida)
+    cancelOrder: builder.mutation<Order, string>({
+      query: (id) => ({
+        url: `/orders/${id}/cancel`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Order"],
+    }),
+
+    // mahsulot sharhlari
+    getProductReviews: builder.query<ReviewsResponse, string>({
+      query: (productId) => `/products/${productId}/reviews`,
+      providesTags: ["Review"],
+    }),
+    getReviewEligibility: builder.query<{ status: string; data: ReviewEligibility }, string>({
+      query: (productId) => `/products/${productId}/reviews/eligibility`,
+      providesTags: ["Review"],
+    }),
+    submitReview: builder.mutation<Review, { productId: string; rating: number; comment?: string }>({
+      query: ({ productId, rating, comment }) => ({
+        url: `/products/${productId}/reviews`,
+        method: "POST",
+        body: { rating, comment },
+      }),
+      invalidatesTags: (_result, _error, { productId }) => ["Review", { type: "Product", id: productId }],
+    }),
+    updateReview: builder.mutation<Review, { productId: string; rating: number; comment?: string }>({
+      query: ({ productId, rating, comment }) => ({
+        url: `/products/${productId}/reviews/me`,
+        method: "PATCH",
+        body: { rating, comment },
+      }),
+      invalidatesTags: (_result, _error, { productId }) => ["Review", { type: "Product", id: productId }],
+    }),
+    deleteReview: builder.mutation<void, string>({
+      query: (productId) => ({
+        url: `/products/${productId}/reviews/me`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, productId) => ["Review", { type: "Product", id: productId }],
+    }),
   }),
 });
 
@@ -130,6 +174,12 @@ export const {
   useUpdateAddressMutation,
   useUpdateMeMutation,
   useGetMyOrdersQuery,
-  useCreateOrderMutation
+  useCreateOrderMutation,
+  useCancelOrderMutation,
+  useGetProductReviewsQuery,
+  useGetReviewEligibilityQuery,
+  useSubmitReviewMutation,
+  useUpdateReviewMutation,
+  useDeleteReviewMutation,
   // useGetUserMutation
 } = api;

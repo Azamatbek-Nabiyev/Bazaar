@@ -10,8 +10,27 @@
   "sizeLabel": "Size",
   "currency": "so'm",
   "notFound": "Product not found or an error occurred while loading",
+  "inStock": "In stock",
+  "outOfStock": "Out of stock",
   "gallery": {
     "thumbnailAlt": "{{alt}} thumbnail {{index}}"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "empty": "No reviews yet",
+    "writeReview": "Write a review",
+    "yourRating": "Your rating",
+    "commentPlaceholder": "Your thoughts about this product (optional)",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "notEligible": "To leave a review, purchase this product and wait for delivery",
+    "alreadyReviewed": "You have already reviewed this product",
+    "loginToReview": "Log in to leave a review",
+    "thanks": "Thanks for your review!"
   },
   "filters": {
     "searchTitle": "Search",
