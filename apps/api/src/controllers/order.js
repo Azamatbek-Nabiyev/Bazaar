@@ -1,8 +1,48 @@
-const { Order, Product } = require("../models");
+const mongoose = require("mongoose");
+const { Order, Product, User } = require("../models");
+const { sendOrderNotification } = require("../utils/telegramBot");
 
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const { getPagination } = require("../utils/paginate");
+
+const STATUS_LABELS = {
+  pending: "kutilmoqda",
+  preparing: "tayyorlanmoqda",
+  delivered: "yetkazildi",
+  cancelled: "bekor qilindi",
+};
+
+// mahsulot stock'ini qaytarish (buyurtma bekor qilinganda)
+const restoreStock = async (items, session) => {
+  await Promise.all(
+    items.map((item) =>
+      Product.updateOne(
+        { _id: item.product },
+        { $inc: { stock: item.quantity } },
+        session ? { session } : undefined
+      )
+    )
+  );
+};
+
+// mijozga Telegram orqali buyurtma haqida xabar yuborish (xatolik buyurtma jarayonini to'xtatmaydi)
+const notifyOrderStatus = async (userId, order) => {
+  try {
+    const user = await User.findById(userId).select("+telegramChatId");
+
+    if (!user?.telegramChatId) return;
+
+    const statusLabel = STATUS_LABELS[order.status] ?? order.status;
+
+    await sendOrderNotification(
+      user.telegramChatId,
+      `Buyurtma #${order._id} holati: *${statusLabel}*`
+    );
+  } catch (err) {
+    console.error("Telegram bildirishnomasini yuborishda xatolik:", err.message);
+  }
+};
 
 // create order
 const createOrder = catchAsync(async (req, res, next) => {
@@ -96,15 +136,50 @@ const createOrder = catchAsync(async (req, res, next) => {
       0
     ) + SHIPPING_PRICE;
 
-  // 8. Create order
-  const order = await Order.create({
-    user,
-    items: orderItems,
-    shippingAddress,
-    shippingPrice: SHIPPING_PRICE,
-    totalPrice,
-    paymentMethod,
-  });
+  // 8. Stock'ni atomik tarzda kamaytirish va buyurtmani bitta tranzaksiyada yaratish
+  const session = await mongoose.startSession();
+  let order;
+
+  try {
+    await session.withTransaction(async () => {
+      for (const item of orderItems) {
+        const updated = await Product.findOneAndUpdate(
+          { _id: item.product, stock: { $gte: item.quantity } },
+          { $inc: { stock: -item.quantity } },
+          { session, new: true }
+        );
+
+        if (!updated) {
+          throw new AppError(
+            `"${item.title}" uchun yetarli mahsulot qolmagan`,
+            400
+          );
+        }
+      }
+
+      const created = await Order.create(
+        [
+          {
+            user,
+            items: orderItems,
+            shippingAddress,
+            shippingPrice: SHIPPING_PRICE,
+            totalPrice,
+            paymentMethod,
+          },
+        ],
+        { session }
+      );
+
+      order = created[0];
+    });
+  } catch (err) {
+    return next(err);
+  } finally {
+    session.endSession();
+  }
+
+  notifyOrderStatus(user, order);
 
   res.status(201).json({
     status: "success",
@@ -159,7 +234,7 @@ const getOneOrder = catchAsync(async (req, res, next) => {
   });
 });
 
-// update status
+// update status (admin)
 const updateOrderStatus = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   const { status } = req.body;
@@ -172,18 +247,55 @@ const updateOrderStatus = catchAsync(async (req, res, next) => {
     );
   }
 
-  const order = await Order.findByIdAndUpdate(
-    id,
-    { status },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+  const order = await Order.findById(id);
 
   if (!order) {
     return next(new AppError("Order not found!", 404));
   }
+
+  const wasCancelled = order.status === "cancelled";
+
+  order.status = status;
+  await order.save();
+
+  if (status === "cancelled" && !wasCancelled) {
+    await restoreStock(order.items);
+  }
+
+  notifyOrderStatus(order.user, order);
+
+  res.status(200).json({
+    status: "success",
+    data: order,
+  });
+});
+
+// cancel order (customer, faqat o'z "pending" buyurtmasini)
+const cancelOrder = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  const order = await Order.findById(id);
+
+  if (!order) {
+    return next(new AppError("Order not found!", 404));
+  }
+
+  if (order.user.toString() !== req.user._id.toString()) {
+    return next(new AppError("Bu sizning buyurtmangiz emas", 403));
+  }
+
+  if (order.status !== "pending") {
+    return next(
+      new AppError("Bu bosqichdagi buyurtmani bekor qilib bo'lmaydi", 400)
+    );
+  }
+
+  order.status = "cancelled";
+  await order.save();
+
+  await restoreStock(order.items);
+
+  notifyOrderStatus(order.user, order);
 
   res.status(200).json({
     status: "success",
@@ -196,4 +308,5 @@ module.exports = {
   getOneOrder,
   getAllOrders,
   updateOrderStatus,
+  cancelOrder,
 };

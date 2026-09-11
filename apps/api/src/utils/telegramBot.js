@@ -59,4 +59,11 @@ const sendLoginCode = async (chatId, code) => {
     });
 };
 
-module.exports = { bot, sendLoginCode };
+// buyurtma haqida bildirishnoma yuborish funksiyasi (boshqa controllerlardan chaqiriladi)
+const sendOrderNotification = async (chatId, text) => {
+    await bot.sendMessage(chatId, text, {
+        parse_mode: 'Markdown'
+    });
+};
+
+module.exports = { bot, sendLoginCode, sendOrderNotification };
